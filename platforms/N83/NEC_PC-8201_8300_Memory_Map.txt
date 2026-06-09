@@ -1,0 +1,1640 @@
+
+----------------------------------------------------------------------------
+             NEC PC-8201A/PC-8300 Memory Map/Hook Table/Port Map
+-----------------------------------------------------------------------------
+
+Revision history:
+
+ v1.00     05/13/1996    Original compilation by Gary Weber
+
+ v1.01     07/17/1998    Some symbols changed for html (David Firth)
+
+ v1.02     12/15/1998    Added low-level LCD functions (David Firth)
+
+ v1.03     01/06/1999    Fixed CLRHOM's address, MAKUPS's description, 
+                          and added READY2, TEXT, MAKUP2, and CASOPN
+                          (Gary Weber)
+
+ v1.04     06/28/2001    Added MASDEL, ESC_A, CLS2, BEEP2, FILLZ, CLICK,
+                          ASC_S, and ASC_R. Thanks to Herman Schnell for
+                          these contributions.
+
+ v1.05     08/09/2001    Added MENU ROM jump point.  (Gary Weber)
+
+ v1.06     08/18/2001    Tons of additions, a couple corrections. (Gary Weber)
+
+ v1.07     09/16/2001    Added the directory structure info
+                         Reformatted the hooks table
+
+-----------------------------------------------------------------------------
+ ANY FURTHER INFORMATION THAT YOU CAN ADD TO THIS FILE WILL BE MUCH
+ APPRECIATED BY NEC FANS THROUGHOUT THE WORLD.  PLEASE FORWARD ANY MISSING
+ INFORMATION OR NEW DISCOVERIES TO GARY WEBER VIA THE WEB 8201 PROJECT
+ (http://www.web8201.com).  THANKS!
+-----------------------------------------------------------------------------
+
+                              * ROM ROUTINES * 
+
+Name    Hex    Dec    Description
+------ ------ ------  -------------------------------------------------------
+
+INIT    0544   1348   Init system and go to BASIC ready
+SNERR   0568   1384   Abort BASIC and issue syntax error message
+PCERR   056B   1387   Abort BASIC and issue pc8001 feature error
+DUERR   056E   1390   Abort BASIC and issue device unavailable error
+DVERR   0571   1393   Abort BASIC and issue divison by zero error
+NFERR   0574   1396   Abort BASIC and next without for error
+DDERR   0577   1399   Abort BASIC and double dimensioned array error
+REERR   057A   1402   Abort BASIC and issue resume without error message
+OVERR   057D   1405   Abort BASIC and issue overflow error message
+MOERR   0580   1408   Abort BASIC and issue missing operand error message
+TMERR   0583   1411   Abort BASIC and issue type mismatch error message
+ERROR   0585   1413   Abort BASIC and issue error message
+READY   062C   1580   Jmp vector to enter BASIC interpreter - pops BC
+READY2  062D   1581   Jmp vector to enter BASIC interpreter - no pop
+RDYNOK  063C   1596   JMP vector to BASIC ready/ no Init or OK
+RUNCMD  064E   1614   Performs operation in (HL) buffer - returns to "ready"
+
+LINKER  0714   1812   Correct a BASIC program's links to run at it current 
+                         Input: Address of program in [txttab]
+                         Output: [HL] end of BASIC program
+                         Alters: All registers
+
+LINKER1 0718   1816   (Also known as CHEAD.)  Same as linker only start 
+                         address is in DE.
+                         Input: [DE] beginning of BASIC program
+                         Output: [HL] end of BASIC program
+                         Alters: All registers
+
+FINDLI  075B   1883   Find the line number in DE via 1576
+FINDLN  075D   1885   Find line # DE starting at the beginning of the current BASIC
+FINDL2  0760   1888   Find line # DE starting where HL is pointing
+TKNCMP  077C   1916   Token compression routine
+BASEXC  0A1D   2589   BASIC program execution routine - HL->Basic code to exec
+FCERR   0B87   2951   Abort BASIC and issue illegal function call error
+
+LET     0CB0   3248   Parse and execute let statement
+                         Input: [HL] txtpnt
+                         Output: [variable] at txtpnt is assigned the value of
+                         the expression.  [HL] points to next location past
+                         expression.
+                         Alters: Unknown, assume all
+                         Notes: Errors return to BASIC
+LET2    0CB6   3254   *
+
+LETCN2  0CC9   3273   Do variable assignment
+                         Input: [HL] txtpnt
+                            [top of stack] descriptor of variable to assign
+                            [A] type byte for variable to assign
+                            [fac] contains new argument
+                            [valtyp] contains type of new argument
+                         Output: [HL] text pointer
+                            [new variable] contains FACLO argument
+                         Alters: Unknown, assume all
+                         Notes: This routine must be entered with a jump,
+                            not call.  Errors return to BASIC.
+
+FINPNT  0F26   3878   Final open processing
+                         Alters: [A] and flags
+                         Notes: Must be done after nulopn
+
+FRMEVL  1091   4241   Evaluate an expression and store it to FAC
+                         Input: [HL] points to text of expression
+                         Output: Valtyp indicates answer in FAC
+                         Alters: All, [HL] points to next text position past
+                            expression.
+                         Notes: Errors return to BASIC
+
+MAKUPS  12B5   4789   Fetch character at [HL], convert to upper case
+                         Input: [HL] points to the character to fetch
+                         Output: [A] contains the uppercase value of (hl)
+                         Alters: [A]
+
+MAKUP2  12B6   4790   Convert character in [A] upper case
+                         Input: [A] character to be converted if necessary
+                         Output: [A] contains the uppercase character
+                         Alters: [A]
+
+LCDISP  1462   5218   Display string starting at [HL] up to a NULL
+                         Input: [HL] points to the string
+                         Output: None
+                         Alters: ???
+
+BUFCPY  146A   5226   Put chars into buffer until null is reached
+
+FRMQNT  15F3   5619   Evaluate an integer expression to [DE]
+                         Input: [HL] is a pointer to the text of expression
+                         Output: [HL] points to the first byte following the 
+                            expression.
+                            [DE] contains the integer value of the expression
+                         Alters: Unknown, assume all
+                         Notes: Errors return to BASIC
+
+CHGET   174D   5965   Get a character
+                         Output: Character is in [A]
+                         Alters: [A] and flags
+                         Notes: Waits for input & honors time out
+
+CHSNS   183D   6205   See if a key press has been made
+                         Output: Zero flag set if character waiting else reset
+                         Alters: [A] and flags
+
+PWROFF2 18A9   6313   Power off the computer/ resume same state on power on
+
+PWROFF  18BB   6331   Power down the machine
+
+DIOERR  18FC   6396   Abort BASIC and issue i/o error message
+
+LCDDSP  1942   6466   Dispatch table for lcd i/o
+
+GSXPOP  195A   6490   Clean stack and reset power off timer
+                         Output: Registers restored to values on stack
+                         Alters: All
+
+POPALL  195D   6493   Pop all regs (AF BC DE HL) and RETurn - Jump to this addr ONLY!
+
+POPRET  195E   6494   Pop BC DE HL and RETurn - Jump to this addr ONLY!
+
+CRTDSP  1962   6498   Dispatch table for crt i/o
+
+RAMDSP  1974   6516   Dispatch table for ram file i/o
+
+RAMOPN  197E   6526   Open a ram file
+                         Input: [filnam] is name of .DO file
+                                [HL] = input, output, append, etc..
+
+RAMCLS  1A05   6661   Close a ram file
+
+RAMWRT  1A24   6692   Write to a ram file
+
+RAMINP  1A3C   6716   Read from a ram file
+
+RAMBCK  1A93   6803   Back up to previous character for a ram file
+
+GETPRV  1AED   6893   Calculate backup character address for ram file
+                         Input: [filnum] is set to the file number
+                         Output: [HL] points to the appropriate xxxprv
+                         Alters: [HL]
+
+CASDSP  1AF7   6903   Dispatch table for cassette i/o
+
+CASOPN  1B01   6913   Open cassette file
+
+CASCLS  1B25   6949   CAS file close routine
+
+CASWRT  1B3F   6975   CAS file output routine
+
+CASINP  1B4A   6986   CAS file input routine
+
+LPTDSP  1BCC   7116   Dispatch table for lprinter i/o
+
+LPTWRT  1BD3   7123   Send a character to the printer
+
+COMDSP  1BDA   7130   Dispatch table for com port i/o
+
+COMOPN  1BE4   7140   Open com:
+
+COMCLS  1C01   7169   Close the com: port
+
+COMWRT  1C1D   7197   Send a character to com:
+
+COMINP  1C28   7208   Get a byte from com:
+
+COMBCK  1C47   7239   Back up com: one character
+
+SETSER  1C4E   7246   Initializes serial port, with specs from MODE string.
+                         Input: [HL] Points to the mode string
+
+WNDDSP  1CEC   7404   Dispatch table for bar code reader i/o
+
+ADJFOR  1D4D   7501   Adjust for/next statements
+                         Input: [BC] value to add to all pointers (ie length
+                            of hole)
+                         Alters: Unknown, assume all
+
+READTM  1D7F   7551   Read system clock time and store it in HL buffer
+
+READDT  1D9F   7583   Read system date and store it in HL buffer
+
+DSPCHR  1EFB   7931   Displays B number of characters from the HL buffer
+
+FILES   211F   8479   Basic's FILES statement routine
+
+FILLST  2127   8487   Display files listing to the screen
+
+KILAS2  21A7   8615   Kill a .DO file
+                         Input: From srcnam call
+                         Filename to kill in filnam
+                         Alters: All, pops 2-bytes off stack before return
+
+KILASC  21A8   8616   Kill a .DO file, Saves HL when called
+                         Input: From srcnam call
+                         Filename to kill in filnam
+                         Alters: All
+
+KILCOM  21C2   8642   Kill a .CO file
+                         Input: From srcnam call
+                            Filename to kill in filnam
+                         Alters: All
+
+KILBAS  2200   8704   Kill a .BA file
+                         Input: From srcnam call
+                         Filename to kill in filnam
+                         Alters: All
+
+NAMEB   223B   8763   Rename a file [not change extention type]
+                         Input: Old filename in filnam
+                            New filename in filnm2
+                         Alters: All except [HL]
+                         Notes: Error returns to BASIC
+
+CHKREG  226A   8810   Check if the current BASIC program is registered
+                         Output: Zero set means file not registered else reset
+                         Alters: Unknown, assume all
+
+SRCCOM  2272   8818   Search for a .CO file
+                         Input: Search filename in filnam
+                         Output: Same as SRCNAM
+                         Alters: All
+
+SRCBAS  2292   8850   Searches directory for a ".BA" file
+                         Input: File name should be set up in FILNAM
+                         Output: Same as SRCNAM
+                         Alters: All
+
+SRCNAM  229B   8859   Searches for a filename, returns its address.
+                         Input: File name should be setup in FILNAM
+                         Output: Zero set if the file does not exist
+                            If zero reset then the following is valid
+                            [A] type byte
+                            Bit 7 =1
+                            Bit 6 =1 if .DO file
+                            Bit 6 =1 if .DO file
+                            Bit 5 =1 if .CO file
+                            Bit 4 =1 if rom 1 routine {BASIC, text, or telcom}
+                            Bit 3 =unk internal use
+                            Bit 2 =unk internal use
+                            Bit 1 =1 if file is currently open
+                            Bit 0=unk internal use
+                            [HL]=pointer to this file's directory entry
+                            [DE]=address of file start
+                         Alters: All
+
+SCNEMP  22D3   8915   Scan for an empty directory entry
+                         Output: [HL] points to an open directory entry
+                         Alters: [A], [BC], [HL]
+                         Notes: Error returns to BASIC
+
+LNKFIL  233A   9018   Fix up directory pointers
+                         Alters: All
+                         Notes: Must be done before a kill
+
+MAKBAS  23D0   9168   Make hole of two bytes at ASCTAB assigned to NULDIR
+                         Input: Unknown, assume nothing
+                         Output: Unknown, assume nothing
+                         Alters: All
+
+COUNTB  23F6   9206   Count number of chars in HL buffer *
+
+TXTOPN  240B   9227   Open a text file
+                         Input: Filename is in filnam
+
+SETNAM  2435   9269   Fill a directory entry
+                          Input: Filename is in filnam
+                            [A] directory flag
+                            [DE] start of file
+                            [HL] points to the directory entry to set up
+                         Alters: [A], [B], [HL]
+
+SAVBYT  266D   9837   Save contents of HL buffer to tape
+                          Input: [HL] points to buffer
+                          Notes: Returns to BASIC READY
+
+LODBYT  27D1   10193  Load record from cassette into HL buffer
+                          Input: Set [HL] to a buffer to receive data
+
+REST00  280B   10251  Delete excess area created by makbat
+                         Input: [HL] start of area to reclaim
+                            [DE]-1 last address of the reclaim area
+                         Alters: Unknown, assume all
+
+RLOADM  28BB   10427  Load a .CO file
+                         Input: Filename in filnam
+                         Alters: [A], [BC], [DE]
+                         Notes: Does not execute the file
+
+MOVE1   28FD   10493  Move B number of bytes from from HL to DE  *
+                         Input: [B] Number of bytes to move
+                           [HL] Source
+                           [DE] Destination
+
+STR$    2AFB   11003  STR$ Function *
+
+PRBUF   2B72   11122  Print HL buffer until null or double-quote *
+                         Input: [HL] Buffer to print
+
+MOVE2   2CD0   11472  Move L number of bytes from BC to DE *
+                         Input: [L] Number of bytes to move
+                           [BC] Source
+                           [DE] Destination
+
+FRETMP  2CDE   11486  Remove temporary string from string space
+                         Input: [DE] points to a pointer to a string descriptor
+                         Alters: Unknown, assume all
+
+SPACE2  2D54   11604  Create a string of [E] length, filled with [A]
+                         Input: [top of stack] dummy entry removed by this call
+                            [next on stack] txtpnt
+                            [next on stack] actual return address
+                            [A] contains the fill byte
+                            [E] contains the length of the string to be created
+                         Output: String created and descriptor in FACLO and
+                            dsctmp.
+                            [HL] txtpnt
+                            [A] is byte at txtpnt
+                         Alters: Unknown, assume all
+                         Notes: Space errors return to BASIC
+
+FADD    2EBB   11963  Compute the sum of two single precision numbers
+                         Input: [HL] points to the first argument
+                            [fac] contains the second argument
+                         Output: [fac]=[hlarg]+[fac]
+                         Alters: All
+                         Notes: Overflow returns to BASIC
+
+FSUB    2EC1   11969  Compute the dif of two single precision numbers
+                         Input: [HL] points to the first argument
+                            [fac] contains the second argument
+                         Output: [fac]=[hlarg]-[fac]
+                         Alters: All
+                         Notes: Overflow returns to BASIC
+
+LOG     2FFC   12284  Compute the natural logarithm of a single precision #
+                         Input: [fac] argument
+                         Output: [fac] result
+                         Alters: All
+                         Notes: Errors return to BASIC
+
+FMULT   3040   12352  Compute the product of two single precision numbers
+                         Input: [BC]_[DE] contains the first argument
+                            [fac] contains the second argument
+                         Output: [fac]=[BC]_[DE]x[fac]
+                         Alters: All
+                         Notes: Overflow returns to BASIC
+
+FDIV    30A5   12453  Compute the quotient of two single precision numbers
+                         Input: [BC]_[DE] contains the first argument
+                            [fac] contains the second argument
+                         Output: [fac]=[BC]_[DE]/[fac]
+                         Alters: All
+                         Notes: Overflow or /0 returns to BASIC
+
+CONIA   31AB   12715  Convert a to an integer and store in [fac]
+                         Input: [A] contains value to convert
+                         Output: [fac] contains integer representation of [A]
+                         Alters: Unknown, - assume all
+
+MOVFM   31D0   12752  Move from [HL] to FAC
+                         Input: [HL] points to single precision number
+                         Output: [fac] contains copy of number
+                            [HL]=[HL]+4
+                         Alters: [BC], [DE], [HL]
+
+MOVFR   31D3   12755  Move from [BC]_[DE] to FAC
+                         Input: Number in [BC]_[DE]
+                         Output: [fac] contains copy of number
+                         Alters: [DE]
+
+MOVRF   31DE   12766  Move from FAC to [BC]_[DE]
+                         Input: Number in FAC
+                         Output: [BC]_[DE] contains copy of number
+                         Alters: [BC], [DE], [HL]
+
+MOVRM   31E1   12769  Move from memory to [BC]_[DE]
+                         Input: [HL] points to a single precision number
+                         Output: [BC]_[DE] contains a copy of the number
+                            [HL]=[HL]+4
+                         Alters: All
+
+MOVMF   31EA   12778  Move from FAC to memory
+                         Input: [HL] points to area for number
+                         Output: Number is copied to area pointed to by [HL]
+                            [HL]=[HL]+4
+                         Alters: All
+
+MOVE    31ED   12781  Move from [DE] to [HL]
+                         Input: [DE] points to a single precision number
+                            [HL] points to an area for a number
+                         Output: Number is copied to area pointed to by [HL]
+                            [DE]=[DE]+4
+                            [HL]=[HL]+4
+                         Alters: [A], [B], [DE], [HL]
+
+MOVVFM  31F2   12786  Move any type from [DE] to [HL]
+                         Input: [DE] points to a number
+                            [HL] points to a new area for the number
+                            [valtyp] is the type of the number
+                         Output: Number is copied to area pointed to by [HL]
+                         Alters: [A], [B], [DE], [HL]
+
+VMOVAF  3218   12824  Move any type from memory to [{d}fac]
+                         Input: [HL] points to a number
+                            [valtyp] is the type of the number
+                         Output: Number is copied to [{d}fac]
+                         Alters: [A], [B], [DE], [HL]
+
+VMOVMF  3221   12833  Move any type from [{d}fac] to memory
+                         Input: [HL] points to a new area for the number
+                            [valtyp] contians the type of the number
+                         Output: Number is copied to area pointed to by [HL]
+                         Alters: [A], [B], [DE], [HL]
+
+FCOMP   322E   12846  Compare two single precision numbers
+                         Input: [BC]_[DE] first argument
+                            [fac] second argument
+                         Output: A=1 if first less than second
+                            A=0 if first=second
+                            A=-1 if first greater than second
+                         Alters: [A], [HL]
+
+ICOMP   3259   12889  Compare two integers
+                         Input: [DE] first argument
+                            [HL] second argument
+                         Output: A=1 if first less than second
+                            A=0 if first=second
+                            A=-1 if first greater than second
+                         Alters: [A]
+
+DCOMP   326F   12911  Compare two double precision numbers
+                         Input: [arg] first argument
+                            [dfac] second argument
+                         Output: A=1 if first less than second
+                            A=0 if first=second
+                            A=-1 if first greater than second
+                         Alters: All
+
+CONIS   32AD   12973  Convert single precision to an integer
+                         Input: [fac] single precision argument
+                         Output: [fac] integer argument
+                         Alters: All
+                         Notes: If overflow then return to BASIC
+
+CONSD   32DA   13018  Convert double precision to single precision
+                         Input: [dfac] double precision argument
+                         Output: [fac] single precision argument
+                         Alters: All
+
+CONSI   32ED   13037  Convert an integer to single precision
+                         Input: [fac] integer argument
+                         Output: [fac] single precision argument
+                         Alters: All
+
+CONDS   3304   13060  Convert single precision to double precision
+                         Input: [fac] single precision argument
+                         Output: [dfac] double precision argument
+                         Alters: [A], [HL]
+
+ISUB    33F7   13303  Compute the difference of two integers
+                         Input: [DE] first arg
+                            [HL] second arg
+                         Output: [DE]-[HL] value in FAC and [HL],
+                            If valtyp=sngtyp then overflow
+                         Alters: All
+
+IADD    3403   13315  Compute the sum of two integers
+                         Input: [DE] first arg
+                            [HL] second arg
+                         Output: [DE]+[HL] value in FAC and [HL],
+                            If valtyp=sngtyp then overflow
+                         Alters: All
+
+IMULT   3423   13347  Compute the product of two integers
+                         Input: [DE] first arg
+                            [HL] second arg
+                         Output: [DE]x[HL] value in FAC and [HL],
+                            If valtyp=sngtyp then overflow
+                         Alters: All
+
+IDIV    347A   13434  Compute the quotient and remainder of two integers
+                         Input: [DE] first arg
+                            [HL] second arg
+                         Output: [DE] remainder of [DE]/[HL]
+                            [HL] quotient of [DE]/[HL]
+                         Alters: All
+                         Notes: If [HL]=000 then BASIC error ?/0 occurs
+
+DSUB    34F1   13553  Subtract two double precision numbers
+                         Input: [dfac] first argument
+                            [arg] second argument
+                         Output: [dfac]=[dfac]-[arg]
+                         Alters: All
+                         Notes: Overflow returns to BASIC
+
+DADD    34F8   13560  Add two double precision numbers
+                         Input: [dfac] first argument
+                            [arg] second argument
+                         Output: [dfac]=[dfac]+[arg]
+                         Alters: All
+                         Notes: Overflow returns to BASIC
+
+DMULT   3639   13881  Multiply two double precision numbers
+                         Input: [dfac] first argument
+                            [arg] second argument
+                         Output: [dfac]=[dfac]x[arg]
+                         Alters: All
+                         Notes: Overflow returns to BASIC
+
+DDIV    3691   13969  Divide two double precision numbers
+                         Input: [dfac] first argument
+                            [arg] second argument
+                         Output: [dfac]=[dfac]/[arg]
+                         Alters: All
+                         Notes: Overflow or /0 returns to BASIC
+
+FIN     3726   14118  Convert a string to a number
+                         Input: [HL] points to the string representation
+                            of the number
+                         Output: [{d}fac] contains value
+                            [valtyp] contains the type of the returned number
+                            [HL] points to the last character of the string
+                         Alters: All
+                         Notes: No sytax check is made
+                            Overflow returns to BASIC
+
+PRASC   3898   14488  Print a number to the screen in ASCII
+                       Input: [HL] contains number to be printed
+                       Alters: Unknown
+                       Notes: Number ***
+
+FOUT    38A8   14504  Convert a number to a formatted string
+                         Input: [{d}fac] contains value
+                            [valtyp] is the type of the value
+                            [A] is a bit map
+                            Bit 7=1 output in fixed format, else free format
+                            Bit 6=1 format in groups of three digits
+                                    with comma separators
+                            Bit 5=1 fill leading spaces with asterisks
+                            Bit 4=1 output with floating dollar sign
+                            Bit 3=1 output the sign of a positive number
+                            Bit 2=1 output sign after the number
+                            Bit 1=1 unused at this time
+                            Bit 0=1 output in floating point, else fixed
+                                    point notation
+                            [B] number of places to the left of the decimal
+                            [C] number of places to the right of the decimal
+                            Includes decimal point, but not 4 positons
+                            for exponent
+                         Output: [fbuffr] contains the string representation
+                         Alters: All
+                         Notes: String is terminated by a nul (000)
+
+SQR     3D4D   15693  Compute the square root of a single precison #
+                         Input: [fac] argument
+                         Output: [fac] result
+                         Alters: All
+                         Notes: Errors return to BASIC
+
+FPWR    3D5E   15710  Raise a single precision number to a power
+                         Input: [BC]_[DE] exponent
+                            [fac] base
+                         Output: [fac] result
+                         Alters: All
+                         Notes: Errors return to BASIC
+
+EXP     3DAD   15789  Compute the base value of a single precision # to e
+                         Input: [fac] argument
+                         Output: [fac] result
+                         Alters: All
+                         Notes: Errors return to BASIC
+
+RND     3E4A   15946  Compute a random number between zero and one
+                         Input: [fac] less than 0 start a new sequence {reseed}
+                            [fac]=0 return the last value generated
+                            [fac]>0 return the next random number
+                         Output: [fac] result
+                         Alters: All
+                         Notes: Errors return to BASIC
+
+COS     3EBD   16061  Compute the cosine of an angle expessed in radians
+                         Input: [fac] argument
+                         Output: [fac] result
+                         Alters: All
+                         Notes: Errors return to BASIC
+
+SIN     3EC3   16067  Compute the sine of an angle expressed in radians
+                         Input: [fac] argument
+                         Output: [fac] result
+                         Alters: All
+                         Notes: Errors return to BASIC
+
+TAN     3F5E   16222  Compute the tangent of an angle expressed in radians
+                         Input: [fac] argument
+                         Output: [fac] result
+                         Alters: All
+                         Notes: Errors return to BASIC
+
+ATN     3F73   16243  Compute an angle in radians from its tangent
+                         Input: [fac] argument
+                         Output: [fac] result
+                         Alters: All
+                         Notes: Errors return to BASIC
+
+RUNC    3FF5   16373  Initialize BASIC to run a program
+                         Output: Unknown, assume nothing
+                         Alters: All including stack pointer
+
+CLEAR0  3FFC   16380  Reset BASIC's operating enviorment
+                         Alters: All
+
+ISLET   4141   16705  Determine if character at hl is a letter
+                         Input: [HL] is the txtpnt
+                         Output: [A]=character at hl
+                            Carry set = not a letter
+                         Alters: [A] and flags
+
+ISLET2  4142   16706  Determine if character in A is a letter
+                         Input: [A] character to check
+                         Output: Carry set = not a letter
+                         Alters: [A] and flags
+
+CRLF    4251   16977  Send CR/LF to screen or printer
+
+SENDLF  4254   16980  Send LF to screen or printer *
+
+BEEP    4258   16984  Generate a BEEP
+
+CLRHOM  425C   16988  Moves cursor to home position - doesn't clear screen
+
+CLS     4260   16992  Clears the screen, returns cursor to home position
+
+PROT8   4264   16996  Protect line 8 (ESC T)
+
+UNPROT  4269   17001  Unprotect line 8 (ESC U)
+
+NOSCRL  426E   17006  Inhibit screen scroll
+
+SCRL    4273   17011  Enable screen scroll
+
+CSRON   4278   17016  Turns cursor on
+
+CSROFF  427D   17021  Turns cursor off
+
+DELIN   4282   17026  Delete line cursor is on
+
+INSRT   4287   17031  Insert a line at cursor 
+
+DELEOL  428C   17036  Delete from cursor to end of line
+
+ESCX    4291   17041  Send ESC X *
+
+STDCSR  4296   17046  Make cursor the standard "BLOCK" cursor
+
+ALTCSR  429B   17051  Make cursor the "UNDERLINE" cursor
+
+REVERS  42A2   17058  Start inverse character mode
+
+NORMAL  42A7   17063  Cancel inverse character mode
+
+ESC_A   42A9   17065  Send an ESCAPE A to console
+
+POSCSR  42B5   17077  Position cursor - H=row/ L=col *
+
+POSIT   42BF   17087  Set cursor position
+                         Input: [H] is x, [L] is y {relative to one}
+                         Alters: [A], [HL], and flags
+                         Notes: This routine is not reccomended for use
+
+ERAFNK  42C3   17091  Erase the function key line
+                         Alters: All
+
+SETDFN  42E1   17121  Set and display function key line *
+
+DSPFNK  42E4   17124  Display the function keys
+                         Alters: All
+
+CHPUT   4363   17251  Send a character to screen
+                         Input: [A] is character to print
+
+CLS2    45CC   17868  Alternate routine to clear the screen
+
+PINLIN  4798   18328  Input a line from the keyboard, even include prompt
+                         Output: Line goes into BUF (F5A1h) 
+
+PINPUT  47A4   18340  Input line from keyboard into BUF, show ? prompt *
+                         Output: Line goes into BUF (F5A1h) 
+
+INLIN   47AA   18346  Input a line from the keyboard starting at cursor
+                         Output: Line goes into BUF (F5A1h) 
+                         Alters: Unknown
+
+PTRGET  49AF   18863  Get the pointer to a variable
+                         Input: [HL] points to the text of the variable
+                         Output: [DE] points to the varialbe descriptor
+                            [HL] points to the next text position past number
+                         Alters: Unknown, assume all
+
+RST20V  4CFA   19706  RST 20H vector, send char to scrn or printer *
+
+LPTCHR  4D0B   19723  Print char in A to printer, expand tabs *
+
+REINIT  4D3B   19771  Reinitialize screen back to LCD *
+
+LCDSCR  4D54   19796  LCD character output routine (from A) *
+
+SNDCR   4D61   19809  Send CRLF if needed to end current line *
+
+NAMSCN  4DBD   19901  Parse a file name in text
+                         Input: [HL] contains txtpnt
+                         Output: File name is parsed into [filnam]
+                            [D] is the disk #
+                            [HL] points to first location past the name
+                            Carry is set if default device [ram file]
+                         Alters: Unknown, assume all
+                         Notes: Errors return to BASIC
+
+SCNBLK  4E29   20009  Fetch the next character from a block
+                         Input: [E] is number of characters left in string
+                            [HL] points to the string
+                         Output: [HL]=[HL]+1
+                           [A] is the character at [HL] b/4 inc
+                           [E]=[E]-1
+                           Zero is set if at end of block
+                         Alters: All
+
+GETFLP  4E2D   20013  Get file pointer w/o setting up ptrfil or drvptr
+                         Input: [fac] file number
+                         Output: [HL] is file pointer
+                            [A] mode with flags set
+                            [drvptr] is disk pointer
+                         Alters: All
+
+GETFNI  4E30   20016  Get information for the file number in the A register *
+
+SETFIL  4E6B   20075  Set up fcb file pointers
+                         Input: [A] file number
+                         Alters: All
+
+OPNST   4E77   20087  Open Statement *
+
+NULOPN  4EBE   20158  Open a .DO file
+                         Input: [A] is file number
+                            [B]=open mode: 001 input - 002 output - 008 append
+                            [D] must be 0f9
+                            [HL] should point to a nul character
+                            Filename to open in filnam
+                         Alters: All
+                         Notes: Error return to BASIC
+
+CLSFIL  4EE4   20196  Close a .DO file
+                         Input: [A] file number
+                         Alters: All
+                         Notes: Data channels can be closed with this
+
+CLSLCL  4F05   20229  LCD/CRT/LPT file close routine *
+
+CLSALL  4FBF   20415  Close all files
+                         Alters: All except [HL]
+                         Notes: Closes data channels also
+
+FILOU1  4FEF   20463  Write a character to a .DO file
+                         Input: [A] caharacter to write
+                         Notes: Must be directly preceded by a setfil call
+                            Errors cause return to BASIC
+
+INDSKC  5015   20501  Get a character from a .DO file
+                         Input: None
+                         Output: Carry set if end of file else reset
+                            [A] is character read if successful
+                         Alters: [A] and flags
+                         Notes: Must be preceded directly by a setfil call
+
+INDSKE  5025   20517  Clean stack after an input
+                         Input: None
+                         Output: [DE],[HL],[BC] are values from stack
+                         Alters: All
+
+FILLZ   50A0   20640  Fills nulls into a memory range.
+                         Input: [HL] start address
+                           [B] number of bytes to fill
+
+FILMEM  50A1   20641  Fill memory at HL for B bytes with byte in A *
+                         Input: [HL] start address
+                           [B] number of bytes to fill
+                           [A] byte to fill
+
+INITP#  50C4   20676  Called by PRINT statement to initialize PRINT #   *
+
+NOSKCR  51B9   20921  Create data string from input w/o linefeeds
+                         Output: [HL] restored
+                         Alters: All except [HL]
+
+DERBFN  51E4   20964  Abort BASIC and issue bad file name message
+
+DERFAO  51E7   20967  Abort BASIC and issue file already open message
+
+DERFDR  51EA   20970  Abort BASIC and issue direct statement in file
+
+DERFNF  51ED   20973  Abort BASIC and issue file not founund message
+
+DERFNO  51F0   20976  Abort BASIC and issue file not open message
+
+DERIFN  51F3   20979  Abort BASIC and issue illegal file name message
+
+DERIER  51F6   20982  Abort BASIC and issue internal error message
+
+DERRPE  51F9   20985  Abort BASIC and issue read past end message
+
+DERTMF  51FC   20988  Abort BASIC and issue too many files message
+
+DEVNMT  528D   21133  Start of device name table *
+
+ENDNMT  52AA   21162  End of device name table *
+
+GENDSP  52B9   21177  Dispatch to the i/o offset in A
+                         Input: [A] e.xxx entry offset
+                            [HL] points to a fcb
+                         Output: Nothing - dispatches immediately to 
+                            another routine
+                         Alters: None
+
+TELCOM  52DC   21212  Jumps to Telcom program
+
+PRNSTT  5353   21331  Print current stat/ return to TELCOM ready *
+
+TERM    5388   21384  Jumps into Telcom's TERM mode ** 8201 ONLY **
+
+PREV    5459   21593  Previous screen routine
+
+UP      54C5   21701  TELCOM's upload function * (M100/ 8201 ONLY!)
+
+DOWN    5550   21840  TELCOM's download function * (M100/ 8201 ONLY!)
+
+PRBUF2  563F   22079  Print buffer at HL till a null or quote, start at BOL *
+                         Input: [HL] start address of buffer
+
+MENU    5645   22085  Main Menu jump point
+
+PRNTIM  5D83   23939  Clear screen and print current date & time *
+
+PRNTM2  5D86   23942  Same as PRNTIM but cursor is only homed (no CLS) *
+
+DATE    5D8C   23948  Displays date & time at cursor location
+
+PRBUF3  5DA2   23970  Print buffer at HL until a null *
+                         Input: [HL] start address of buffer
+
+MVDEHL  5DAC   23980  Move A number of bytes from DE to HL *
+                         Input: [DE] source
+                           [HL] desintation
+                           [A] number of bytes to move
+
+COMPDE  5DCD   24013  Compare DE to HL buf for C bytes or null in DE buf *
+
+SETFN   5DDC   24028  Set new function key table *
+
+DSPFN   5DFB   24059  Display function keys if fn-key flag (CNSDFG) enabled *
+
+GETST   5E5B   24155  Get start address of file *
+
+FNDBUF  5F48   24392  Find text in HL buf within DE *
+
+CKCRLF  5F76   24438  Check next byte(s) in DE buf for CRLF *
+
+GETUPR  5FA0   24480  Wait for char from keyboard and convert it to uppercase *
+
+DSPTIM  5FA6   24486  Displays date/time on top line of screen until keypress *
+
+TEXT    5FC4   24516  Jumps to Text program
+
+MAKBAT  6518   25880  Make a hole from all available memory
+                         Input: Start address for hole in [asctab]
+                         Output: [BC] length of hole created
+                         Alters: Unknown, assume all
+
+MVHLDE  67A8   26536  Move bytes from HL to DE until null *
+
+INSTXT  6BFE   27646  Insert a character into a text file *
+
+MAKHOL  6C0A   27658  Make a hole of bc bytes at hl
+                         Input: [HL] start address for hole
+                            [BC] length of hole to create
+                         Output: Carry set if out of memory else reset
+                         Alters: [A], [DE]
+
+MASDEL  6C3C   27708  Deletes bc bytes at hl
+                         Input: [HL] start address for mass delete
+                            [BC] length of delete
+
+LDIRSB  6C78   27768  Do z80 ldir instruction
+                         Input: [HL] source address
+                            [DE] destination address
+                            [BC] number of bytes to move
+                         Alters: All
+
+LDDRSB  6C83   27779  Do z80 lddr instruction
+                         Input: [HL] source address
+                            [DE] destination address
+                            [BC] number of bytes to move
+                         Alters: All
+
+TMPSAV  6CF7   27895  Temporarily saves the function keys *
+
+RESTOR  6D00   27904  Restores the function keys *
+
+REINIT  6D3A   27962  Re-initialize system/ User files are not lost
+
+PRINT   6D92   28050  Send a character to the line printer
+                         Input: [A] is character to print
+                         Output: Carry is set if i/o aborted with shift stop
+                            else reset
+                         Alters: Flags
+
+RCVX    6DC2   28098  Sees if there's a character waiting in RS-232 queue.
+                         Input: None
+                         Output: Zero flag set if no character in queue.
+                                 Zero flag reset if character(s) waiting.
+                                 When the Zero flag is set, [A] shows 
+                                 number of charactes in queue.
+                         Alters: [A] and Flags
+
+RV232C  6DD3   28115  Get character from RS-232 queue.
+                         Input: None
+                         Output: Carry set if aborted by SHIFT-STOP
+                                 Carry reset and Zero flag set if read is
+                                   successful.  [A] holds character.
+                                 Carry reset and Zero flag reset if there
+                                   is a receive error.  [A] contains a 
+                                   garbage character in this case.
+                         Alters: [A] and Flags
+
+SD232C  6EBE   28350  Send a character to the RS-232C port.
+                         Input: [A] is character to send
+                         Output: Carry is set if i/o aborted with shift stop
+                            else reset
+                         Alters: [A] and Flags
+
+INZ232  6F58   28504  Initializes the USART (RS-232 Port)
+                         Input: [H] = Bps rate specifier
+                                [L] = Data length, parity, stop bits
+                                [B] = RTS/DTR specifier
+                                [C] = Should be FFh
+                         Alters: None
+
+CMTRMT  6FD9   28633  Turn cassette motor on or off.
+                         Input: [E] = 0 turns off motor
+                                [E] = 1 turns on motor
+                         Alters: [A] and flags
+
+ADDKEY  7253   29267  Adds a character to the keyboard buffer *
+
+GETCH   7279   29305  Get a char from keyboard - don't wait
+                         Output: Zero is set if a key has been pressed, else
+                            reset.  [A] contains character read from keyboard
+                         Alters: Flags
+                         Notes: Must be used in a loop
+
+BREAKX  72DF   29407  See if shift stop has been pressed
+                         Output: Carry is set if shift stop has pressed
+                            else reset
+                         Alters: [A] and flags
+                         Notes: Direct keyboard check
+
+MUSIC   730D   29453  Generate sound 
+                         Input: [DE] is frequency, [B] is length of tone
+                         Alters: Unknown
+
+----------------------------------------------
+LCD Functions
+----------------------------------------------
+The following functions are detailed in depth
+in the following book: "Hidden Powers of the
+TRS-80 Model 100" by Christopher L. Morgan,
+c1984 by The Waite Group Inc. c/o New American
+Library, New York, NY.  The code in the NEC is
+the same as the M100 except for addresses.
+----------------------------------------------
+
+75ON    74C0   29888  Turns on RST 7.5, the hardware interrupt that
+                      controls the NEC's background task. RST 7.5
+                      must be turned off before using the low-level
+                      LCD routines, but it must be turned back on
+                      to restore the NEC to normal functionality.
+                      WARNING: ALWAYS MAKE CERTAIN RST 7.5 GETS
+                      TURNED BACK ON IF YOU USE THE 75OFF ROUTINE
+                      TO DISABLE THE BACKGROUND TASK. OTHERWISE,
+                      YOU WILL LOSE CLOCK/CURSOR/KEYBOARD FUNCTION.
+                         Input:  None
+                         Alters: A
+                         Notes:  [D Firth, 12/1998]
+
+PLOT    74D0   29904  Set a dot on the lcd
+                         Input: [D] is x, [E] is y
+                         Alters: All
+                         Notes: No range checking is done
+
+UNPLOT  74D1   29905  Reset an lcd dot
+                         Input: [D] is x, [E] is y
+                         Alters: All
+
+LCDWR   7563   30051  Write bytes from memory to the active LCD driver.
+                         Input:  B  = command byte for LCD driver
+                                 E  = number of bytes to write
+                                 HL = source of bytes in memory
+                         Alters: Unknown. Assume all.
+                         Notes:  [D Firth, 12/1998]
+
+LCDRD   757E   30078  Read bytes from the active LCD driver to memory.
+                         Input:  B  = command byte for LCD driver
+                                 E  = number of bytes to read
+                                 HL = destination of bytes in memory
+                         Alters: Unknown. Assume all.
+                         Notes:  [D Firth, 12/1998]
+
+LCDSEL  75C4   30148  Selects which of the ten horizontal LCD drivers
+                      is the active driver (0-9). Uses LCDTBL.
+                         Input:  HL = addr of entry in LCDTBL
+                         Alters: A/PSW
+                         Notes:  [D Firth, 12/1998]
+
+LCDTBL  76CC-  30412- Table of ten 2-byte entries used by LCDSEL to
+        76DF   30431  control which LCD horizontal driver is active.
+                         Notes:  [D Firth, 12/1998]
+
+OFF75   76E5   30437  Turns off RST 7.5, the hardware interrupt that
+                      controls the NEC's background task. RST 7.5 must
+                      be disabled to modify the I/O ports used by the
+                      LCD so that non-LCD bits in the ports aren't
+                      modified during a background task interrupt.
+                         Input:  None
+                         Alters: A
+                         Notes:  [D Firth, 12/1998]
+
+----------------------------------------------
+
+BEEP2   76EB   30443  Alternate routine to trigger a BEEP from the speaker
+
+CLICK   76FF   30463  Do a buzzer click
+
+ASC_S   78B7   30903  This address is the START of the ASCII table
+                      **NOT A CALLABLE ROUTINE**
+
+ASC_E   7B37   31543  This address is the END of the ASCII table
+                      **NOT A CALLABLE ROUTINE**
+
+COLDST  7D83   32131  Cold start routine.  BE CAREFUL!!!  This will
+                      have the same affect as pressing CTRL-SHIFT & hitting
+                      the RESET button.
+
+LOGO    7E3E   32318  Prints system logo & bytes free *
+
+BYTFRE  7E48   32329  Displays "Bytes Free" string at current cursor location
+                         "XXXXX Bytes Free"
+                         
+BYTFR2  7E52   32338  Displays only the bytes-free value at current cursor loc.
+                         "XXXXX"
+
+HOKSET  7E66   32358  Reset hook table to default values (gw)
+
+BNK3_2  7EA9   32425  Switches from BANK3 from BANK2
+
+BNKSW   7EAB   32427  Switches from BANK1 to BANK2, or from BANK2 to BANK3,
+                      or from BANK3 to BANK1.  (Just like f.10 from main menu)
+
+PUTBNK  7EEB   32491  Put a byte into any bank
+                         Input: [B]=bank number: 000 bank one - 008 bank two -
+                            00c bank three
+                            [HL]=address of byte to read
+                            [D]=byte to put in any bank
+                         Alters: [A], [C], and flags
+                         Notes: Interrupts must be disabled for this
+
+GETBNK  7EEC   32492  Get a byte from any bank
+                         Input: [B]=bank number: 000 bank one - 008 bank two - 
+                            00c bank three
+                            [HL]=address of byte to read
+                         Output: [D]=byte
+                         Alters: [A], [C], [D], and flags
+                         Notes: Interrupts must be disabled for this
+
+DEFILE  7F1C   32540  Change maxfiles value
+                         Input: [A] new number of files
+                         Alters: All and stack pointer also
+                         Notes: Precede this call with a clsall call and 
+                            follow it with a CLEAR0.
+                            Call to insure correct processing
+
+RETADR  7FDB   32731  Return address for hooks which do nothing
+                         Input: Unknown
+
+============================================================================= 
+
+                     * UPPER MEMORY "BOOKKEEPING" AREA * 
+
+Name    Hex    Dec    Description
+------ ------ ------  -------------------------------------------------------
+FSIDSV  F380   62336  Address to jump to on first power up
+ATIDSV  F382   62338  Address to jump to resume
+HIMEM   F384   62340  Highest memory available to BASIC (clear value)
+PWRHOK  F386   62342  Rst 00 hook
+INTRPT  F389   62345  Rst 5.5 hook normally barcode reader
+R65HOK  F38C   62348  Rst 6.5 hook normally UART (COM)
+R75HOK  F38F   62351  Rst 7.5 hook normally from timer
+NMI     F392   62354  NMI hook normally power down vector
+CHKROM  F395   62357  This is entry to check for second ROM
+CKROM1  F3A4   62372  This is entry to copy romname to directory
+
+BRUN    F3B9   62393  This is entry to execute second ROM.
+
+                      [Some ROMs use 62394. 62393 seems to hold a NOP
+                       usually. May be used in conjunction with EXEC
+                       A and HL variable passing at 63911 & 63912.
+                       D Firth 17-JUL-1998]
+
+BRUN2   F3BA   62394  This executes second ROM
+
+ROMFLG  F3BF   62399  Flag 00 if no second ROM
+TELCAD  F3C0   62400  Address of telcom main function key dispatch table
+TERMAD  F3C2   62402  Address into term at display last page
+EVLHOK  F3C8   62408  Hook out of expression evaluator
+CSIHOK  F3CB   62411  Hook to cassette read a byte
+CSOHOK  F3CE   62414  Hook to cassette write a byte
+CRDHOK  F3D1   62417  Hook to cassette read sync leader
+CWRHOK  F3D4   62420  Hook to cassette write sync leader
+NSTHOK  F3D7   62423  Hook ???
+INSFLG  F3DA   62426  Flag 00 is non-insert mode
+BANK    F3DB   62427  Current bank selected
+RVSCUR  F3DC   62428  Cursor make pattern
+ERRHOK  F3DD   62429  Hook out of error handler
+FNKPNT  F3E0   62432  Pointer to function key storage
+PASPNT  F3E2   62434  Pointer to paste buffer
+CONFLG  F3E4   62436  Console type 0=LCD 1=CRT
+CSRY    F3E5   62437  Current cursor Y position
+CSRX    F3E6   62438  Current cursor X positon
+LINCNT  F3E7   62439  Console height
+LINWDT  F3E8   62440  Console width
+CNSDFG  F3E9   62441  Flag 0 do not display function keys
+LOKFLG  F3EA   62442  Flag 00 = screen scrolls
+CSRFLG  F3EB   62443  Flag 00 = enable screen flag
+LCDCSY  F3EC   62444  LCD cursor position (Y)
+LCDCSX  F3ED   62445  LCD cursor position (X)
+CRTCSY  F3EE   62446  CRT cursor position (Y)
+CRTCSX  F3EF   62447  CRT cursor position (X)
+CRTCNT  F3F0   62448  Number of crt lines
+CRTWDT  F3F1   62449  Length of crt line in characters
+ESCCNT  F3F2   62450  Escape processor count
+ESCSAV  F3F3   62451  This is paired with above
+REVFLG  F3F4   62452  Flag FF=reverse video mode
+LPTWDT  F3F5   62453  Length of lineprinter line
+WDTSTR  F3F6   62454  4 characters - string representation of LPTWDT
+PRVCOO  F3FA   62458  X coordinate of last graphic point plotted
+PRVCO2  F3FB   62459  Y coordinate of last graphic point plotted *
+MODE    F3FC   62460  Bit 7=in TEXT(FILER); bit 6=in TELCOM
+EDTFLG  F3FD   62461  Flag for EDIT command
+ERRJMP  F3FE   62462  Address to intercept BASIC's error handler
+
+PRVMON  F400   62464  Previous month storage
+KEYWAT  F401   62465  Set to non zero when waiting for key input
+PWRINT  F402   62466  Time to power off in tenth's of a minute
+FULDUP  F403   62467  Flag FF=telcom in full duplex
+ECHO    F404   62468  Flag FF=echo telcom to lineprinter
+LFFLG   F405   62469  Flag 00=ingore line feeds in telcom
+SERMOD  F406   62470  6 characters of serial initialization string
+JMPPLT  F40C   62476  Used to hold a JUMP address (a.k.a. TMPHOK)
+TMPAD1  F40D   62477  Temporary 2-byte address holder
+TMPAD2  F40F   62479  Temporary 2-byte address holder (a.k.a. MINUPD)
+TMPAD3  F411   62481  Temporary 2-byte address holder (a.k.a. MAXUPD)
+OUTWRD  F413   62483  Jump to out instruction mask second byte is port
+FDIVC   F416   62486  First entry to fast divide
+FDIVB   F41A   62490  Second entry to fast divide
+FDIVA   F41E   62494  Third entry to fast divide
+FDIVG   F421   62497  Fourth entry to fast divide
+RNDCNT  F425   62501  ??
+RNDTAB  F427   62503  ??
+RNDX    F447   62535  Random seed number ie last number generated
+STAINP  F44B   62539  Input instruction mask second byte is port number
+ENDPRG  F44E   62542  Fake end of program for resume next
+ERRFLG  F453   62547  Error number saved here so edit can happen from SN?
+LPTLST  F454   62548  Last LPRINT operation 00=linefeed
+LPTPOS  F455   62549  Based from zero print head position
+PRTFLG  F456   62550  Flag FF=send output to lpt
+CLMLST  F457   62551  Position of last comma column
+RUBSW   F458   62552  Flag=1 if processing a rubout
+STKTOP  F459   62553  Top location to use for the stack
+CURLIN  F45B   62555  Current BASIC line number
+TXTTAB  F45D   62557  Pointer to beginning of BASIC text
+VLZADR  F45F   62559  Address of character replaced by VAL
+KBUF    F462   62562  Keyboard krunch buffer
+
+BUFMIN  F5A0   62880  End of krunch (comma)
+BUF     F5A1   62881  Start of direct execution buffer
+
+ENDBUF  F6A3   63139  End of direct execution buffer
+TTYPOS  F6A4   63140  Current TTY position
+FNKSTR  F6A5   63141  Function key storage area
+
+LNKWRK  F745   63301  Flag for directory link
+BASFNK  F746   63302  BASIC's function keys
+IPLBUF  F7E6   63462  Place to store IPL command
+
+LINTTB  F827   63527  Line terminator table for screen editor
+FSTPOS  F82F   63535  Cursor position when inlin entered
+CSTYLE  F831   63537  Cursor style
+TIMBUF  F832   63538  Buffer for clock chip:  (TIMSC1: Seconds (ones))
+TIMSC2  F833   63539  Seconds (tens)
+TIMMN1  F834   63540  Minutes (ones)
+TIMMN2  F835   63541  Minutes (tens)
+TIMHR1  F836   63542  Hours (ones)
+TIMHR2  F837   63543  Hours (tens)
+TIMDT1  F838   63544  Day (ones)
+TIMDT2  F839   63545  Day (tens)
+TIMDOW  F83A   63546  Day of week code (0=Sun / 1=Mon / etc..) **Not implemented?**
+TIMMON  F83B   63547  Current month
+TIMYR1  F83C   63548  Year (ones)
+TIMYR2  F83D   63549  Year (tens)
+TIMCNT  F83E   63550  Counter (150 to 1)
+TIMCN2  F83F   63551  Counter (12 to 1)
+TIMINT  F840   63552  Time for "POWER n"
+TMOFLG  F841   63553  Time out flag
+TIMWRK  F842   63554  Work space for TIME
+TRPTBL  F84C   63564  Table of I/O traps
+
+###########################################################
+#  File Directory Information
+###########################################################
+BASIC   F84F   63567  BASIC's directory entry
+TEXT    F85A   63578  TEXT's directory entry
+TELCOM  F865   63589  TELCOM's directory enry
+NULDIR  F870   63600  Directory entry for non-registered BASIC program
+SCRDIR  F87B   63611  SCRAP's directory entry
+EDTDIR  F886   63622  Directory entry for edit workspace
+USRDIR  F891   63633  First user directory entry, of 21
+DIREND  F978   63864  End of directory mark (0FF)
+
+   Format of 11-byte directory entry
+   =================================
+   Byte 0          Directory Flag
+                     Bit 7 - Master bit    (1=valid entry)
+                     Bit 6 - ASCII bit     (1=ASCII text file)
+                     Bit 5 - Binary bit    (1=Machine language file)
+                     Bit 4 - File-in-ROM   (1=File is in ROM)
+                     Bit 3 - Hidden file   (1=hidden from main menu)
+                     Bit 2 - (not used)
+                     Bit 1 - RAM File open (1=currrently open flag)
+                     Bit 0 - (internal use - set to 0 normally)
+   Bytes 1-2       Address Field
+                     *For a BASIC program, it's the address to what
+                       TXTTAB must be set.
+                     *For an ASCII text file, it's the beginning addr
+                     *For a binary file, it's the beginning addr
+                     *For a ROM file, it's the entry address
+   Bytes 3-10      File name
+###########################################################
+
+DIRPNT  F979   63865  Pointer to directory of current BASIC program
+CASPRV  F97B   63867  Storage for previous character for cassette
+COMPRV  F97C   63868  Storage for previous character for COM port
+WNDPRV  F97D   63869  Storage for previous character for bar code reader
+RAMPRV  F97E   63870  Storage for previous character for ram files (16)
+PASPRV  F98E   63886  ??
+FILNUM  F98F   63887  Current file number
+ROMNAM  F991   63889  This is where the second rom name is
+FSTFLG  F999   63897  Set to 1 to indicate this is a power-up condition. 
+                        ;Causes IPL execution to happen on return to menu.
+INLCUR  F99A   63898  Cursor save flag when INLIN entered
+SAVECN  F99B   63899  Save area for CONTXT,CONSAV,CONTYP, & CONLO
+ASAVE   F9A7   63911  [A] parameter for EXEC
+HLSAVE  F9A8   63912  [HL] parameter for EXEC
+FSTLIN  F9AA   63914  Address of first line decrunched
+LSTLIN  F9AC   63916  Address of last line decrunched
+STAKSV  F9AE   63918  Save area for sp during power off state
+BOTTOM  F9B0   63920  Bottom address of ram
+DNLFLG  F9B2   63922  Download flag
+UPLFLG  F9B3   63923  Upload flag
+DNLPNT  F9B4   63924  Down load pointer
+TELPRV  F9B6   63926  Previous character for UP/DOWN load
+SNDSFT  F9B7   63927  SI/SO status for send
+RCVSFT  F9B8   63928  SI/SO status for receive
+CRTFLG  F9B9   63929  CRT flag for CONOUT's use
+MENFLG  F9BA   63930  Flag for menu mode
+MFCFLG  F9BB   63931  Menu subcommand flag
+OFSSAV  F9BC   63932  Offset save for hook dispatch
+POSSAV  F9BD   63933  Position save for INLIN
+CSFGSV  F9BE   63934  Save area for CSRFLG
+FDSSAV  F9BF   63935  Save area for function key display flag
+BINADD  F9C0   63936  Location of machine language program (load or save)
+BINLEN  F9C2   63938  Length of machine language proram (load or save)
+BINEXE  F9C4   63940  Execution address for machine language program
+                        ;Is set unconditionally by RLOADM
+TOTOFS  F9CA   63946  Total number of bytes since load executed
+HOKTBL  F9CC   63948  Start of dispatch table for hooks
+
+###########################################################
+#  The following hooks are normally set to RET (219,127):
+###########################################################
+           --Address--  -Offset-         
+Name       Hex   Dec    Hex  Dec  Notes
+---------  ----  -----  ---  --   -----------------
+H.CLEAR    F9CC  63948  000  0    Called from 4181
+H.MAXRAM   F9CE  63950  002  2    Not used
+H.CHGET1   F9D0  63952  004  4    Called from 1756
+H.CHSNS    F9D2  63954  006  6    Called from 1850
+H.CHPUT    F9D4  63956  008  8    Called from 4367
+H.LCDPUT   F9D6  63958  00A  10   Called from 4374
+H.CHPLPT   F9D8  63960  00C  12   Called from 18DD
+H.SETFIL   F9DA  63962  00E  14   Called from 4E74
+H.INDSKC   F9DC  63964  010  16   Called from 5020
+H.RSLFIL   F9DE  63966  012  18   Called from 5078
+H.BAKUPT   F9E0  63968  014  20   Called from 51B4
+H.NTFLO    F9E2  63970  016  22   Called from 4F00
+H.SAVE     F9E4  63972  018  24   Called from 4F85
+H.NOFOR    F9E6  63974  01A  26   Called from 4EBB
+H.MERGE    F9E8  63976  01C  28   Called from 4F30
+H.NULOPN   F9EA  63978  01E  30   Called from 4ED3
+H.GETPTR   F9EC  63980  020  32   Called from 4E55
+H.FILOU1   F9EE  63982  022  34   Called from 4FFB
+H.BINSAV   F9F0  63984  024  36   Called from 4FB5
+H.BINLOD   F9F2  63986  026  38   Called from 4FBA
+H.EOF      F9F4  63988  028  40   Called from 1CFE
+H.PARDEV   F9F6  63990  02A  42   Called from 5211
+H.NODEVN   F9F8  63992  02C  44   Called from 522F
+H.DEVNAM   F9FA  63994  02E  46   Called from 523F
+H.POSDSK   F9FC  63996  030  48   Called from 5232
+H.GENDSP   F9FE  63998  032  50   Called from 52B9
+H.FILES    FA00  64000  034  52   Called from 211D
+H.CHGCON   FA02  64002  036  54   Called from 2041
+H.MSVB     FA04  64004  038  56   Called from 5981
+H.MSVC     FA06  64006  03A  58   Called from 5935
+H.MLDB     FA08  64008  03C  60   Called from 249D
+H.MLDC     FA0A  64010  03E  62   Called from 257A
+H.PCPINL   FA0C  64012  040  64   Called from 479E
+H.PCINL    FA0E  64014  042  66   Called from 47AA
+H.CHKHIM   FA10  64016  044  68   Called from 28F1
+H.ESCAPE   FA12  64018  046  70   Called from 4471
+H.TELFNK   FA14  64020  048  72   Called from 52DC
+H.TRMSTA   FA16  64022  04A  74   Called from 5388
+H.TRMEND   FA18  64024  04C  76   Called from 55F3
+H.COMOPN   FA1A  64026  04E  78   Called from 1BE4
+H.COMCLS   FA1C  64028  050  80   Called from 1C01
+H.SD232C   FA1E  64030  052  82   Called from 6EBE
+H.MPXSEL   FA20  64032  054  84   Called from 6FB2
+H.TELERR   FA22  64034  056  86   Called from 52EA
+H.PRTTTL   FA24  64036  058  88   Called from 7E47
+H.UPLD     FA26  64038  05A  90   Called from 5501
+H.TEXT     FA28  64040  05C  92   Called from 623A
+
+###########################################################
+# The following hooks are normally set to FCERR (135,11):
+###########################################################
+           --Address--  -Offset-         
+Name       Hex   Dec    Hex  Dec  Notes
+---------  ----  -----  ---  --   -----------------
+H.WIDTHS   FA2A  64042  05E  94   Called from 1FDF
+H.SCREEN   FA2C  64044  060  96   Called from 204A
+H.TVOPN    FA2E  64046  062  98   Called from 196C
+H.TVCLS    FA30  64048  064  100  Not used 
+H.TVOUT    FA32  64050  066  102  Called from 196E
+H.TVINP    FA34  64052  068  104  Called from 1970
+H.TVBCK    FA36  64054  06A  106  Called from 1672
+H.WAOPN    FA38  64056  06C  108  Called from 1CF6
+H.WACLS    FA3A  64058  06E  110  Called from 1CF8
+H.WAINP    FA3C  64060  070  112  Called from 1CFA
+H.WABCK    FA3E  64062  072  114  Called from 1CFC
+H.LOF      FA40  64064  074  116  Called from 5201
+H.LOC      FA42  64066  076  118  Called from 5203
+H.LFILES   FA44  64068  078  120  Called from 5205
+H.DSKI$    FA46  64070  07A  122  Called from 5209
+H.DSKO$    FA48  64072  07C  124  Called from 5207
+H.KILL     FA4A  64074  07E  126  Called from 2189
+H.NAME     FA4C  64076  080  128  Called from 2239
+H.MSAVE    FA4E  64078  082  130  Called from 265B
+H.MLOAD    FA50  64080  084  132  Called from 2894
+H.GLINE    FA52  64082  086  134  Called from 1F74
+H.COLOR    FA54  64084  088  136  Called from 1FE3
+H.CMD      FA56  64086  08A  138  Called from 1FE1
+H.STATUS   FA58  64088  08C  140  Called from 1FE5
+H.DSKF     FA5A  64090  08E  142  Called from 520B
+H.FPOS     FA5C  64092  090  144  Called from 520D
+H.FORMAT   FA5E  64094  092  146  Called from 520F
+
+###########################################################
+
+REVTBL  FA60   64096  Reverse attribute table
+TXTEND  FA88   64136  Current end of .DO storage
+DIMFLG  FA8A   64138  Flag to find array variable
+VALTYP  FA8B   64139  Type flage for value in {d}FAC
+OPRTYP  FA8C   64140  Same as dores
+DORES   FA8C   64140  Flag to crunch reserved words in strings
+DONUM   FA8D   64141  Flag FF means numbers in strings are crunched
+CONTXT  FA8E   64142  Place to store txtpnt after constant scanned
+CONSAV  FA90   64144  Token for scanned constant
+CONTYP  FA91   64145  Saved constant VALTYP
+CONLO   FA92   64146  Constant buffer
+MEMSIZ  FA9A   64154  Highest location in memory
+TEMPPT  FA9C   64156  Pointer to first free temp discriptor
+TEMPST  FA9E   64158  Storage for numtmp temp discriptors
+DSCTMP  FABC   64188  Result discriptor for string functions
+FRETOP  FABF   64191  Top of string free space
+TEMP3   FAC1   64193  Multipurpose string register
+TEMP8   FAC3   64195  Used in garbage collection
+ENDFOR  FAC5   64197  Save text pointer at end of for statement
+DATLIN  FAC7   64199  Data line number
+SUBFLG  FAC9   64201  Flag to allow subscripted variables in functions
+USFLG   FACA   64202  ??
+FLGINP  FACA   64202  Flag to indicate INPUT or READ statement
+TEMP    FACB   64203  Used by misc. Microsoft routines as parameter pass
+PTRFLG  FACD   64205  Flag 0 if no line numbers converted
+SAVTXT  FACE   64206  Save for TXTPNT used by RESUME
+SAVSTK  FAD0   64208  Save for SP used by RESUME
+ERRLIN  FAD2   64210  Line number of last error
+DOT     FAD4   64212  Current line for edit and list
+ERRTXT  FAD6   64214  Text pointer for use by RESUME
+ONELIN  FAD8   64216  "ON ERROR" line number
+ONEFLG  FADA   64218  Flag 1 if in error recovery routine
+TEMP2   FADB   64219  Formula evaluator temporary storage
+OLDLIN  FADD   64221  Old line number set by ^C,STOP, or END
+OLDTXT  FADF   64223  Old text pointer points to next line to execute
+ASCTAB  FAE1   64225  Pointer to start of ascii files
+BINTAB  FAE3   64227  Pointer to start of binary files
+VARTAB  FAE5   64229  Pointer to start of simple variable space
+ARYTAB  FAE7   64231  Pointer to beginning of array table
+STREND  FAE9   64233  End of storage in use
+DATPTR  FAEB   64235  Pointer to current data item
+DEFTBL  FAED   64237  Table of implicit variable definitions
+
+PRMSTK  FB07   64263  Previous definition block on stack
+PRMLEN  FB09   64265  Number of bytes in active table
+PARM1   FB0B   64267  Active parameter definition table
+PRMPRV  FB0C   64268  Pointer at previous parameter table
+PRMLN2  FB0E   64270  Size of paramter block being built
+PARM2   FB10   64272  Place to keep parameters being made
+PRMFLG  FB11   64273  Used by PTRGET reference to PARM1
+ARYTA2  FB12   64274  Stop point for simple search
+NOFUNS  FB14   64276  00 if no functions active
+TEMP9   FB15   64277  Garbage collection temporary storage
+FUNACT  FB17   64279  Number of active functions
+VLZDAT  FB19   64281  Character replaced by zero by VAL
+EXPAF   FB1A   64282  Exponent adjustment factor
+EXPTMP  FB1B   64283  Temp FAC save
+DFACLO  FB24   64292  Double precision accumulator
+FACLO   FB28   64296  Single precision accumulator
+FAC     FB2B   64299  Exponent of single precision
+ARGLO   FB2E   64302  Secondary double precision accumulator
+ARG     FB35   64309  Exponent for ARGLO
+FBUFFER FB36   64310  Used by FOUT to convert number to string
+MAXDRV  FB61   64353  Maximum drive number
+MAXFIL  FB62   64354  Current maximum file number {read only}
+FILTAB  FB63   64355  Points to the address of the file data
+DRVTAB  FB65   64357  Points to the address of the drive data
+NULBUF  FB67   64359  Points to the file #00 buffer
+CURDRV  FB69   64361  Flag 200 if drive 1 0 if drive 0
+DRVPTR  FB6A   64362  Points to drive data of selected drive
+PTRFIL  FB6C   64364  Points to file data of selected file
+FREPLC  FB6E   64366  Point to free slot in buffer
+LSTFRE  FB70   64368  Sector and slot #'s of free slot
+RUNFLG  FB72   64370  ??
+FILMOD  FB72   64370  Hold mode during file open
+CMDHED  FB73   64371  Place to store command file header
+FILNAM  FB78   64376  9 byte area for setting filenames for search or open
+FILNM2  FB81   64385  Format as filname, but used in NAMEB
+LSTTRK  FB8A   64394  Last track accessed by DSKI DSKO
+LSTSCT  FB8B   64395  Last sector accessed by DSKI DSKO
+NLONLY  FB8C   64396  Flag to show loading program or not
+SAVFLG  FB8D   64397  Flag non-zero if saving program
+DSKBSY  FB8E   64398  Non zero if disk busy
+ERRCNT  FB8F   64399  # errors on current function
+ERRCN1  FB90   64400  # errors on raw data transfer
+RAWFLG  FB91   64401  Zero for read after write
+EBCFLG  FB92   64402  Flag 100 for EBCDIC conversion
+SAVEBC  FB93   64403  Saves drive EBCDIC status
+STAT0   FB94   64404  Interface status
+STAT1   FB95   64405  Disk status
+LASTFR  FB96   64406  ??
+TSTACK  FB96   64406  Top of stack
+LINE0   FBC0   64448  Screen buffer 0 - previous page for telecom
+LINE0E  FCFF   64767  End of Screen buffer 0
+LINE1   FD00   64768  Screen buffer 1 - echos LCD
+LINE1E  FE3F   65087  End of Screen Buffer 1
+XONOFF  FE40   65088  Flag (00) means XOF has not been received
+INHDSP  FE41   65089  Flag (FF)=XOF received, so freeze display
+INHBIT  FE42   65090  Flag (0) XON/XOF disabled
+COMACT  FE43   65091  Current value of multiplexor selection
+ROMSEL  FE44   65092  Copy of port 090 iocnt
+COMBLK  FE45   65093  COM1: queue
+CMPNT   FE45   65093  Character count
+RDADDR  FE46   65094  Read pointer
+WTADDR  FE47   65095  Write pointer
+CMERR   FE48   65096  Error pointer
+CMFLG   FE49   65097  Flag (0)=XOF has been sent
+BAUDRT  FE4A   65098  Baud rate table entry address
+COMMSK  FE4C   65100  Mask AND'ed with data read by serial port
+KEYWRK  FE4D   65101  Keyboard workspace
+KYSCNX  FE4D   65101  Flag to determine if keyscan to be done
+KYCLRX  FE4E   65102  ??
+KYDATA  FE4F   65103  Storage for keyboard matrix read
+KYMODE  FE60   65120  Keyboard mode storage
+                        ;Bit 0- shift
+                        ;Bit 1- control
+                        ;Bit 2- graphic
+                        ;Bit 3- kana
+                        ;Bit 4- numeric
+                        ;Bit 5- caps lock
+                        ;Bit 6- n/a
+                        ;Bit 7- break/pause
+KYHOW   FE61   65121  Mode storage of last keypress for repeat
+KYREPT  FE62   65122  Wait count for repeat
+KYWHAT  FE63   65123  Flag (FF)=no keypress; (01)=new key; (00)=rept
+KYBCNT  FE68   65128  Number of characters in KYRDBF
+KYRDBF  FE69   65129  Keyboard queue
+BRKCHR  FEA9   65193  Int keyboard leaves break character here as flag
+FNKSTS  FEAA   65194  Function key display status
+WORK    FEAB   65195  Work space for LCD driver
+WORK1   FEB1   65201  Storage for character under cursor
+CSRSTS  FEB7   65207  Cursor status
+CSRCNT  FEB8   65208  Time til next cursor blink
+LCTEY   FEB9   65209  Cursor position Y
+LCTEX   FEBA   65210  Cursor position X
+TMPRM3  FEBB   65211  Physical LCD op temporary storage
+LCDACT  FEBD   65213  Indicate writing to LCD
+CGPNTR  FEBF   65215  User definer CG data block
+DSKMOD  FEC1   65217  Flag to indicate if disk code is loaded
+DSKTMO  FEC2   65218  Disk/ram time out constants
+BOTFLG  FEC3   65219  Indicates in boot procedure
+COMBUF  FEC4   65220  Data buffer for COM:
+
+CMEND   FFC2   65474  Last character of COM buffer
+
+============================================================================= 
+
+                           * RESTART VECTORS *
+
+Name       Opcode     Description
+------     ------     -----------------------------------------------
+SYNCHK     RST 1      See if char is the next byte at TXTPNT [HL]
+CHRGET     RST 2      Get a character from SYSIN
+COMPAR     RST 3      Compare DE and HL, A is destroyed [HL]-[DE]
+OUTCHR     RST 4      Send a character to SYSOUT
+GETYPE     RST 5      Fetch VALTYP
+FSIGN      RST 6      Get sign of floating point number
+HOOK       RST 7      Hook table dispatch routine - Next byte in your
+                      program after this instruction is the offset.
+
+============================================================================= 
+
+
+                      * HARDWARE PORT DEFINITIONS *
+
+            -Port-
+Name       Hex  Dec   Notes
+--------   ---  ---   -----------------------------------------
+A8255      070  112   Video interface port A (8255)
+B8255      071  113   Video interface port B (8255)
+C8255      072  114   Video interface port C (8255)
+CW8255     073  115   Video interface command/mode port (8255)
+ROMAH      080  128   128k ROM select and MSBIT of address
+ROMAL      084  132   Lowest 8 bits of extended ROM address
+ROMAM      088  136   Middle eight bits of 128k ROM address
+ROMRD      08C  140   Read data port for 128k ROM
+IOCNT      090  144   I/O control port
+                         BIT 0-Bank #0 select
+                         BIT 1-Bank #1 select
+                         BIT 2-Bank #2 (0000-7FFF)
+                         BIT 3-Bank #2 (8000-FFFF)
+                         BIT 4-Clock strobe
+                         BIT 5-Cassette motor
+                         BIT 6&7- Serial interface multiplexor
+                          00=Not used
+                          01=SIO2 (RJ45)
+                          10=SIO1 (RJ9)
+                          11=COM port RS232C
+IOSTS      0A0  160   Return status of IOCNT port
+BNKSTT     0A0  160   Current bank number is stored here
+PRTSTB     0A1  161   Printer strobe
+BNKSEL     0A1  161   This port is used to set the current bank
+CS8155     0B8  184   8155 command/status port
+PORTA      0B9  185   Printer data
+                         KEYBOARD STROBE
+                         LCD CHIP SELECT
+                         CLOCK DATA
+PORTB      0BA  186   Bit 0&1 LCD block select
+                         BIT 2-Disable music output
+                         BIT 3-CAR detect(0)/RING detect(1)
+                         BIT 4-Disable auto power off
+                         BIT 5-Disable buzzer
+                         BIT 6-DTR ON
+                         BIT 7-RTS ON
+PORTC      0BB  187   Bit 0-clock data in
+                         BIT 1-Printer select
+                         BIT 2-Printer busy
+                         BIT 3-Bar code reader data in
+                         BIT 4-CTS IN
+                         BIT 5-DSR IN
+TIML       0BC  188   Low byte of timer
+TIMH       0BD  189   High byte of timer count
+TXRXD      0C8  200   6402 data register
+CS6402     0D8  216   RS232 command & status port
+KYRTIN     0E8  232   Read keyboard matrix port
+LCDCM      0FE  254   LCD command/status port
+LCDDT      0FF  255   LCD data port
+
+***** END *****
+
