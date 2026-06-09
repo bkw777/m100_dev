@@ -1,8 +1,10 @@
 # m100_dev
 Miscelania related to developing software for the TRS-80 Model 100 clone platform.
 
-[ROM Address Cross Reference](rom_cross_map.csv)  
-(CSV exported from the ODS file for display on github)
+[ROM Cross Reference](rom_cross_map.csv)  
+CSV exported from the ODS file for display on github, the real source is the ODS.  
+Does not include everything from the references below yet, but does correct some errors in the references below, particularly for k85.
+
 
 # Platforms
 The "platforms" directory has system rom images and reference docs for all machines.
