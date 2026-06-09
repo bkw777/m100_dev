@@ -41,7 +41,7 @@
 1131,,,,1138,,
 113B,,,,1142,LLIST,
 1140,,,,1147,LIST,
-11A2,,,,11A9,PTILL0,
+11A2,,,11A5,11A9,PTILL0,
 11AA,,,,11B1,,
 128B,,,,1294,POKE,
 12CB,,,,12D4,CHGET,wait for chr
@@ -51,16 +51,16 @@
 14EA,,,,14A0,,
 14ED,,,,14F8,POPALL,pop all & ret
 14EE,,,,14F9,POPALL2,POPALL without PUSH PSW
-14F2,,,,14FD,,DW 14F8 1503
-14F4,,,,14FF,,DW 4D59 4D0F
-14F6,,,,1501,,DW 14FA 1505
-14F8,,,,1503,,RST_7 40 4C
-14FA,,,,1505,,RST_7 44 50
-14FC,,,,1507,,DW 1506 1511
-14FE,,,,1509,,DW 158D 1598
-1500,,,,150B,,DW 15AC 15B7
-1502,,,,150D,,DW 15C4 15CF
-1504,,,,150F,,DW 161B 1626
+14F2,,,,14FD,,DW 14F8 x x x 1503
+14F4,,,,14FF,,DW 4D59 x x x 4D0F
+14F6,,,,1501,,DW 14FA x x x 1505
+14F8,,,,1503,,RST_7 40 x x x 4C
+14FA,,,,1505,,RST_7 44 x x x 50
+14FC,,,,1507,,DW 1506 x x x 1511
+14FE,,,,1509,,DW 158D x x x 1598
+1500,,,,150B,,DW 15AC x x x 15B7
+1502,,,,150D,,DW 15C4 x x x 15CF
+1504,,,,150F,,DW 161B x x x 1626
 1506,,,,1511,,open RAM file
 158D,,,,1598,,
 15AC,,,,15B7,,
@@ -68,9 +68,9 @@
 161B,,,,1626,,
 179E,,,,1792,CLOSECOM,
 17A8,,,,179C,COMOUT,output A to com/mdm file (wrapper & extra stuff around SND232)
---,,,,17A1,,K85:JNC 14F5
-17AD,,,,17A4,,JMP 14EA 14A0
-17E6,,,,17C8,SETSER,com on
+--,,,,17A1,,JNC x x x x 14F5
+17AD,,,,17A4,,JMP 14EA x x x 14A0
+17E6,,,17F0,17C8,SET232,com on
 181C,,,,17FA,,
 182D,,,,180B,,
 184E,,,,182C,,
@@ -100,22 +100,22 @@
 2017,,,,1FE8,KILBAS,delete a .BA file
 2037,,,,2008,NAME,
 20A9,,,,207A,ROM7,
-20AF,,,,2080,FINDFN,
+20AF,,,20C1,2080,FINDFN,
 20CC,,,,209D,,almost the end of FINDFN
-20E4,,,,20B5,SCNEMP,scan for an empty directory entry
+20E4,,,20C1,20B5,SCNEMP,scan for an empty directory entry
 20EC,,,,20BD,SCNEMP2,"scan for an empty directory entry, alt entry"
 20FE,,,,20CF,NEW,
 20FF,,,,20D0,NEW2,
 2134,,,,2104,,
 213E,,,,210E,UPDOFILES,update DOFILES with BC
-2146,,,,2116,RESETFPS,reset file pointers
---,,,,2119,RESETFPS2,The 100’s 2146 is really the equivalent of here
+2146,,,2157,2116,RESETFPS,reset file pointers
+--,,,215A,2119,RESETFPS2,The 100’s 2146 is really the equivalent of here
 2190,,,,2168,,
-219A,,,,2172,AFTEREOF,advance HL past end of file based on type
-21A4,,,,217C,AFTERCO,advance HL past end of CO file
+219A,,,21B3,2172,AFTEREOF,advance HL past end of file based on type
+21A4,,,21B6,217C,AFTERCO,advance HL past end of CO file
 21C2,,,,219A,AFTERBA,advance HL past end of BA file (updates line addrs first)
 21AE,,,,2186,AFTERDO,advance HL past end of DO file
-2239,,,,2211,MKDIRENT,insert entry into directory
+2239,,,2252,2211,MKDIRENT,insert entry into directory
 2280,,,,2258,CSAVE,
 2377,,,,234F,CLOAD,
 2387,,,,235F,,
@@ -158,7 +158,7 @@
 298E,,,,2967,SPACE$,
 2AB5,,,,2A8E,INR_A_RET,INR A; RET; middle of INSTR
 3450,,,,3429,,Reverse load single precision at M to DEBC
-3469,,,,3442,D2H4Bup,move the memory pointed to by DE to the memory pointed to by HL
+3469,,,3483,3442,D2H4Bup,move the memory pointed to by DE to the memory pointed to by HL
 35BA,,,,3593,DSKI$,
 35D9,,,,35B2,,
 3725,,,,36FE,MPYINT,mpy signd int
@@ -203,7 +203,7 @@
 4624,,,,45D8,,
 4626,,,,45DA,,
 463E,,,,45F2,INLIN?,INLIN with ?
-4644,,,,45F8,INLIN,get kbd line without ?
+4644,,,4639,45F8,INLIN,get kbd line without ?
 4703,,,,46BA,,
 478B,,,,4741,DIM,
 4790,,,,,VARPTR,
@@ -215,7 +215,7 @@
 4BB8,,,,,NLLCD,send crlf to lcd if not CSRY 0
 4BEA,,,,,INKEY$,Function
 4C0B,,,,4BC1,CKFN,evaluate & reformat filename
-4C0F,,,,4BC5,CKFN2,evaluate arguments to RUN/OPEN/SAVE commands
+4C0F,,,4C1E,4BC5,CKFN2,evaluate arguments to RUN/OPEN/SAVE commands
 4C21,,,,4BD7,,
 4CBF,,,,4C75,,
 4CCB,,,,4C81,OPEN,
@@ -238,7 +238,7 @@
 50F1,,,,50A0,DEVICES,
 5146,,,,50F1,TELCOM,
 5455,,,,518D,TERM,
-5797,,,,54A4,MENU,
+5797,,,57A2,54A4,MENU,
 58B6,,,,55C3,ROM1,
 58C3,,,,55D0,ROM2,
 58DB,,,,55E8,ROM3,
@@ -262,10 +262,12 @@
 5F2F,,,,5C37,WTSPC,wait space bar
 5F4B,,,,5C53,SPCMSG,'..Space Bar.'
 63CD,,,,60D5,,
+6B61,,,,,INSCHR,Insert a character into a text file
 6B2D,,,,6835,GETEOF,search for EOF (0x1A)
-6B6D,,,,6875,MAKHOL,ins spaces
-6B9F,,,,68A7,DELCHR,delete char
-6BDB,,,,68E3,,
+6B6D,,,6B72,6875,MAKHOL,insert B spaces at M
+6B9F,,,6BA4,68A7,MASDEL,delete B chars at M
+6BDB,,,,68E3,LDIRBC,"Move the memory pointed to by HL to the memory pointed to by DE for BC, ascending"
+6BE6,,,,,LDDRBC,"Move the memory pointed to by HL to the memory pointed to by DE for BC, descending"
 6CE0,,,,69E8,WARMSTART,warm start reset entry
 6D17,,,,6A1D,INITDVI,perform external DVI initialization if it is present
 6D1D,,,,6A23,,
@@ -276,17 +278,17 @@
 6D47,,,,6A4D,,IN PIO_PORT_C
 6D63,,,,6A6A,,
 6D6A,,,,6A72,,
-6D6D,,,,6A75,CHECK_RS232_PENDING,Check RS232 queue for pending characters LDA XONOFF_ENFLAG
-6D71,,,,6A79,,JZ CHECK_RS232_PENDING@end
+6D6D,,,,6A75,CHK232,Check RS232 queue for pending characters LDA XONOFF_ENFLAG
+6D71,,,,6A79,,JZ CHK232end
 6D74,,,,6A7C,,LDA XONOFF_CONTROL_1
-6D79,,,,6A81,,CHECK_RS232_PENDING@end LDA COMINCNT
-6D7E,,,,6A86,RCV232,get chr fm rcv que
+6D79,,,,6A81,,CHK232end LDA COMINCNT
+6D7E,,,6D85,6A86,RCV232,get chr fm rcv que
 6D81,,,,6A89,,load INT_EXIT2
 6D85,,,,6A8D,,load COMINCNT
 6DAC,,,,6AB4,RST_6.5,
 6DFC,,,,6B04,,Calculate address to save next RS232 character
 6E04,,,,6B0C,,load COMBUF
-6E32,,,,6B3A,SND232,snd w x-on-off
+6E32,,,6E39,6B3A,SND232,snd w x-on-off
 6E3A,,,,6B42,,send character in C to serial port
 6E4A,,,,6B52,,
 6E4D,,,,6B55,,handle xonoff
@@ -295,15 +297,15 @@
 6E69,,,,6B71,,
 6E75,,,,6B7D,SETBAUD,set RS232 baud rate from H
 6E92,,,,6B9A,,
-6E94,,,,6B9C,,DW 0x4800
-6E96,,,,6B9E,,DW 0x456B
-6E98,,,,6BA0,,DW 0x4200
-6E9A,,,,6BA2,,DW 0x4100
-6E9C,,,,6BA4,,DW 0x4080
-6E9E,,,,6BA6,,DW 0x4040
-6EA0,,,,6BA8,,DW 0x4020
-6EA2,,,,6BAA,,DW 0x4010
-6EA4,,,,6BAC,,DW 0x4008
+6E94,,,,6B9C,,DW 4800   baud rate timer values
+6E96,,,,6B9E,,DW 456B
+6E98,,,,6BA0,,DW 4200
+6E9A,,,,6BA2,,DW 4100
+6E9C,,,,6BA4,,DW 4080
+6E9E,,,,6BA6,,DW 4040
+6EA0,,,,6BA8,,DW 4020
+6EA2,,,,6BAA,,DW 4010
+6EA4,,,,6BAC,,DW 4008
 6EA6,,,,6BAE,INITCOM,init rs232 or modem
 6EAA,,,,6BB2,,
 6EAC,,,,--,,JC 6EB3
@@ -313,7 +315,7 @@
 6EB4,,,,6BB5,,CALL SETBAUD
 6EC1,,,,6BC2,,CALL ZCOMBUFPARAMS
 6EC8,,,,6BC9,,JMP INT_EXIT
-6ECB,,,,6BE4,COMOFF,
+6ECB,,,6F63,6BE4,COMOFF,
 6ED2,,,,6BEB,,STA COMINISTATUS
 6ED5,,,,6BEE,,RET
 6F31,,,,6BCC,,Enable XON/OFF when CTRL-S / CTRL-Q sent
@@ -324,7 +326,7 @@
 71F7,,,,6EA7,INT_EXIT,POPALL plus EI before RET
 71F8,,,,6EA8,INT_EXIT2,INT_EXIT without PUSH PSW
 7242,,,,6EF2,KYREAD,scn kbd
-729F,,,,6F4E,CHECK_SHIFT_BREAK,Check if SHIFT-BREAK is being pressed
+729F,,,,6F4E,BRKCHK,Check if SHIFT-BREAK is being pressed
 7383,,,,7031,,
 73C5,,,,7073,,
 73EE,,,,709C,,
@@ -332,9 +334,9 @@
 752B,,,,71D9,,Set the display top line to zero for all LCD drivers
 7533,,,,71E1,ENLCD,Enable LCD drivers after short delay
 7657,,,,7305,PAUSE_C,Delay routine - decrement C until zero
-765C,,,,730A,SETINT,set int to 0x1D - disable background task & barcode interrupts
+765C,,,769F,730A,INT1D,set int to 0x1D - disable background task & barcode interrupts
 7662,,,,7310,BEEP2,
-7676,,,,7324,,click sound port
+7676,,,,7324,CLICK,click sound port
 767D,,,,732B,TESTDVIW,
 7682,,,,7330,TESTDVIR,
 768F,,,,733D,DVIEXT,
@@ -354,6 +356,7 @@
 7BE1,,,,,GLYPH_FE,
 7BE9,,,,7867,GLYPH_FF,
 7BF1,,,,,,
+7EC6,,,,,RESHOK,Reset hooks
 7EAC,,,,7B5C,FREMEM,free bytes
 7F0B,,,,7BBB,MAX,
 7F98,,,,7C48,FREMSG,'bytes free'
@@ -361,17 +364,17 @@
 7FF9,,,,7CCC,MAXROM,
 E000,,,,E000,DVICODE,Location of init code to be copied from DVI
 F3AF,,,,F3AF,,
-F5F0,,,,F5F0,MAXRAM,
+F5F0,,,F5F0,F5F0,MAXRAM,
 F639,,,,F640,CSRY,Hor curs posit
 F63A,,,,F641,CSRX,Ver curs posit
 F650,,,,F657,,
-F652,,,,F659,ERROR,Bas error trap
+F652,,,F655,F659,ERROR,error trap
 F65B,,,,F662,STAT,Comm stat
 F678,,,,F67F,STRBUF,pointer to BASIC string buffer
 F67A,,,,F681,LINENO,"current executing BASIC line number, FFFF if no pgm"
 F67C,,,,F683,CURBAS,pointer to start of BASIC program
 F684,,,,F68B,,
-F685,,,,F68C,LINBUF,Bfr for kb lin
+F685,,,F688,F68C,KYBUF,Bfr for kb lin
 F809,,,,F810,,"file type (BA=0, DO=1, CO=2)"
 ,,,,F95E,,used in RESETFPS
 F99A,,,,F98B,UNSAVBA,Unsaved BA addr
@@ -389,8 +392,8 @@ FB6B,,,,FB7D,,
 FB8A,,,,FB9C,,
 FB8C,,,,FB9E,STRBUFPOS,position in STRBUF
 FB90,,,,FBA2,,
-FBAE,,,,FBC0,STDO,strt DO store
-FBB0,,,,FBC2,STCO,strt CO store
+FBAE,,,FBB4,FBC0,STDO,strt DO store
+FBB0,,,FBB6,FBC2,STCO,strt CO store
 FBB2,,,,FBC4,TOPFIL,end of top fil / DVI start of variable data pointer
 FBB4,,,,FBC6,STAR,strt arr store
 FBB6,,,,FBC8,STUN,1st unusd byte - unused memory pointer
@@ -400,7 +403,7 @@ FBE2,,,,FBF4,,
 FC81,,,,FC93,DVIDATRDY,dvdi data available
 FC8C,,,,FC9E,,
 FC93,,,,FCA5,FNAME,8 (9?) bytes padded fname / current BA pgm / prog name if not run from menu nor typed on select line
-FC99,,,,FCAB,,
+FC99,,,FC9F,FCAB,FX1,"unknown, possibly file size or other metadata"
 FC9C,,,,FCAE,CFNAME,filename of last program loaded from tape
 FCA2,,,,FCB4,,
 FCA7,,,,FCB9,,
@@ -408,8 +411,9 @@ FC1A,,,,FC2C,FAC1,start of FAC1 for integers
 FC92,,,,FCA4,,
 FC99,,,,FCAB,,
 FCA7,,,,FCB9,,
-FCC0,,,,FCC0,ALTLCD,start of ALT LCD buffer 0x0140 bytes
-FCE8,,,,FCE8,,ram lcd
+FCC0,,,FCC0,FCC0,ALTLCD,start of ALT LCD buffer 0x0140 bytes
+FE00,,,,,LCDMEM,start of LCD memory 0x0140 bytes
+FCE8,,,,FCE8,,
 FDA1,,,,FDA1,ALT1,BEGALT + 0x00E1
 FDD7,,,,FDD7,ALT2,BEGALT + 0x0117
 FDEE,,,,FDEE,ALT3,BEGALT + 0x012E
@@ -420,7 +424,7 @@ FF42,,,,FF42,XONOFF_ENFLAG,
 FF43,,,,FF43,COMINISTATUS,RS323 init status
 FF44,,,,FF44,SNDFLAG,
 FF45,,,,FF46,PORT_E8,Contents of port 0xE8
-FF46,,,,FFBE,COMBUF,"COM buffer 0x40 bytes (k85 addr seems sus, but ""load COMBUF"" above is clear)"
+FF46,,,FF46,FFBE,COMBUF,"COM buffer 0x40 bytes (k85 addr seems sus, but ""load COMBUF"" above is clear)"
 FF86,,,,FF47,COMINCNT,number of bytes waiting in serial buffer
 FF87,,,,FF48,COMOUTPTR,
 FF88,,,,FF49,COMINPTR,RS232 buffer input pointer
@@ -430,7 +434,7 @@ FF8D,,,,FF4E,,rs232 parity ctl byte
 FF97,,,,FF58,KC7,"8 bits for space, del, tab, esc, paste, label, print, enter"
 FF98,,,,,,8 bits for storing function key recognition
 FFA2,,,,FF63,,"8 bits for storing shift, ctrl, grph, code, num, and caps lock."
-FFAA,,,,FF6B,KBUFN,chrs in kb buf
+FFAA,,,FF6D,FF6B,KYBCNT,chrs in kb buf
 FFFA,,,,FFBB,DVIMBS,DVI mailbox select area
 FFFB,,,,FFBC,DVIPRESENT,
 FFFC,,,,FFBD,,DVI Disk BASIC code initializer value
