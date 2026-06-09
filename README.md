@@ -2,7 +2,7 @@
 Miscelania related to developing software for the TRS-80 Model 100 clone platform.
 
 [ROM Address Cross Reference](rom_cross_map.csv)  
-(exported from the .ods file for display on github)
+(CSV exported from the ODS file for display on github)
 
 The "platforms" directory has the system rom images for all machine for reference.
 
