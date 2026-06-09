@@ -54,6 +54,11 @@
 12CB,,,,12D0,12D4,12D4,CHGET,wait for chr
 13DB,,,,13E0,13E4,,CHSNS,
 1419,,,,,,1422,POWER,
+1470,,,,1480,1484,,PNOTAB,
+14A8,,,,14B0,14B4,,CTON,
+14AA,,,,14B2,14B6,,CTOFF,
+14B0,,,,14B8,14BC,,CASIN,
+14C1,,,,14C9,14CD,,CSOUT,
 14E5,,,,,,14F0,LCDOUT,
 14E7,,,,,,14F2,,
 14EA,,,,,,14A0,,
@@ -78,10 +83,13 @@
 17A8,,,,,,179C,COMOUT,output A to com/mdm file (wrapper & extra stuff around SND232)
 --,,,,,,17A1,,JNC x x x x 14F5
 17AD,,,,,,17A4,,JMP 14EA x x x 14A0
-17E6,,,,17F0,,17C8,SET232,com on
+17E6,,,,17F0,17C8,17C8,SET232,com on
 181C,,,,,,17FA,,
 182D,,,,,,180B,,
 184E,,,,,,182C,,
+190F,,,,1919,18D7,,TIME,
+192F,,,,1939,18F7,,DATE,
+1962,,,,196C,192C,,DAY,
 19AB,,,,,,1975,TIME$,
 19BD,,,,,,1987,DATE$,
 19F1,,,,,,19BD,DAY$,
@@ -98,12 +106,12 @@
 1DEC,,,,,,1DB5,MOTOR,
 1DFA,,,,,,1DC3,CALL,
 1E22,,,,,,1DEB,SCREEN,
-1E5E,,,,,,1E29,LCOPY,
+1E5E,,,,1E6A,1E29,1E29,LCOPY,
 1E7B,,,,,,1E46,RUN5,
 ,,,,,,1F05,,
 1F3A,,,,,,1F07,FILES,
 1F91,,,,,,1F63,KILL,
-1FBF,,,,,,1F90,KILASC,delete a .DO file
+1FBF,,,,1FD1,,1F90,KILASC,delete a .DO file
 1FD9,,,,,,1FAA,KILCOM,delete a .CO file
 2017,,,,,,1FE8,KILBAS,delete a .BA file
 2037,,,,,,2008,NAME,
@@ -123,6 +131,7 @@
 21A4,,,,21B6,,217C,AFTERCO,advance HL past end of CO file
 21C2,,,,,,219A,AFTERBA,advance HL past end of BA file (updates line addrs first)
 21AE,,,,,,2186,AFTERDO,advance HL past end of DO file
+220F,,,,2228,21E7,,MAKTXT,
 2239,,,,2252,,2211,MKDIRENT,insert entry into directory
 2280,,,,,,2258,CSAVE,
 2377,,,,,,234F,CLOAD,
@@ -182,10 +191,15 @@
 40F9,,,,,,40D5,CLEAR,
 4174,,,,,,4150,NEXT,
 421A,,,,,,41F6,,
-4222,,,,,,41FE,CRLF,prt crlf
+4222,,,,423F,41FE,41FE,CRLF,prt crlf
 4229,,,,,,4205,BEEP,
-4231,,,,,,420D,CLS,clear screen
-423F,,,,,,421B,LOCK,scroll lock
+422D,,,,424A,4209,,HOME,
+4231,,,,424E,420D,420D,CLS,clear screen
+4235,,,,4252,4211,,SETSYS,
+423A,,,,4257,4216,,RSTSYS,
+423F,,,,425C,421B,421B,LOCK,scroll lock
+4244,,,,4261,4220,,UNLOCK,
+4249,,,,4266,4225,,CURSON,
 425D,,,,,,4239,ERAEOL,erase to eol
 427C,,,,,,4258,SETCUR,set curs posit
 431F,,,,,,42F9,,
