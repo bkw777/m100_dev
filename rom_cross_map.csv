@@ -108,10 +108,9 @@
 1E22,,,,,,1DEB,SCREEN,
 1E5E,,,,1E6A,1E29,1E29,LCOPY,
 1E7B,,,,,,1E46,RUN5,
-,,,,,,1F05,,
 1F3A,,,,,,1F07,FILES,
 1F91,,,,,,1F63,KILL,
-1FBE,,,,1FD0,,1F8F,,"DO NOT USE – Some old docs call this KILASC but this nops the initial PUSH H, while there is still a POP H at the end."
+1FBE,,,,1FD0,,1F8F,,"This addr only listed to call out DO NOT USE – Some old docs call this KILASC but this nops the initial PUSH H, while there is still a POP H at the end."
 1FBF,,,,1FD1,,1F90,KILASC,delete a .DO file
 1FD9,,,,,,1FAA,KILCOM,delete a .CO file
 2017,,,,,,1FE8,KILBAS,delete a .BA file
@@ -427,29 +426,30 @@
 E000,,,,,,E000,DVICODE,Location of init code to be copied from DVI
 F3AF,,,,,,F3AF,,
 F5F0,,EEB0,,F5F0,,F5F0,MAXRAM,MAXRAM itself
-F5F4,,,F384,F5F4,,,ptrHIMEM,pointer to HIMEM
-F5F9,,,F389,,,,INTRPT,"RST 5.5 hook, normally barcode reader"
-F5FC,,,F38C,,,,R65HOK,"RST 6.5 hook, normally UART"
+F5F4,,EEB4,F384,F5F4,,,ptrHIMEM,pointer to HIMEM
+F5F9,,EEB9,F389,,,,INTRPT,"RST 5.5 hook, normally barcode reader"
+F5FC,,EEBF,F38C,,,,R65HOK,"RST 6.5 hook, normally UART"
 F5FF,,EEC2,F38F,,,,R75HOK,"RST 7.5 hook, normally from timer"
 F624,,,F3B9,,,,BRUN,This executes second ROM
 F625,,,F3BA,,,,BRUN2,This executes second ROM
 F62A,,,F3BF,,,,ROMFLG,option rom flag
-F62B,,EEF4,,,,,CALPPS,
+F62B,,EEF4,,,,,CALPPS,"dialing method 0=tone,1,14"
+--,,EEF5,,,,,,Active bank (stored in bank 1)
 F62C,,EEF8,,,,,FNKMAC,
 F639,,EF06,F3E5,F63C,F640,F640,CSRY,Hor curs posit
 F63A,,EF07,F3E6,F63D,F641,F641,CSRX,Ver curs posit
-F63B,,,F3E7,F63E,,,LINES,console height          (verify if M10 are typo / swapped)
-F63C,,,F3E8,F63D,,,COLS,console width
+F63B,,EF08,F3E7,F63E,,,LINES,console height          (verify if M10 are typo / swapped)
+F63C,,EF09,F3E8,F63D,,,COLS,console width
 F63D,,EF0A,,F640,,,LBLFLG,"Label line flag. 0 = unused, 1 = used"
 F63E,,EF0B,F3EA,,,,SCLFLG,Scroll lock flag. 0 = screen scrolls
-F640,,,F3EC,,,,LCDCSY,lcd cursor row position
-F641,,,F3ED,,,,LCDCSX,lcd cursor column position
+F640,,EF0D,F3EC,,,,LCDCSY,lcd cursor row position
+F641,,EF0E,F3ED,,,,LCDCSX,lcd cursor column position
 F646,,,F3F2,,,,ESCCNT,ESC mode flag (0=normal / >0=escape sequence)
 F648,,,F3F4,F64B,,,REVFLG,Reverse video flag.  0 = Normal / FF = reverse
 F64E,,,F3FA,,,,PRVCOO,X coordinate of last graphic point plotted
 F64F,,,F3FB,,,,PRVCO2,Y coordinate of last graphic point plotted
 F650,,EF32,F3FC,,,F657,FNKMOD,Function key mode. BIT 7=in TEXT. BIT 6=in TELCOM
-F652,,,,F655,,F659,ERRTRP,error trap
+F652,,EF34,,F655,,F659,ERRTRP,error trap
 F656,,EF37,,,,,,
 F658,,EF39,F403,,,,FDUPLEX,"full/half duplex, FF=full 00=half"
 F65A,,EF3B,F405,F65D,,,LFFLAG,"Linefeed switch. 0 = CR, >0 = CRLF"
@@ -480,15 +480,15 @@ F925,,,F834,,,,TIMMN1,TIMBUF+2: Minutes (ones)
 F926,,,F835,,,,TIMMN2,TIMBUF+3: Minutes (tens)
 F927,,,F836,,,,TIMHR1,TIMBUF+4: Hours (ones)
 F928,,,F837,,,,TIMHR2,TIMBUF+5: Hours (tens)
-F929,,,F838,,,,TIMDT1,TIMBUF+6: Day (ones)
-F92A,,,F839,,,,TIMDT2,TIMBUF+7: Day (tens)
-F92B,,,F83A,,,,TIMDAY,TIMBUF+8: Day of week code (0=Sun / 1=Mon / etc..) **Not implemented?**
-F92C,,,F83B,,,,TIMMON,TIMBUF+9: Current month
-F92D,,,F83C,,,,TIMYR1,TIMBUF+10: Year (ones)
-F92E,,,F83D,,,,TIMYR2,TIMBUF+11: Year (tens)
+F929,,F219,F838,,,,TIMDM1,TIMBUF+6: Day (ones)
+F92A,,F21A,F839,,,,TIMDM2,TIMBUF+7: Day (tens)
+F92B,,F21B,F83A,,,,TIMMO1,TIMBUF+8: Month ones
+F92C,,F21C,F83B,,,,TIMMO2,TIMBUF+9: Month (tens)
+F92D,,F21D,F83C,,,,TIMYR1,TIMBUF+10: Year (ones)
+F92E,,F21E,F83D,,,,TIMYR2,TIMBUF+11: Year (tens)
 F92F,,F21F,F83E,,,,TIMCNT,Counter (M200: 150 to 1 M100: 125 to 1)
-F930,,,F83F,,,,TIMCN2,Counter (12 to 1)
-F931,,,F840,,,,TIMINT,Power-down countdown value
+F930,,F220,F83F,,,,TIMCN2,Counter (12 to 1)
+F931,,F221,F840,,,,TIMINT,Power-down countdown value
 F932,,F222,,,,,,
 F962,,,,F965,F969,,DIRTBL,Start of directory table
 F99A,,F295,F870,,,F98B,UNSAVBA,Unsaved BA addr
@@ -497,7 +497,7 @@ F9AF,,F2AA,,,,F9A0,EDITBA,edit attr byte
 FA8F,,,,,,FA96,,
 FAAD,,EF0A,,,,FAB4,LBLON,lbl lin enable
 FABA,,,F9AC,,,,LSTLIN,addr of last BASIC line listed
-FABE,,,F9AE,,,,STAKSV,save area for stack pointer during power off
+FABE,,F4EC,F9AE,,,,STAKSV,save area for stack pointer during power off
 FAC0,,F4EE,F9B0,,,,LOMEM,Lowest RAM address in system (8000 for 32K system)
 FAC2,,F4F0,,,,,CAPTUR,
 FAC3,,F4F1,,,,,,
@@ -585,15 +585,15 @@ FC99,,F74C,,FC9F,,FCAB,FX1,"unknown, possibly file size or other metadata"
 FC9C,,,,FCA2,,FCAE,FILNM2,"2nd filename, filename of last program loaded from tape, used by NAMEB"
 FCA2,,,,,,FCB4,,
 FCA7,,F75A,,,,FCB9,,
-FCC0,,F7B0,FBC0,FCC0,,FCC0,ALTLCD,start of ALT LCD buffer 0x0140 bytes except T200
+FCC0,,F7B0,FBC0,FCC0,,FCC0,ALTLCD,start of ALT LCD buffer 320 bytes bytes except T200 640
 FDFF,,FA2F,FCFF,,,,endALTLCD,end of ALTLCD
-FE00,,FA30,FD00,FE00,FE00,,LCDMEM,start of LCD memory 0x0140 bytes bytes except T200
+FE00,,FA30,FD00,FE00,FE00,,LCDMEM,start of LCD memory 320 bytes bytes except T200 640
 FF3F,,FCAF,FE3F,,,,endLCDMEM,end of LCD memory
 FF40,,FCF2,FE40,,,FF40,XONOFF,Flag 00 = XOFF not received
 FF41,,,FE41,,,FF41,XONOFF2,Flag freeze display
 FF42,,,,,,FF42,XONOFF_ENFLAG,Flag 00 = XONOFF disabled
 FF43,,,,,,FF43,COMINISTATUS,RS323 init status
-FF44,,,,FF44,,FF44,SNDFLAG,Sound flag
+FF44,,FCF4,,FF44,,FF44,SNDFLAG,Sound flag
 FF45,,,,,,FF46,PORT_E8,Contents of port 0xE8
 FF46,,,FEC4,FF46,,FFBE,COMBUF,COM buffer 0x40 bytes
 FF86,,,FE45,,,FF47,COMINCNT,number of bytes waiting in serial buffer
