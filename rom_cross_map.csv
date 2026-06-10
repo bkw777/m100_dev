@@ -10,7 +10,7 @@
 03FB,,,,,,0402,STR_Break,"'Break',00"
 045D,,,,,,0464,,generate error in E
 0511,,,,,,0518,,
-05F0,,,,,,05F7,UBLNAS,update line number addresses for the current BASIC program
+05F0,,061B,,,,05F7,UBLNAS,update line number addresses for the current BASIC program
 05F3,,,,,,05FA,,
 0726,,,,,,072D,FOR,
 0804,,,,,,080B,,
@@ -41,17 +41,17 @@
 0DB7,,,,,,0DBE,,
 0F1C,,,,,,0F23,,evaluate function at M
 0FE8,,,,,,0FEF,TOUPPERM,"read M to A, upcase A"
-0FE9,,,,,,0FF0,TOUPPER,upcase A
+0FE9,,1014,,,,0FF0,TOUPPER,upcase A
 10D1,,,,,,10D8,,
 110C,,,,,,1113,OUT,
 112E,,,,,,1135,,
 1131,,,,,,1138,,
 113B,,,,,,1142,LLIST,
 1140,,,,,,1147,LIST,
-11A2,,,,11A5,,11A9,PTILL0,Print NUL terminated  string  to current display device
+11A2,,11CC,,11A5,,11A9,PTILL0,Print NUL terminated  string  to current display device
 11AA,,,,,,11B1,,
 128B,,,,,,1294,POKE,
-12CB,,,,12D0,12D4,12D4,CHGET,wait for chr
+12CB,,12F7,,12D0,12D4,12D4,CHGET,wait for chr
 13DB,,,,13E0,13E4,,CHSNS,
 1419,,,,,,1422,POWER,
 1470,,,,1480,1484,,PNOTAB,
@@ -62,8 +62,8 @@
 14E5,,,,,,14F0,LCDOUT,
 14E7,,,,,,14F2,,
 14EA,,,,,,14A0,,
-14ED,,,,,,14F8,POPALL,pop all & ret
-14EE,,,,,,14F9,POPALL2,POPALL without PUSH PSW
+14ED,,1604,,,,14F8,POPALL,pop all & ret
+14EE,,,,,,14F9,POPALL2,POPALL without POP PSW
 14F2,,,,,,14FD,,DW 14F8 x x x 1503
 14F4,,,,,,14FF,,DW 4D59 x x x 4D0F
 14F6,,,,,,1501,,DW 14FA x x x 1505
@@ -108,23 +108,23 @@
 1E22,,,,,,1DEB,SCREEN,
 1E5E,,,,1E6A,1E29,1E29,LCOPY,
 1E7B,,,,,,1E46,RUN5,
-1F3A,,,,,,1F07,FILES,
+1F3A,,2A2A,,,,1F07,FILES,
 1F91,,,,,,1F63,KILL,
 1FBE,,,,1FD0,,1F8F,,"This addr only listed to call out DO NOT USE – Some old docs call this KILASC but this nops the initial PUSH H, while there is still a POP H at the end."
-1FBF,,,,1FD1,,1F90,KILASC,delete a .DO file
-1FD9,,,,,,1FAA,KILCOM,delete a .CO file
-2017,,,,,,1FE8,KILBAS,delete a .BA file
+1FBF,,2AB5,,1FD1,,1F90,KILASC,delete a .DO file
+1FD9,,2ACE,,,,1FAA,KILCOM,delete a .CO file
+2017,,2B0C,,,,1FE8,KILBAS,delete a .BA file
 2037,,,,,,2008,NAME,
 20A9,,,,,,207A,ROM7,
-20AF,,,,20C1,,2080,FINDFN,
-20CC,,,,,,209D,,almost the end of FINDFN
+20AF,,2BCC,,20C1,,2080,FINDFN,
+20CC,,2BE9,,,,209D,,almost the end of FINDFN
 20E4,,,,20C1,,20B5,SCNEMP,scan for an empty directory entry
-20EC,,,,,,20BD,SCNEMP2,"scan for an empty directory entry, alt entry"
+20EC,,2C09,,,,20BD,SCNEMP2,"scan for an empty directory entry, alt entry"
 20FE,,,,,,20CF,NEW,
 20FF,,,,,,20D0,NEW2,
 2134,,,,,,2104,,
-213E,,,,,,210E,UPDOFILES,update DOFILES with BC
-2146,,,,2157,,2116,RESETFPS,reset file pointers
+213E,,2C5A,,,,210E,UPDOFILES,update DOFILES with BC
+2146,,2C62,,2157,,2116,RESETFPS,reset file pointers
 --,,,,215A,,2119,RESETFPS2,The 100’s 2146 is really the equivalent of here
 2190,,,,,,2168,,
 219A,,,,21B3,,2172,AFTEREOF,advance HL past end of file based on type
@@ -133,7 +133,7 @@
 21C2,,,,,,219A,AFTERBA,advance HL past end of BA file (updates line addrs first)
 21FA,,,,2213,,,LENSTR,"Count number of characters in NUL terminated string, max 255"
 220F,,,,2228,21E7,,MAKTXT,Create a text (.DO) file
-2239,,,,2252,,2211,MKDIRENT,insert entry into directory
+2239,,2DAC,,2252,,2211,MKDIRENT,insert entry into directory
 2280,,,,,,2258,CSAVE,
 2377,,,,,,234F,CLOAD,
 2387,,,,,,235F,,
@@ -174,15 +174,15 @@
 298A,,,,,,2963,,
 2993,,,,,,296C,,
 298E,,,,,,2967,SPACE$,
-2AB5,,,,,,2A8E,INR_A_RET,INR A; RET; middle of INSTR
+2AB5,,2459,,,,2A8E,INR_A_RET,INR A; RET; middle of INSTR
 3450,,,,,,3429,,Reverse load single precision at M to DEBC
-3469,,,,3483,,3442,D2H4Bup,"move the memory pointed to by DE to the memory pointed to by HL, lo to hi"
+3469,,41BA,,3483,,3442,D2H4Bup,"move the memory pointed to by DE to the memory pointed to by HL, lo to hi"
 3472,,,,348C,,,D2H4Bdn,"move the memory pointed to by DE to the memory pointed to by HL, hi to lo"
 34C2,,,,34DC,,,SCOMP,signed int compare
 35BA,,,,,,3593,DSKI$,
 35D9,,,,,,35B2,,
 3725,,,,,,36FE,MPYINT,mpy signd int
-39D4,,,,39EE,,39AD,PRTINT,prt 16 bit int
+39D4,,470B,,39EE,,39AD,PRTINT,prt 16 bit int
 39E8,,,,,,39C1,FAC1ASCII,
 3EF3,,,,,,3ECF,,
 3F28,,,,,,3F04,,
@@ -197,7 +197,7 @@
 4174,,,,,,4150,NEXT,
 421A,,,,,,41F6,,
 4222,,,,423F,41FE,41FE,CRLF,prt crlf
-4229,,,,,,4205,BEEP,
+4229,,4F45,,,,4205,BEEP,
 422D,,,,424A,4209,,HOME,
 4231,,,,424E,420D,420D,CLS,clear screen
 4235,,,,4252,4211,,SETSYS,
@@ -220,7 +220,7 @@
 433B,,,,,,4310,,
 43A2,,,,,,4382,,
 4469,,,,,,4449,ESC+A,
-446E,,,,,,444E,ESC+B,
+446E,,519D,,,,444E,ESC+B,
 4512,,,,,,44DC,,
 4566,,,,,,4523,,
 4586,,,,,,4543,,
@@ -239,7 +239,7 @@
 4624,,,,,,45D8,,
 4626,,,,,,45DA,,
 463E,,,,4633,,45F2,INLIN?,INLIN with ?
-4644,,,,4639,45F8,45F8,INLIN,get kbd line without ?
+4644,,54F6,,4639,45F8,45F8,INLIN,get kbd line without ?
 4703,,,,,,46BA,,
 478B,,,,,,4741,DIM,
 4790,,,,,,,VARPTR,
@@ -250,7 +250,7 @@
 4BAB,,,,,,,CHRLCD,print A to LCD
 4BB8,,,,,,,NLLCD,send crlf to lcd if not CSRY 0
 4BEA,,,,,,,INKEY$,Function
-4C0B,,,,,,4BC1,CKFN,evaluate & reformat filename
+4C0B,,5ACA,,,,4BC1,CKFN,evaluate & reformat filename
 4C0F,,,,4C1E,,4BC5,CKFN2,evaluate arguments to RUN/OPEN/SAVE commands
 4C21,,,,,,4BD7,,
 4CBF,,,,,,4C75,,
@@ -279,7 +279,7 @@
 52D0,,,,52D8,n/a,,CONN,connect phone line
 532D,,,,5332,n/a,,DIAL,dial phone number
 5455,,,,,,518D,TERM,
-5797,,,,57A2,54BC,54A4,MENU,
+5797,,67A4,,57A2,54BC,54A4,MENU,
 58B6,,,,,,55C3,ROM1,
 58C3,,,,,,55D0,ROM2,
 58DB,,,,,,55E8,ROM3,
@@ -290,7 +290,7 @@
 59E5,,,,,,56F2,ROM14,
 5A58,,,,5A60,,5763,PRTSTR,Duplicate copy of PTILL0
 5A62,,,,,,576D,MOV1,DE --> HL
-5A6D,,,,,,5778,CMPARE,compare the buffer pointed to by DE to the buffer pointed to by HL
+5A6D,,6E11,,,,5778,CMPARE,compare the buffer pointed to by DE to the buffer pointed to by HL
 5A79,,,,5A81,579C,5784,CLRFNK,Clear  function  key  definitions
 5A7C,,,,5A84,579F,,STFNK,Set function key definitions
 5A9E,,,,5AA6,57C1,,FNKSB,Display function key table
@@ -309,9 +309,9 @@
 5F4B,,,,,,5C53,SPCMSG,'..Space Bar.'
 63CD,,,,,,60D5,,
 6B2A,,,,6B2F,,6832,EOFCE,Find end of .DO file being edited
-6B2D,,,,,,6835,EOFHL,search for EOF (0x1A) @ HL
+6B2D,,8268,,,,6835,EOFHL,search for EOF (0x1A) @ HL
 6B61,,,,6B66,6881,,INSCHR,Insert a character into a text file
-6B6D,,,,6B72,688D,6875,MAKHOL,insert B spaces at M
+6B6D,,82A8,,6B72,688D,6875,MAKHOL,insert B spaces at M
 6B9F,,,,6BA4,68BF,68A7,MASDEL,delete B chars at M
 6BDB,,,,6BE0,,68E3,LDIRBC,"Move the memory pointed to by HL to the memory pointed to by DE for BC, ascending"
 6BE6,,,,6BEB,,,LDDRBC,"Move the memory pointed to by HL to the memory pointed to by DE for BC, descending"
@@ -379,8 +379,8 @@
 6F85,,,,6FAD,6C6F,,RCASHDR,read cassette header
 702A,,,,7052,6D14,,RCASDAT,"read cassette data, no checksum"
 71F7,,,,,,6EA7,INT_EXIT,POPALL plus EI before RET
-71F8,,,,,,6EA8,INT_EXIT2,INT_EXIT without PUSH PSW
-7242,,,,7275,6F2E,6EF2,KYREAD,scn kbd
+71F8,,,,,,6EA8,INT_EXIT2,INT_EXIT without POP PSW
+7242,,8B03,,7275,6F2E,6EF2,KYREAD,scn kbd
 7270,,,,72A7,6F60,,KEYX,Check  keyboard  queue  for  characters  or break
 7283,,,,72BA,6F73,,CTLCHK,check for ctrl-c or ctrl-s
 729F,,,,,,6F4E,BRKCHK,Check if SHIFT-BREAK is being pressed
@@ -583,7 +583,7 @@ FC92,,,F745,,,FCA4,,
 FC93,,F746,FB78,FC99,FCA5,FCA5,FILNM1,"9 bytes padded fname for search/open, current BA pgm, prog name"
 FC99,,F74C,,FC9F,,FCAB,FX1,"unknown, possibly file size or other metadata"
 FC9C,,,,FCA2,,FCAE,FILNM2,"2nd filename, filename of last program loaded from tape, used by NAMEB"
-FCA2,,,,,,FCB4,,
+FCA2,,F755,,,,FCB4,,
 FCA7,,F75A,,,,FCB9,,
 FCC0,,F7B0,FBC0,FCC0,,FCC0,ALTLCD,start of ALT LCD buffer 320 bytes bytes except T200 640
 FDFF,,FA2F,FCFF,,,,endALTLCD,end of ALTLCD
@@ -605,7 +605,7 @@ FF8B,,,FE4A,,,FF4C,BAUDRT,Baud rate table entry address
 FF8D,,,,,,FF4E,,rs232 parity ctl byte
 FF8F,,FD03,FE4D,,,,KYSCNX,Flag to determine if key scan should be done
 FF91,,,FE4F,,,,KYDATA,Keyboard matrix read
-FF97,,,,,,FF58,KC7,"8 bits for space, del, tab, esc, paste, label, print, enter"
+FF97,,FD08,,,,FF58,KC7,"8 bits for space, del, tab, esc, paste, label, print, enter"
 FF98,,,,,,,,8 bits for storing function key recognition
 FF99,,FD0D,FE60,,,,KYMODE,Keyboard mode storage (brk/caps/num/cod/gph/ctl/sft)
 FFA2,,FD16,,,,FF63,KEYGPC,"8 bits for storing shift, ctrl, grph, code, num, and caps lock."
