@@ -422,7 +422,7 @@
 7EAC,,,,,,7B5C,FREMEM,free bytes
 7F0B,,,,,,7BBB,MAX,
 7F98,,,,,,7C48,FREMSG,'bytes free'
-7FD6,,,,,,7FD6,,RST 7 (0x0038) RAM vector driver routine
+7FD6,,,,7F1D,,7C86,RST7VD,RST 7 (0x0038) RAM vector driver routine
 7FF9,,,,,,7CCC,MAXROM,
 E000,,,,,,E000,DVICODE,Location of init code to be copied from DVI
 F3AF,,,,,,F3AF,,
@@ -438,88 +438,189 @@ F62B,,EEF4,,,,,CALPPS,
 F62C,,EEF8,,,,,FNKMAC,
 F639,,EF06,F3E5,F63C,F640,F640,CSRY,Hor curs posit
 F63A,,EF07,F3E6,F63D,F641,F641,CSRX,Ver curs posit
-F63B,,,F3E7,F63E,,,LINES,Number of active display lines          (verify if M10 are typo/ swapped)
-F63C,,,,F63D,,,COLS,Number of active display columns   
-F63D,,,,F640,,,LBLFLG,"Label line flag. 0 = unused, 1 = used"
-F648,,,,F64B,,,REVFLG,Reverse video flag.  0 = Normal
-F650,,,,,,F657,,
-F652,,,,F655,,F659,ERROR,error trap
-F65A,,,,F65D,,,LFFLAG,"Linefeed switch. 0 = LF, Non-Zero = LF"
-F65B,,,,F65E,F662,F662,STATBF,"Current STAT image, eg M7E1D"
-F674,,,,F677,,,PRTPOS,Line Printer head position
-F675,,,,F678,,,LCDFLG,"LCD flag.  0 = Screen, 1 = Printer"
+F63B,,,F3E7,F63E,,,LINES,console height          (verify if M10 are typo / swapped)
+F63C,,,F3E8,F63D,,,COLS,console width
+F63D,,EF0A,,F640,,,LBLFLG,"Label line flag. 0 = unused, 1 = used"
+F63E,,EF0B,F3EA,,,,SCLFLG,Scroll lock flag. 0 = screen scrolls
+F640,,,F3EC,,,,LCDCSY,lcd cursor row position
+F641,,,F3ED,,,,LCDCSX,lcd cursor column position
+F646,,,F3F2,,,,ESCCNT,ESC mode flag (0=normal / >0=escape sequence)
+F648,,,F3F4,F64B,,,REVFLG,Reverse video flag.  0 = Normal / FF = reverse
+F64E,,,F3FA,,,,PRVCOO,X coordinate of last graphic point plotted
+F64F,,,F3FB,,,,PRVCO2,Y coordinate of last graphic point plotted
+F650,,EF32,F3FC,,,F657,FNKMOD,Function key mode. BIT 7=in TEXT. BIT 6=in TELCOM
+F652,,,,F655,,F659,ERRTRP,error trap
+F656,,EF37,,,,,,
+F658,,EF39,F403,,,,FDUPLEX,"full/half duplex, FF=full 00=half"
+F65A,,EF3B,F405,F65D,,,LFFLAG,"Linefeed switch. 0 = CR, >0 = CRLF"
+F65B,,EF3C,F406,F65E,F662,F662,STATBF,"Current STAT image, eg M7E1D"
+F660,,,F40C,,,,TMPHOK,temporary hook
+F661,,,F40D,,,,THADR1,temp hook addr 1
+F663,,,F40F,,,,THADR2,temp hook addr 2
+F665,,,F411,,,,THADR3,temp hook addr 3
+F672,,,F453,,,,ERRFLG,error code of last error
+F674,,,F455,F677,,,LPTPOS,Line Printer head position
+F675,,,F456,F678,,,LCDLPT,"LCD/LPT flag.  0 = Screen, 1 = Printer"
 F678,,,,,,F67F,STRBUF,pointer to BASIC string buffer
-F67A,,,,,,F681,LINENO,"current executing BASIC line number, FFFF if no pgm"
-F67C,,,,,,F683,CURBAS,pointer to start of BASIC program
+F67A,,EF65,F45B,,,F681,LINENO,"current executing BASIC line number, FFFF if no pgm"
+F67B,,EF66,,,,,,
+F67C,,EF67,F45D,,,F683,CURBAS,pointer to start of BASIC program
+F681,,EF6C,,,,,INPBFR,
 F684,,,,,,F68B,,
-F685,,,,F688,,F68C,KYBUF,256 byte keyboard input buffer
+F685,,EF70,F462,F688,,F68C,KYBUF,256 byte keyboard input buffer
 F767,,,,F76A,,F76E,EDITFA,addr of .DO file being edited
-F788,,,,F78B,,,CURLOC,Current horizontal location of cursor
+F788,,,F6A4,F78B,,,CURLOC,Current horizontal location of cursor
+F789,,F074,F6A5,,,,FNKSTR,Function key definition area
+F7D9,,F0C4,,,,,,
 F809,,,,,,F810,,"file type (BA=0, DO=1, CO=2)"
-,,,,,,F95E,,used in RESETFPS
+F80A,,,F7E6,,,,BASFNK,BASIC’s function keys
+F923,,,F832,,,,TIMSC1,TIMBUF: Seconds (ones)
+F924,,,F833,,,,TIMSC2,TIMBUF+1: Seconds (tens)
+F925,,,F834,,,,TIMMN1,TIMBUF+2: Minutes (ones)
+F926,,,F835,,,,TIMMN2,TIMBUF+3: Minutes (tens)
+F927,,,F836,,,,TIMHR1,TIMBUF+4: Hours (ones)
+F928,,,F837,,,,TIMHR2,TIMBUF+5: Hours (tens)
+F929,,,F838,,,,TIMDT1,TIMBUF+6: Day (ones)
+F92A,,,F839,,,,TIMDT2,TIMBUF+7: Day (tens)
+F92B,,,F83A,,,,TIMDAY,TIMBUF+8: Day of week code (0=Sun / 1=Mon / etc..) **Not implemented?**
+F92C,,,F83B,,,,TIMMON,TIMBUF+9: Current month
+F92D,,,F83C,,,,TIMYR1,TIMBUF+10: Year (ones)
+F92E,,,F83D,,,,TIMYR2,TIMBUF+11: Year (tens)
+F92F,,F21F,F83E,,,,TIMCNT,Counter (M200: 150 to 1 M100: 125 to 1)
+F930,,,F83F,,,,TIMCN2,Counter (12 to 1)
+F931,,,F840,,,,TIMINT,Power-down countdown value
+F932,,F222,,,,,,
 F962,,,,F965,F969,,DIRTBL,Start of directory table
-F99A,,,,,,F98B,UNSAVBA,Unsaved BA addr
-F9AF,,,,,,F9A0,EDITBA,edit attr byte
+F99A,,F295,F870,,,F98B,UNSAVBA,Unsaved BA addr
+F9A5,,,F87B,,,,SCRDIR,Start of paste buffer
+F9AF,,F2AA,,,,F9A0,EDITBA,edit attr byte
 FA8F,,,,,,FA96,,
-FAAD,,,,,,FAB4,LBLON,lbl lin enable
-FAC9,,,,,,FAC9,,Offset of last RST 7 call
-FACE,,,,,,FAD4,,
-FAD8,,,,,,FADE,,
-FADA,,,,,,FADA,,Start of RST 7 vector table
-FB35,,,,,,FB47,,
+FAAD,,EF0A,,,,FAB4,LBLON,lbl lin enable
+FABA,,,F9AC,,,,LSTLIN,addr of last BASIC line listed
+FABE,,,F9AE,,,,STAKSV,save area for stack pointer during power off
+FAC0,,F4EE,F9B0,,,,LOMEM,Lowest RAM address in system (8000 for 32K system)
+FAC2,,F4F0,,,,,CAPTUR,
+FAC3,,F4F1,,,,,,
+FAC6,,F4F4,,,,,,
+FAC9,,,F9BC,FACC,,FAD0,HOFFSET,Offset of last RST 7 call / offset for hook dispatch
+FACE,,F4FB,,,,FAD4,CASTOP,TOP last cassette CO
+FAD0,,F4FD,F9C2,,,,CASLEN,LEN last cassette CO
+FAD2,,F4FF,,,,,CASEXE,EXE last cassette CO
+FAD8,,F505,,,,FADE,,
+FADA,,F507,F9CC,FADC,,FAE0,H.CLEAR,CLEAR hook / HOOKTABL Start of RST 7 vector table
+FADC,,F509,F9CE,,,,H.MAXRAM,MAXRAM hook
+FADE,,,F9D0,,,,H.CHGET1 ,CHGET hook
+FAE0,,,F9D2,,,,H.CHSNS ,CHSNS hook
+FAE2,,,F9D4,,,,H.CHPUT ,LCD hook
+FAF0,,F51F,F9E4,,,,H.SAVE ,SAVE hook
+FAF4,,F523,F9E8,,,,H.MERGE ,LOAD/MERGE hook
+FAF6,,,F9EA,,,,H.NULOPN ,OPEN hook
+FAFC,,,F9F0,,,,H.BINSAV ,SAVE(NM ERROR) hook
+FAFE,,,F9F2,,,,H.BINLOD ,LOAD(NM ERROR) hook
+FB00,,F52F,F9F4,,,,H.EOF ,EOF hook
+FB08,,F537,,,,,,
+FB0A,,F539,,,,,,
+FB10,,,FA26,,,,H.UPLD ,TELCOM(TERM UP) hook
+FB12,,,FA28,,,,H.TEXT ,TEXT hook
+FB14,,,FA2A,,,,H.WIDTHS ,WIDTH hook
+FB18,,,FA2C,,,,H.SCREEN ,SCREEN hook
+FB1A,,,FA2E,,,,H.TVOPN ,CRT open hook
+FB1E,,,FA32,,,,H.TVOUT,CRT put hook
+FB20,,,FA38,,,,H.WAOPN ,WAND open hook
+FB22,,,FA3A,,,,H.WACLS ,WAND close hook
+FB24,,,FA3C,,,,H.WAINP ,WAND get hook
+FB26,,,FA3E,,,,H.WABCK ,WAND other hook
+FB28,,,FA40,,,,H.LOF ,LOF hook
+FB2A,,,FA42,,,,H.LOC ,LOC hook
+FB2C,,F55D,FA44,,,,H.LFILES ,LFILES hook
+FB2E,,,FA46,,,,H.DSKI$ ,DSKI$ hook
+FB30,,,FA48,,,,H.DSKO$,DSKO$ hook
+FB32,,F563,FA4A,,,,H.KILL ,KILL hook
+FB34,,F565,FA4C,,,,H.NAME,NAME hook
+FB36,,F567,FA4E,,,,H.MSAVE ,SAVEM hook
+FB38,,F569,FA50,,,,H.MLOAD ,LOADM/RUNM hook
+FB62,,,FA88,,,,TXTEND,Pointer to end of .DO storage
+FB65,,,FA8B,,,,VALTYP,Type of last variable used
+FB66,,,FA8C,,,,DORES,Flag to tokenize reserved words in strings
 FB67,,,,,,FB79,,file buffer area pointer
-FB69,,,,,,FB7B,,
+FB69,,,FABF,,,FB7B,FRETOP,Pointer to next free location in string buffer
 FB6B,,,,,,FB7D,,
 FB8A,,,,,,FB9C,,
 FB8C,,,,,,FB9E,STRBUFPOS,position in STRBUF
+FB8E,,,FAC1,,,,TEMP3,multipurpose string buffer
 FB90,,,,,,FBA2,,
-FBAE,,,,FBB4,,FBC0,DOFILES,Pointer to start of DO files / end of BA files
-FBB0,,,,FBB6,,FBC2,COFILES,Pointer to start of CO files
-FBB2,,,,FBB8,,FBC4,VARTBL,Pointer to start of variable table
-FBB4,,,,FBBA,,FBC6,ARYTBL,Pointer to start of array table
-FBB6,,,,FBBC,,FBC8,FRERAM,Pointer to start of system unused memory
+FB94,,,FAC7,,,,DATLIN,Line number of active DATA statement
+FB9B,,,FACE,,,,SAVTXT,Save for TXTPNT (current basic line / used by RESUME)
+FB9D,,F650,FAD0,,,,SAVSTK,Save for stack pointer (used by RESUME)
+FB9F,,,FAD2,,,,ERRLIN,Line number of last BASIC error
+FBA1,,,FAD4,,,,DOT,Most recent entered / listed / or edited line
+FBA3,,,FAD6,,,,ERRTXT,Points to line where error occurred
+FBA5,,,FAD8,,,,ONELIN,"Address of ""ON ERROR GOTO"" line"
+FBA7,,,FADA,,,,ONEFLG,Error status flag (0=no error / nz=in error routine)
+FBA8,,,FADB,,,,TEMP2,Formula evaluator temporary storage
+FBAA,,,FADD,,,,OLDLIN,Line number where Break occurred
+FBAC,,,FADF,,,,OLDTXT,Next line to execute
+FBAE,,F661,FAE1,FBB4,,FBC0,DOFILES,Pointer to start of DO files / end of BA files
+FBB0,,F663,FAE3,FBB6,,FBC2,COFILES,Pointer to start of CO files
+FBB2,,F665,FAE5,FBB8,,FBC4,VARTBL,Pointer to start of variable table
+FBB4,,F667,FAE7,FBBA,,FBC6,ARYTBL,Pointer to start of array table
+FBB6,,F669,FAE9,FBBC,,FBC8,FRERAM,Pointer to start of system unused memory
+FBB8,,,FAEB,,,,DATPTR,Pointer to current data item (message line)
+FBBA,,,FAED,,,,DEFTBL,Variable type table
 FBD9,,,,,,FBEB,,
 FBDF,,,,,,FBF1,,
 FBE2,,,,,,FBF4,,
-FC81,,,,,,FC93,DVIDATRDY,dvdi data available
-FC8C,,,,,,FC9E,,
-FC93,,,,FC99,FCA5,FCA5,FILNM1,8 (9?) bytes padded fname / current BA pgm / prog name if not run from menu nor typed on select line
-FC9C,,,,FCA2,,,FILNM1,
-FC99,,,,FC9F,,FCAB,FX1,"unknown, possibly file size or other metadata"
-FC9C,,,,,,FCAE,CFNAME,filename of last program loaded from tape
-FCA2,,,,,,FCB4,,
-FCA7,,,,,,FCB9,,
+FBE8,,FB69,,,,,,
+FC18,,,FB24,,,,DFACLO,Floating Point Accumulator (FAC1)
 FC1A,,,,,,FC2C,FAC1,start of FAC1 for integers
-FC92,,,,,,FCA4,,
-FC99,,,,,,FCAB,,
-FCA7,,,,,,FCB9,,
-FCC0,,,,FCC0,,FCC0,ALTLCD,start of ALT LCD buffer 0x0140 bytes
-FE00,,,,FE00,FE00,,LCDMEM,start of LCD memory 0x0140 bytes
-FCE8,,,,,,FCE8,,
-FDA1,,,,,,FDA1,ALT1,BEGALT + 0x00E1
-FDD7,,,,,,FDD7,ALT2,BEGALT + 0x0117
-FDEE,,,,,,FDEE,ALT3,BEGALT + 0x012E
-FDEF,,,,,,FDEF,ALT4,BEGALT + 0x012F highest MENU directory location
-FF40,,,,,,FF40,XONOFF_CONTROL_0,
-FF41,,,,,,FF41,XONOFF_CONTROL_1,
-FF42,,,,,,FF42,XONOFF_ENFLAG,
+FC69,,,FB2E,,,,ARGLO,Second FAC (FAC2)
+FC7A,,F72D,,,,,SEEDRD,
+FC81,,,,,,FC93,DVIDATRDY,dvdi data available
+FC82,,,FB62,,,,MAXFIL,Current maximum file number (read only)
+FC83,,,FB63,,,,FILTAB,Pointer to basic file table
+FC8C,,,F73F,,,FC9E,DEVOUT,
+FC92,,,F745,,,FCA4,,
+FC93,,F746,FB78,FC99,FCA5,FCA5,FILNM1,"9 bytes padded fname for search/open, current BA pgm, prog name"
+FC99,,F74C,,FC9F,,FCAB,FX1,"unknown, possibly file size or other metadata"
+FC9C,,,,FCA2,,FCAE,FILNM2,"2nd filename, filename of last program loaded from tape, used by NAMEB"
+FCA2,,,,,,FCB4,,
+FCA7,,F75A,,,,FCB9,,
+FCC0,,F7B0,FBC0,FCC0,,FCC0,ALTLCD,start of ALT LCD buffer 0x0140 bytes except T200
+FDFF,,FA2F,FCFF,,,,endALTLCD,end of ALTLCD
+FE00,,FA30,FD00,FE00,FE00,,LCDMEM,start of LCD memory 0x0140 bytes bytes except T200
+FF3F,,FCAF,FE3F,,,,endLCDMEM,end of LCD memory
+FF40,,FCF2,FE40,,,FF40,XONOFF,Flag 00 = XOFF not received
+FF41,,,FE41,,,FF41,XONOFF2,Flag freeze display
+FF42,,,,,,FF42,XONOFF_ENFLAG,Flag 00 = XONOFF disabled
 FF43,,,,,,FF43,COMINISTATUS,RS323 init status
 FF44,,,,FF44,,FF44,SNDFLAG,Sound flag
 FF45,,,,,,FF46,PORT_E8,Contents of port 0xE8
-FF46,,,,FF46,,FFBE,COMBUF,"COM buffer 0x40 bytes (k85 addr seems sus, but ""load COMBUF"" above is clear)"
-FF86,,,,,,FF47,COMINCNT,number of bytes waiting in serial buffer
-FF87,,,,,,FF48,COMOUTPTR,
-FF88,,,,,,FF49,COMINPTR,RS232 buffer input pointer
-FF8A,,,,,,FF4B,,CTRL-S Status
-FF8B,,,,,,FF4C,,UART baud rate timer value
+FF46,,,FEC4,FF46,,FFBE,COMBUF,COM buffer 0x40 bytes
+FF86,,,FE45,,,FF47,COMINCNT,number of bytes waiting in serial buffer
+FF87,,,FE46,,,FF48,COMRDPTR,read pointer for COMBUF
+FF88,,,FE47,,,FF49,COMWRPTR,write pointer for COMBUF
+FE89,,,FE48,,,,CMERR,Number of characters in COMBUF when there was an error
+FF8A,,,FE49,,,FF4B,CMFLG,XOFF/CTRL-S Status
+FF8B,,,FE4A,,,FF4C,BAUDRT,Baud rate table entry address
 FF8D,,,,,,FF4E,,rs232 parity ctl byte
+FF8F,,FD03,FE4D,,,,KYSCNX,Flag to determine if key scan should be done
+FF91,,,FE4F,,,,KYDATA,Keyboard matrix read
 FF97,,,,,,FF58,KC7,"8 bits for space, del, tab, esc, paste, label, print, enter"
 FF98,,,,,,,,8 bits for storing function key recognition
-FFA2,,,,,,FF63,,"8 bits for storing shift, ctrl, grph, code, num, and caps lock."
-FFAA,,,,FF6D,,FF6B,KYBCNT,chrs in kb buf
-FFAB,,,,FF6E,,,KYBUFFX,64 byte keyboard  buffer. Odd bytes contain ASCII. FF in an even byte indicates a function key.
-FFEC,,,,FF8F,,,CURIMG,5 bytes that contain a bit image of the  character  underneath the current cursor location
-FFF4,,,,FF97,,,,
+FF99,,FD0D,FE60,,,,KYMODE,Keyboard mode storage (brk/caps/num/cod/gph/ctl/sft)
+FFA2,,FD16,,,,FF63,KEYGPC,"8 bits for storing shift, ctrl, grph, code, num, and caps lock."
+FFA3,,,FE61,,,,KYHOW,
+FFA4,,FD18,FE62,,,,KYREPT,Wait count for repeat
+FFA5,,FD19,FE63,,,,,
+FFA7,,FD1B,FE65,,,,,
+FFA8,,FD1C,FE66,,,,,
+FFAA,,FD1E,FE68,FF6D,,FF6B,KYBCNT,chrs in kb buf
+FFAB,,FD1F,FE69,FF6E,,,KYRDBF,64 byte keyboard  buffer. Odd bytes contain ASCII. FF in an even byte indicates a function key.
+FFEB,,,FEA9,,,,BRKCHR,0 until break is pressed. 03=Break
+FFEC,,,FEB1,FF8F,,,CURIMG,6 bytes that contain a bit image of the  character  underneath the current cursor location
+FFF3,,FEA1,FEB8,,,,CSRCNT,Time until next cursor blink
+FFF4,,,FEB9,FF97,,,LCTEY,LCD row of character position to be printed
+FFF5,,,FEBA,,,,LCTEX,LCD column of character position to be printed
 FFFA,,,,,,FFBB,DVIMBS,DVI mailbox select area
 FFFB,,,,,,FFBC,DVIPRESENT,
 FFFC,,,,,,FFBD,,DVI Disk BASIC code initializer value
