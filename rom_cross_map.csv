@@ -426,12 +426,20 @@
 7FF9,,,,,,7CCC,MAXROM,
 E000,,,,,,E000,DVICODE,Location of init code to be copied from DVI
 F3AF,,,,,,F3AF,,
-F5F0,,,,F5F0,,F5F0,MAXRAM,MAXRAM itself
-F5F4,,,,F5F4,,,ptrHIMEM,pointer to HIMEM
-F639,,,,F63C,F640,F640,CSRY,Hor curs posit
-F63A,,,,F63D,F641,F641,CSRX,Ver curs posit
-F63B,,,,F63E,,,ACTLIN,Number of active display lines          (verify if M10 are typo/ swapped)
-F63C,,,,F63D,,,ACTCOL,Number of active display columns   
+F5F0,,EEB0,,F5F0,,F5F0,MAXRAM,MAXRAM itself
+F5F4,,,F384,F5F4,,,ptrHIMEM,pointer to HIMEM
+F5F9,,,F389,,,,INTRPT,"RST 5.5 hook, normally barcode reader"
+F5FC,,,F38C,,,,R65HOK,"RST 6.5 hook, normally UART"
+F5FF,,EEC2,F38F,,,,R75HOK,"RST 7.5 hook, normally from timer"
+F624,,,F3B9,,,,BRUN,This executes second ROM
+F625,,,F3BA,,,,BRUN2,This executes second ROM
+F62A,,,F3BF,,,,ROMFLG,option rom flag
+F62B,,EEF4,,,,,CALPPS,
+F62C,,EEF8,,,,,FNKMAC,
+F639,,EF06,F3E5,F63C,F640,F640,CSRY,Hor curs posit
+F63A,,EF07,F3E6,F63D,F641,F641,CSRX,Ver curs posit
+F63B,,,F3E7,F63E,,,LINES,Number of active display lines          (verify if M10 are typo/ swapped)
+F63C,,,,F63D,,,COLS,Number of active display columns   
 F63D,,,,F640,,,LBLFLG,"Label line flag. 0 = unused, 1 = used"
 F648,,,,F64B,,,REVFLG,Reverse video flag.  0 = Normal
 F650,,,,,,F657,,
