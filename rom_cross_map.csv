@@ -63,27 +63,28 @@
 14E7,,,,,,14F2,,
 14EA,,,,,,14A0,,
 14ED,,1604,,,,14F8,POPALL,pop all & ret
-14EE,,,,,,14F9,POPALL2,POPALL without POP PSW
-14F2,,,,,,14FD,,DW 14F8 x x x 1503
-14F4,,,,,,14FF,,DW 4D59 x x x 4D0F
-14F6,,,,,,1501,,DW 14FA x x x 1505
-14F8,,,,,,1503,,RST_7 40 x x x 4C
-14FA,,,,,,1505,,RST_7 44 x x x 50
-14FC,,,,,,1507,,DW 1506 x x x 1511
-14FE,,,,,,1509,,DW 158D x x x 1598
-1500,,,,,,150B,,DW 15AC x x x 15B7
-1502,,,,,,150D,,DW 15C4 x x x 15CF
-1504,,,,,,150F,,DW 161B x x x 1626
-1506,,,,,,1511,,open RAM file
-158D,,,,,,1598,,
-15AC,,,,,,15B7,,
-15C4,,,,,,15CF,,
-161B,,,,,,1626,,
+14EE,,1605,,,,14F9,POPALL2,POPALL without POP PSW
+14F2,,,,,,14FD,,DW 14F8 x 160F x x x 1503
+14F4,,,,,,14FF,,DW 4D59 x 5C18 x x x 4D0F
+14F6,,,,,,1501,,DW 14FA x 1611 x x x 1505
+14F8,,160F,,,,1503,,RST_7 40 x 44 x x x 4C
+14FA,,1611,,,,1505,,RST_7 44 x 48 x x x 50
+14FC,,,,,,1507,,DW 1506 x 161D x x x 1511
+14FE,,,,,,1509,,DW 158D x 16A4 x x x 1598
+1500,,,,,,150B,,DW 15AC x 16DA x x x 15B7
+1502,,,,,,150D,,DW 15C4 x 16F2 x x x 15CF
+1504,,,,,,150F,,DW 161B x 1749 x x x 1626
+1506,,161D,,,,1511,,open RAM file
+158D,,16A4,,,,1598,,
+15AC,,16D4,,,,15B7,,
+15C4,,16F2,,,,15CF,,
+161B,,1749,,,,1626,,
 179E,,,,,,1792,CLOSECOM,
 17A8,,,,,,179C,COMOUT,output A to com/mdm file (wrapper & extra stuff around SND232)
 --,,,,,,17A1,,JNC x x x x 14F5
 17AD,,,,,,17A4,,JMP 14EA x x x 14A0
-17E6,,,,17F0,17C8,17C8,SET232,com on
+17DB,,1912,,,,,CLOSEMDM,close MDM
+17E6,,191D,,17F0,17C8,17C8,SET232,com on
 181C,,,,,,17FA,,
 182D,,,,,,180B,,
 184E,,,,,,182C,,
@@ -197,7 +198,7 @@
 4174,,,,,,4150,NEXT,
 421A,,,,,,41F6,,
 4222,,,,423F,41FE,41FE,CRLF,prt crlf
-4229,,4F45,,,,4205,BEEP,
+4229,,4F45,,,,4205,BEEP,BEEP statement: ascii BEL → RST 4
 422D,,,,424A,4209,,HOME,
 4231,,,,424E,420D,420D,CLS,clear screen
 4235,,,,4252,4211,,SETSYS,
@@ -244,7 +245,7 @@
 478B,,,,,,4741,DIM,
 4790,,,,,,,VARPTR,
 4991,,,,,,,USING,
-4B44,,,,4B53,4B12,,LCD,RST 4
+4B44,,5A05,,4B53,4B12,,PRTA,RST 4 – print A to LCD or LPT
 4B55,,,,4B64,4B23,,PRTTAB,
 4B92,,,,,,,INITLCD,
 4BAB,,,,,,,CHRLCD,print A to LCD
@@ -256,7 +257,7 @@
 4CBF,,,,,,4C75,,
 4CCB,,,,,,4C81,OPEN,
 4D12,,,,,,4CC8,,
-4D59,,,,,,4D0F,,close lcd/crt/lpt
+4D59,,5C18,,,,4D0F,,close lcd/crt/lpt
 4D6E,,,,,,4D24,RUN3,
 4D70,,,,,,4D26,LOAD,
 4D71,,,,,,4D27,MERGE,
@@ -266,7 +267,7 @@
 4E22,,,,,,4DD8,ROM12,
 4E28,,,,,,4DDE,CLOSE,
 4F0A,,,,4F12,,,NULFILL,fill memory with nul
-4f0B,,,,4F13,,,CHRFILL,fill memory with A
+4F0B,,,,4F13,,,CHRFILL,fill memory with A
 5023,,,,,,4FD2,,
 5036,,,,,,4FE5,,
 504E,,,,,,4FFD,,
@@ -430,6 +431,7 @@ F5F4,,EEB4,F384,F5F4,,,ptrHIMEM,pointer to HIMEM
 F5F9,,EEB9,F389,,,,INTRPT,"RST 5.5 hook, normally barcode reader"
 F5FC,,EEBF,F38C,,,,R65HOK,"RST 6.5 hook, normally UART"
 F5FF,,EEC2,F38F,,,,R75HOK,"RST 7.5 hook, normally from timer"
+F602,,EEC5,,F602,,F602,,
 F624,,,F3B9,,,,BRUN,This executes second ROM
 F625,,,F3BA,,,,BRUN2,This executes second ROM
 F62A,,,F3BF,,,,ROMFLG,option rom flag
