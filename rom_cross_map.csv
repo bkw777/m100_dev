@@ -143,8 +143,8 @@
 --,,,,215A,,2119,RESETFPS2,The 100’s 2146 is really the equivalent of here
 218D,,2CC0,,,,,,Clear LSB of File Type byte for all Catalog entries
 2190,,2CC3,,,,2168,,Find next catalog entry
-219A,,2CCD,,21B3,,2172,AFTEREOF,advance HL past end of file based on type
-219D,,2CD0,,21B6,,2175,AFTEREOF2,"advance HL past end of file based on type, A=type already loaded"
+219A,,2CCD,,21B3,,2172,AFTEREOF,"advance HL past end of file, auto type"
+219D,,2CD0,,21B6,,2175,AFTEREOF2,"advance HL past end of file, type A"
 21A4,,2CD7,,,,217C,AFTERCO,advance HL past end of CO file
 21AE,,2CE1,,,,2186,AFTERDO,advance HL past end of DO file
 21C2,,2CF5,,,,219A,AFTERBA,advance HL past end of BA file (updates line addrs first)
@@ -267,8 +267,8 @@
 4BAB,,,,,,,CHRLCD,print A to LCD
 4BB8,,,,,,,NLLCD,send crlf to lcd if not CSRY 0
 4BEA,,,,,,,INKEY$,Function
-4C0B,,5ACA,,,,4BC1,CKFN,evaluate & reformat filename
-4C0F,,,,4C1E,,4BC5,CKFN2,evaluate arguments to RUN/OPEN/SAVE commands
+4C0B,,5ACA,,4C1A,,4BC1,CKFN,evaluate & reformat filename
+4C0F,,5ACE,,4C1E,,4BC5,CKFN2,evaluate arguments to RUN/OPEN/SAVE commands
 4C21,,,,,,4BD7,,
 4CBF,,,,,,4C75,,
 4CCB,,,,,,4C81,OPEN,
