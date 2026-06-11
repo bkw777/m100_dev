@@ -132,6 +132,7 @@
 20A9,,,,,,207A,ROM7,
 20AF,,2BCC,,20C1,,2080,FINDFN,
 20CC,,2BE9,,,,209D,,almost the end of FINDFN
+20D5,,2BF2,,,,,,Find next Non-Empty catalog entry
 20E4,,,,20C1,,20B5,SCNEMP,scan for an empty directory entry
 20EC,,2C09,,,,20BD,SCNEMP2,"scan for an empty directory entry, alt entry"
 20FE,,,,,,20CF,NEW,
@@ -140,11 +141,13 @@
 213E,,2C5A,,,,210E,UPDOFILES,update DOFILES with BC
 2146,,2C62,,2157,,2116,RESETFPS,reset file pointers
 --,,,,215A,,2119,RESETFPS2,The 100’s 2146 is really the equivalent of here
-2190,,,,,,2168,,
-219A,,,,21B3,,2172,AFTEREOF,advance HL past end of file based on type
-21A4,,,,21B6,,217C,AFTERCO,advance HL past end of CO file
-21AE,,,,,,2186,AFTERDO,advance HL past end of DO file
-21C2,,,,,,219A,AFTERBA,advance HL past end of BA file (updates line addrs first)
+218D,,2CC0,,,,,,Clear LSB of File Type byte for all Catalog entries
+2190,,2CC3,,,,2168,,Find next catalog entry
+219A,,2CCD,,21B3,,2172,AFTEREOF,advance HL past end of file based on type
+219D,,2CD0,,21B6,,2175,AFTEREOF2,"advance HL past end of file based on type, A=type already loaded"
+21A4,,2CD7,,,,217C,AFTERCO,advance HL past end of CO file
+21AE,,2CE1,,,,2186,AFTERDO,advance HL past end of DO file
+21C2,,2CF5,,,,219A,AFTERBA,advance HL past end of BA file (updates line addrs first)
 21FA,,,,2213,,,LENSTR,"Count number of characters in NUL terminated string, max 255"
 220F,,,,2228,21E7,,MAKTXT,Create a text (.DO) file
 2239,,2DAC,,2252,,2211,MKDIRENT,insert entry into directory
@@ -327,7 +330,7 @@
 6B2D,,8268,,,,6835,EOFHL,search for EOF (0x1A) @ HL
 6B61,,,,6B66,6881,,INSCHR,Insert a character into a text file
 6B6D,,82A8,,6B72,688D,6875,MAKHOL,insert B spaces at M
-6B9F,,,,6BA4,68BF,68A7,MASDEL,delete B chars at M
+6B9F,,82DA,,6BA4,68BF,68A7,MASDEL,delete B chars at M
 6BDB,,,,6BE0,,68E3,LDIRBC,"Move the memory pointed to by HL to the memory pointed to by DE for BC, ascending"
 6BE6,,,,6BEB,,,LDDRBC,"Move the memory pointed to by HL to the memory pointed to by DE for BC, descending"
 6C93,,,,6C98,69B3,,,used to init function keys
@@ -350,20 +353,20 @@
 6D81,,,,,,6A89,,load INT_EXIT2
 6D85,,,,,,6A8D,,load COMINCNT
 6DAC,,,,,,6AB4,RST_6.5,
-6DFC,,,,,,6B04,,Calculate address to save next RS232 character
+6DFC,,85F9,,,,6B04,,Calculate address to save next RS232 character
 6E04,,,,,,6B0C,,load COMBUF
-6E0B,,,,6E12,6B3B,,SENSCQ,"Send XON resume character, CTRL-Q"
+6E0B,,8608,,6E12,6B3B,,SENSCQ,"Send XON resume character, CTRL-Q"
 6E1E,,,,6E25,6B4E,,SENDCS,"Send XOFF pause character, CTRL-S"
 6E32,,8643,,6E39,6B62,6B3A,SND232,"send character in A to serial port, with xonoff"
-6E3A,,8650,,6E47,,6B42,SNDCOM,"send character in C to serial port, without xonoff"
+6E3A,,8624,,6E47,,6B42,SNDCOM,"send character in C to serial port, without xonoff"
 6E4A,,863F,,,,6B52,,
 6E4D,,8681,,,,6B55,,handle xonoff
 6E5F,,,,,,6B67,,
 6E65,,,,,,6B6D,,
 6E69,,,,,,6B71,,
-6E75,,,,6E97,6BB7,6B7D,SETBAUD,set RS232 baud rate from H
+6E75,,86AD,,6E97,6BB7,6B7D,SETBAUD,set RS232 baud rate from H
 6E92,,,,,,6B9A,,
-6E94,,,,,,6B9C,,DW 4800   baud rate timer values
+6E94,,86CC,,,,6B9C,,DW 4800   baud rate timer values
 6E96,,,,,,6B9E,,DW 456B
 6E98,,,,,,6BA0,,DW 4200
 6E9A,,,,,,6BA2,,DW 4100
@@ -372,7 +375,7 @@
 6EA0,,,,,,6BA8,,DW 4020
 6EA2,,,,,,6BAA,,DW 4010
 6EA4,,,,,,6BAC,,DW 4008
-6EA6,,,,6EC8,6BE8,6BAE,INITCOM,init rs232 or modem
+6EA6,,86DE,,6EC8,6BE8,6BAE,INITCOM,init rs232 or modem
 6EAA,,,,,,6BB2,,
 6EAC,,,,,,--,,JC 6EB3
 6EAF,,,,,,--,,"MVI H,0x03"
@@ -381,7 +384,7 @@
 6EB4,,,,,,6BB5,,CALL SETBAUD
 6EC1,,,,,,6BC2,,CALL ZCOMBUFPARAMS
 6EC8,,,,,,6BC9,,JMP INT_EXIT
-6ECB,,,,6F63,6C25,6BE4,COMOFF,Deactivate RS-232/MODEM
+6ECB,,87B5,,6F63,6C25,6BE4,COMOFF,Deactivate RS-232/MODEM
 6ED2,,,,,,6BEB,,STA COMINISTATUS
 6ED5,,,,,,6BEE,,RET
 6EEF,,,,6F06,n/a,,CARDET,carrier detect
@@ -393,7 +396,7 @@
 6F5E,,,,,,6C07,,
 6F85,,,,6FAD,6C6F,,RCASHDR,read cassette header
 702A,,,,7052,6D14,,RCASDAT,"read cassette data, no checksum"
-71F7,,,,,,6EA7,INT_EXIT,POPALL plus EI before RET
+71F7,,8AB8,,,,6EA7,INT_EXIT,POPALL plus EI before RET
 71F8,,,,,,6EA8,INT_EXIT2,INT_EXIT without POP PSW
 7242,,8B03,,7275,6F2E,6EF2,KYREAD,scn kbd
 7270,,,,72A7,6F60,,KEYX,Check  keyboard  queue  for  characters  or break
@@ -410,9 +413,9 @@
 752B,,,,,,71D9,,Set the display top line to zero for all LCD drivers
 7533,,,,,,71E1,ENLCD,Enable LCD drivers after short delay
 7657,,,,,,7305,PAUSE_C,Delay routine - decrement C until zero
-765C,,,,769F,,730A,INT1D,set int to 0x1D - disable background task & barcode interrupts
-7662,,,,,,7310,BEEP2,
-7676,,,,,,7324,CLICK,click sound port
+765C,,8FA0,,769F,,730A,INT1D,set int to 0x1D - disable background task & barcode interrupts
+7662,,8FA6,,,,7310,BEEP2,
+7676,,8FC9,,,,7324,CLICK,click sound port
 767D,,,,,,732B,TESTDVIW,
 7682,,,,,,7330,TESTDVIR,
 768F,,,,,,733D,DVIEXT,
@@ -488,7 +491,7 @@ F767,,,,F76A,,F76E,EDITFA,addr of .DO file being edited
 F788,,,F6A4,F78B,,,CURLOC,Current horizontal location of cursor
 F789,,F074,F6A5,,,,FNKSTR,Function key definition area
 F7D9,,F0C4,,,,,,
-F809,,,,,,F810,,"file type (BA=0, DO=1, CO=2)"
+F809,,F0F4,,,,F810,,"file type (BA=0, DO=1, CO=2)"
 F80A,,,F7E6,,,,BASFNK,BASIC’s function keys
 F923,,,F832,,,,TIMSC1,TIMBUF: Seconds (ones)
 F924,,,F833,,,,TIMSC2,TIMBUF+1: Seconds (tens)
@@ -506,7 +509,7 @@ F92F,,F21F,F83E,,,,TIMCNT,Counter (M200: 150 to 1 M100: 125 to 1)
 F930,,F220,F83F,,,,TIMCN2,Counter (12 to 1)
 F931,,F221,F840,,,,TIMINT,Power-down countdown value
 F932,,F222,,,,,,
-F962,,,,F965,F969,,DIRTBL,Start of directory table
+F962,,F252,,F965,F969,,DIRTBL,Start of directory table
 F99A,,F295,F870,,,F98B,UNSAVBA,Unsaved BA addr
 F9A5,,,F87B,,,,SCRDIR,Start of paste buffer
 F9AF,,F2AA,,,,F9A0,EDITBA,edit attr byte
@@ -605,19 +608,19 @@ FCC0,,F7B0,FBC0,FCC0,,FCC0,ALTLCD,start of ALT LCD buffer 320 bytes bytes except
 FDFF,,FA2F,FCFF,,,,endALTLCD,end of ALTLCD
 FE00,,FA30,FD00,FE00,FE00,,LCDMEM,start of LCD memory 320 bytes bytes except T200 640
 FF3F,,FCAF,FE3F,,,,endLCDMEM,end of LCD memory
-FF40,,,FE40,,,FF40,XONOFF,Flag 00 = XOFF not received
-FF41,,,FE41,,,FF41,XONOFF2,Flag freeze display
+FF40,,FCF0,FE40,,,FF40,XONOFF,Flag 00 = XOFF not received
+FF41,,FCF1,FE41,,,FF41,XONOFF2,Flag freeze display
 FF42,,FCF2,,,,FF42,XONOFF_ENFLAG,Flag 00 = XONOFF disabled
-FF43,,,,,,FF43,COMINISTATUS,RS323 init status
+FF43,,FCF3,,,,FF43,COMINISTATUS,RS323 init status
 FF44,,FCF4,,FF44,,FF44,SNDFLAG,Sound flag
 FF45,,,,,,FF46,PORT_E8,Contents of port 0xE8
-FF46,,FCF6,FEC4,FF46,,FFBE,COMBUF,COM buffer 0x40 bytes
+FF46,,FFBB,FEC4,FF46,,FFBE,COMBUF,COM buffer 0x40 bytes
 FF86,,,FE45,,,FF47,COMINCNT,number of bytes waiting in serial buffer
 FF87,,,FE46,,,FF48,COMRDPTR,read pointer for COMBUF
 FF88,,,FE47,,,FF49,COMWRPTR,write pointer for COMBUF
 FE89,,,FE48,,,,CMERR,Number of characters in COMBUF when there was an error
-FF8A,,,FE49,,,FF4B,CMFLG,XOFF/CTRL-S Status
-FF8B,,,FE4A,,,FF4C,BAUDRT,Baud rate table entry address
+FF8A,,FCF9,FE49,,,FF4B,CMFLG,XOFF/CTRL-S Status
+FF8B,,FCFA,FE4A,,,FF4C,BAUDRT,Baud rate table entry address
 FF8D,,,,,,FF4E,,rs232 parity ctl byte
 FF8F,,FD03,FE4D,,,,KYSCNX,Flag to determine if key scan should be done
 FF91,,,FE4F,,,,KYDATA,Keyboard matrix read
