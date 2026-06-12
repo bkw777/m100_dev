@@ -100,7 +100,7 @@
 181C,,,,,,17FA,,
 182D,,,,,,180B,,
 184E,,,,,,182C,,
-18C7,,1A36,,,,,,
+18C7,,1A36,,,,,FINDEOF,
 190F,,,,1919,18D7,,TIME,read system time
 192F,,,,1939,18F7,,DATE,read system date
 1962,,,,196C,192C,,DAY,read system day
@@ -282,7 +282,7 @@
 4E1D,,,,,,4DD3,,
 4E22,,,,,,4DD8,ROM12,
 4E28,,,,,,4DDE,CLOSE,
-4E8A,,5D46,,,,,,
+4E8A,,5D46,,,,,POPDHB,
 4F0A,,,,4F12,,,NULFILL,fill memory with nul
 4F0B,,,,4F13,,,CHRFILL,fill memory with A
 5023,,,,,,4FD2,,
@@ -643,3 +643,9 @@ FFF5,,,FEBA,,,,LCTEX,LCD column of character position to be printed
 FFFA,,,,,,FFBB,DVIMBS,DVI mailbox select area
 FFFB,,,,,,FFBC,DVIPRESENT,
 FFFC,,,,,,FFBD,,DVI Disk BASIC code initializer value
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+constants,,,,,,,,
+BB,,C9,,BB,,,PIO_PORT_C,COM & LPT flow control pins
