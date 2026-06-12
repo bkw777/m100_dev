@@ -599,10 +599,10 @@ FC82,,,FB62,,,,MAXFIL,Current maximum file number (read only)
 FC83,,,FB63,,,,FILTAB,Pointer to basic file table
 FC8C,,F73F,,,,FC9E,DEVOUT,
 FC92,,,F745,,,FCA4,,
-FC93,,F746,FB78,FC99,FCA5,FCA5,FILNM1,"9 bytes, padded filename for save/open/etc"
-FC99,,F74C,,FC9F,,FCAB,FX1,“.” in FILNM1
+FC93,,F746,FB78,FC99,FCA5,FCA5,FILNM1,"9 bytes, filename for save/open/etc"
+FC99,,F74C,,FC9F,,FCAB,FX1,"EXT of FILNM1 after CKFN / CKFN2 (“CO”, “DO”, “BA”)"
 FC9C,,,,FCA2,,FCAE,FILNM2,"2nd filename, filename of last program loaded from tape, used by NAMEB"
-FCA2,,F755,,,,FCB4,FX2,“.” in FILNAM2
+FCA2,,F755,,,,FCB4,FX2,"EXT of FILNM2 after formatting (“CO”, “DO”, “BA”)"
 FCA7,,F75A,,,,FCB9,,
 FCC0,,F7B0,FBC0,FCC0,,FCC0,ALTLCD,start of ALT LCD buffer 320 bytes bytes except T200 640
 FDFF,,FA2F,FCFF,,,,endALTLCD,end of ALTLCD
