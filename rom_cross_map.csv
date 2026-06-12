@@ -133,7 +133,7 @@
 20AF,,2BCC,,20C1,,2080,FINDFN,
 20CC,,2BE9,,,,209D,,almost the end of FINDFN
 20D5,,2BF2,,,,,,Find next Non-Empty catalog entry
-20E4,,,,20C1,,20B5,SCNEMP,scan for an empty directory entry
+20E4,,2C01,,20F6,,20B5,SCNEMP,scan for an empty directory entry
 20EC,,2C09,,,,20BD,SCNEMP2,"scan for an empty directory entry, alt entry"
 20FE,,,,,,20CF,NEW,
 20FF,,,,,,20D0,NEW2,
