@@ -510,7 +510,7 @@ F930,,F220,F83F,,,,TIMCN2,Counter (12 to 1)
 F931,,F221,F840,,,,TIMINT,Power-down countdown value
 F932,,F222,,,,,,
 F962,,F252,,F965,F969,,DIRTBL,Start of directory table
-F99A,,F295,F870,,,F98B,UNSAVBA,Unsaved BA addr
+F99A,,F295,F870,F99D,,F98B,BAFILES,Pointer to start of BA files / Unsaved BA addr
 F9A5,,,F87B,,,,SCRDIR,Start of paste buffer
 F9AF,,F2AA,,,,F9A0,EDITBA,edit attr byte
 FA8F,,F4BE,,,,FA96,,
