@@ -13,6 +13,8 @@ The "platforms" directory has system rom images and reference docs for all machi
 The Geany directory has a syntax config file so that Geany will render 8085 asm source correctly recognizing 8085 mnemonics and z88dk directives. Directions inside the file.
 
 # references
+## all
+https://www.web8201.net/default.asp?content=modelt_memorymaps/mapview.asp  
 https://bitchin100.com/wiki/index.php?title=Model_T_Cross_Map_RAM_Variables  
 ## 100
 [Ken Petit's M100 ROM disassembly](https://club100.org/memfiles/index.php?&direction=0&order=&directory=Ken%20Pettit/M100%20ROM%20Disassembly)  
@@ -26,6 +28,8 @@ https://bitchin100.com/wiki/index.php?title=Model_T_Cross_Map_RAM_Variables
 [Robert D. Covington M100 ROM map 6/6](https://github.com/LivingM100SIG/Living_M100SIG/blob/main/M100SIG/Lib-08-TECH-PROGRAMMING/100ROM.RC6)  
 ## 200
 https://github.com/LivingM100SIG/Living_M100SIG/blob/main/M100SIG/Lib-08-TECH-PROGRAMMING/RAMMAP.200  
+## NEC
+https://github.com/LivingM100SIG/Living_M100SIG/blob/main/M100SIG/Lib-12-NEC-OLIVETTI/ROMCAL.NEC  
 ## K85
 https://github.com/LivingM100SIG/Living_M100SIG/blob/main/M100SIG/Lib-12-NEC-OLIVETTI/K85ROM.01  
 https://github.com/LivingM100SIG/Living_M100SIG/blob/main/M100SIG/Lib-12-NEC-OLIVETTI/KYROM1.EQU  
