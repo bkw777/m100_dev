@@ -51,8 +51,8 @@
 11A2,,11CC,,11A5,,11A9,PTILL0,Print NUL terminated  string  to current display device
 11AA,,,,,,11B1,,
 128B,,,,,,1294,POKE,
-12CB,,12F7,,12D0,12D4,12D4,CHGET,wait for chr
-13DB,,,,13E0,13E4,,CHSNS,
+12CB,,12F7,174D,12D0,12D4,12D4,CHGET,wait for chr
+13DB,,,183D,13E0,13E4,,CHSNS,
 1419,,,,,,1422,POWER,
 1470,,,,1480,1484,,PNOTAB,
 1494,,15AC,,,,,IOERR,generate IO err
@@ -199,7 +199,7 @@
 35BA,,,,,,3593,DSKI$,
 35D9,,,,,,35B2,,
 3725,,,,,,36FE,MPYINT,mpy signd int
-39D4,,470B,,39EE,,39AD,PRTINT,prt 16 bit int
+39D4,,470B,3898,39EE,,39AD,PRTINT,prt 16 bit int
 39E8,,,,,,39C1,FAC1ASCII,
 3EF3,,,,,,3ECF,,
 3F28,,,,,,3F04,,
@@ -214,20 +214,20 @@
 4174,,,,,,4150,NEXT,
 421A,,,,,,41F6,,
 4222,,,,423F,41FE,41FE,CRLF,prt crlf
-4229,,4F45,,,,4205,BEEP,BEEP statement: ascii BEL → RST 4
+4229,,4F45,4258,,,4205,BEEP,BEEP statement: ascii BEL → RST 4
 422D,,,,424A,4209,,HOME,
-4231,,,,424E,420D,420D,CLS,clear screen
+4231,,,4260,424E,420D,420D,CLS,clear screen
 4235,,,,4252,4211,,SETSYS,
 423A,,,,4257,4216,,RSTSYS,
-423F,,,,425C,421B,421B,LOCK,scroll lock
-4244,,,,4261,4220,,UNLOCK,
-4249,,,,4266,4225,,CURSON,
-424E,,,,426B,422A,,CUROFF,
-4253,,,,4270,422F,,DELLIN,
-4258,,,,4275,4234,,INSLIN,
-425D,,,,427A,4239,4239,ERAEOL,erase to eol
-4269,,,,4286,4245,,ENTREV,
-426E,,,,428B,424A,,EXTREV,
+423F,,,4273,425C,421B,421B,LOCK,scroll lock
+4244,,,426E,4261,4220,,UNLOCK,
+4249,,,4278,4266,4225,,CURSON,
+424E,,,427D,426B,422A,,CUROFF,
+4253,,,4282,4270,422F,,DELLIN,
+4258,,,4287,4275,4234,,INSLIN,
+425D,,,428C,427A,4239,4239,ERAEOL,erase to eol
+4269,,,42A2,4286,4245,,ENTREV,
+426E,,,42A7,428B,424A,,EXTREV,
 4270,,,,428D,424C,,ESCA,
 427C,,,,4299,4258,4258,SETCUR,set curs position
 428A,,,,42A7,4266,,ERAFNK,Erase function key display
@@ -255,8 +255,8 @@
 4608,,,,,,45BC,,
 4624,,,,,,45D8,,
 4626,,,,,,45DA,,
-463E,,,,4633,,45F2,INLIN?,INLIN with ?
-4644,,54F6,,4639,45F8,45F8,INLIN,get kbd line without ?
+463E,,,4798,4633,,45F2,INLIN?,INLIN with ?                               NEC 4798?
+4644,,54F6,47AA,4639,45F8,45F8,INLIN,get kbd line without ?
 4703,,,,,,46BA,,
 478B,,,,,,4741,DIM,
 4790,,,,,,,VARPTR,
@@ -326,6 +326,7 @@
 5F2F,,,,5F34,,5C37,WTSPC,wait space bar
 5F4B,,,,,,5C53,SPCMSG,'..Space Bar.'
 63CD,,,,,,60D5,,
+65C3,,,67A8,,,,MVHLDE,Move bytes from HL to DE until null
 6B2A,,,,6B2F,,6832,EOFCE,Find end of .DO file being edited
 6B2D,,8268,,,,6835,EOFHL,search for EOF (0x1A) @ HL
 6B61,,,,6B66,6881,,INSCHR,Insert a character into a text file
@@ -398,11 +399,11 @@
 702A,,,,7052,6D14,,RCASDAT,"read cassette data, no checksum"
 71F7,,8AB8,,,,6EA7,INT_EXIT,POPALL plus EI before RET
 71F8,,,,,,6EA8,INT_EXIT2,INT_EXIT without POP PSW
-7242,,8B03,,7275,6F2E,6EF2,KYREAD,scn kbd
+7242,,8B03,7279*,7275,6F2E,6EF2,KYREAD,scn kbd
 7270,,,,72A7,6F60,,KEYX,Check  keyboard  queue  for  characters  or break
 7283,,,,72BA,6F73,,CTLCHK,check for ctrl-c or ctrl-s
-729F,,,,,,6F4E,BRKCHK,Check if SHIFT-BREAK is being pressed
-72C5,,,,72FB,6FB4,,MUSIC,
+729F,,,72DF*,,,6F4E,BRKCHK,Check if SHIFT-BREAK is being pressed
+72C5,,730D,730D,72FB,6FB4,,MUSIC,
 7383,,,,,,7031,,
 73C5,,,,,,7073,,
 73EE,,,,,,709C,,
@@ -443,7 +444,7 @@
 7FF9,,,,,,7CCC,MAXROM,
 E000,,,,,,E000,DVICODE,Location of init code to be copied from DVI
 F3AF,,,,,,F3AF,,
-F5F0,,EEB0,,F5F0,,F5F0,MAXRAM,MAXRAM itself
+F5F0,,EEB0,F380,F5F0,,F5F0,MAXRAM,MAXRAM itself
 F5F4,,EEB4,F384,F5F4,,,ptrHIMEM,pointer to HIMEM
 F5F9,,EEB9,F389,,,,INTRPT,"RST 5.5 hook, normally barcode reader"
 F5FC,,EEBF,F38C,,,,R65HOK,"RST 6.5 hook, normally UART"
@@ -486,7 +487,7 @@ F67B,,EF66,,,,,,
 F67C,,EF67,F45D,,,F683,CURBAS,pointer to start of BASIC program
 F681,,EF6C,,,,,INPBFR,
 F684,,,,,,F68B,,
-F685,,EF70,F462,F688,,F68C,KYBUF,256 byte keyboard input buffer
+F685,,EF70,F462,F688,,F68C,KYBUF,256 byte keyboard input buffer        NEC F5A1? INLIN
 F767,,,,F76A,,F76E,EDITFA,addr of .DO file being edited
 F788,,,F6A4,F78B,,,CURLOC,Current horizontal location of cursor
 F789,,F074,F6A5,,,,FNKSTR,Function key definition area
