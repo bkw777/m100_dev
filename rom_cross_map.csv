@@ -320,6 +320,7 @@
 5B46,,,,5B4E,5869,,FKTABL,function key table
 5B68,,,,,,5873,ADRS,
 5B6F,,,,,,587A,SCHDL,
+5D64,,9F19,,5D69,,5A6C,CHGETUC,get char from keyboard and convert to uppercase
 5D70,,,,,,5A78,SHOWTD,time-date
 5DEE,,,,,,5AF6,TEXT,
 5E51,,,,,,5B59,EDIT,
@@ -627,14 +628,14 @@ FF8A,,FCF9,FE49,,,FF4B,CMFLG,XOFF/CTRL-S Status
 FF8B,,FCFA,FE4A,,,FF4C,BAUDRT,Baud rate table entry address
 FF8D,,,,,,FF4E,,rs232 parity ctl byte
 FF8F,,FD00,FE4D,,,FF00,KYSCNX,Flag to determine if key scan should be done
-FF91,,FD02,FE4F,,,FF52,KYDATA / KC1,Keyboard matrix read
-FF92,,FD03,,,,FF53,KC2,
-FF93,,FD04,,,,FF54,KC3,
-FF94,,FD05,,,,FF55,KC4,
-FF95,,FD06,,,,FF56,KC5,
-FF96,,FD07,,,,FF57,KC6,
-FF97,,FD08,,,,FF58,KC7,"8 bits for space, del, tab, esc, paste, label, print, enter"
-FF98,,FD09,,,,FF59,KC8,8 bits for storing function key recognition
+FF91,,FD02,FE4F,,,FF52,KYDATA / KC0,Keyboard matrix read
+FF92,,FD03,,,,FF53,KC1,
+FF93,,FD04,,,,FF54,KC2,
+FF94,,FD05,,,,FF55,KC3,
+FF95,,FD06,,,,FF56,KC4,
+FF96,,FD07,,,,FF57,KC5,
+FF97,,FD08,,,,FF58,KYSBCR,"8 bits for space, del, tab, esc, paste, label, print, enter"
+FF98,,FD09,,,,FF59,KYFUNC,8 bits for storing function key recognition
 FF99,,FD0D,FE60,,,FF5A,KYMODE,Keyboard mode storage (brk/caps/num/cod/gph/ctl/sft)
 FFA2,,FD16,,,,FF63,KEYGPC,"8 bits for storing shift, ctrl, grph, code, num, and caps lock."
 FFA3,,,FE61,,,,KYHOW,
