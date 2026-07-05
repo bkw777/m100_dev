@@ -204,6 +204,7 @@
 3EF3,,,,,,3ECF,,
 3F28,,,,,,3F04,,
 3F2C,,,,,,3F08,,
+4028,,4D43,,4045,,4004,ON_INT,Process ON KEY/TIME$/COM/MDM interrupts from BASIC
 407F,,,,,,405B,RESTORE,
 409A,,,,,,4076,STOP,
 409F,,,,,,407B,END,
@@ -460,6 +461,7 @@ F62A,,,F3BF,,,,ROMFLG,option rom flag
 F62B,,EEF4,,,,,CALPPS,"dialing method 0=tone,1,14"
 --,,EEF5,,,,,,Active bank (stored in bank 1)
 F62C,,EEF8,,,,,FNKMAC,
+F630,,EEFD,,F633,,F637,FKYSTAT,Function key status table (1 = on)
 F639,,EF06,F3E5,F63C,F640,F640,CSRY,cursor Y position (poking moves it) 100:1-8  200:1-16
 F63A,,EF07,F3E6,F63D,F641,F641,CSRX,cursor X position (poking moves it) 1-40
 F63B,,EF08,F3E7,F63E,,,LINES,console height          (verify if M10 are typo / swapped)
@@ -474,6 +476,7 @@ F64E,,,F3FA,,,,PRVCOO,X coordinate of last graphic point plotted
 F64F,,,F3FB,,,,PRVCO2,Y coordinate of last graphic point plotted
 F650,,EF32,F3FC,,,F657,FNKMOD,Function key mode. BIT 7=in TEXT. BIT 6=in TELCOM
 F652,,EF34,,F655,,F659,ERRTRP,error trap
+F654,,EF36,,F657,,F65B,,
 F656,,EF37,,,,,,
 F658,,EF39,F403,,,,FDUPLEX,"full/half duplex, FF=full 00=half"
 F65A,,EF3B,F405,F65D,,,LFFLAG,"Linefeed switch. 0 = CR, >0 = CRLF"
