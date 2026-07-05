@@ -397,6 +397,9 @@
 6F5E,,,,,,6C07,,
 6F85,,,,6FAD,6C6F,,RCASHDR,read cassette header
 702A,,,,7052,6D14,,RCASDAT,"read cassette data, no checksum"
+7055,,88E4,,707D,,6CFE,KYSCAN,
+7060,,88EF,,7088,,6D09,KYDET,Key detection -- Determine which keys are pressed
+71F4,,8AB5,,,,6EA4,,
 71F7,,8AB8,,,,6EA7,INT_EXIT,POPALL plus EI before RET
 71F8,,,,,,6EA8,INT_EXIT2,INT_EXIT without POP PSW
 7242,,8B03,7279*,7275,6F2E,6EF2,KYREAD,scn kbd
@@ -413,7 +416,7 @@
 744D,,,,7490,7167,,UNPLOT,
 752B,,,,,,71D9,,Set the display top line to zero for all LCD drivers
 7533,,,,,,71E1,ENLCD,Enable LCD drivers after short delay
-7657,,,,,,7305,PAUSE_C,Delay routine - decrement C until zero
+7657,,8F9B,,769A,,7305,PAUSE_C,Delay routine - decrement C until zero
 765C,,8FA0,,769F,,730A,INT1D,set int to 0x1D - disable background task & barcode interrupts
 7662,,8FA6,,,,7310,BEEP2,
 7676,,8FC9,,,,7324,CLICK,click sound port
@@ -456,8 +459,8 @@ F62A,,,F3BF,,,,ROMFLG,option rom flag
 F62B,,EEF4,,,,,CALPPS,"dialing method 0=tone,1,14"
 --,,EEF5,,,,,,Active bank (stored in bank 1)
 F62C,,EEF8,,,,,FNKMAC,
-F639,,EF06,F3E5,F63C,F640,F640,CSRY,Hor curs posit
-F63A,,EF07,F3E6,F63D,F641,F641,CSRX,Ver curs posit
+F639,,EF06,F3E5,F63C,F640,F640,CSRY,cursor Y position (poking moves it) 100:1-8  200:1-16
+F63A,,EF07,F3E6,F63D,F641,F641,CSRX,cursor X position (poking moves it) 1-40
 F63B,,EF08,F3E7,F63E,,,LINES,console height          (verify if M10 are typo / swapped)
 F63C,,EF09,F3E8,F63D,,,COLS,console width
 F63D,,EF0A,,F640,,,LBLFLG,"Label line flag. 0 = unused, 1 = used"
@@ -623,11 +626,16 @@ FE89,,,FE48,,,,CMERR,Number of characters in COMBUF when there was an error
 FF8A,,FCF9,FE49,,,FF4B,CMFLG,XOFF/CTRL-S Status
 FF8B,,FCFA,FE4A,,,FF4C,BAUDRT,Baud rate table entry address
 FF8D,,,,,,FF4E,,rs232 parity ctl byte
-FF8F,,FD03,FE4D,,,,KYSCNX,Flag to determine if key scan should be done
-FF91,,,FE4F,,,,KYDATA,Keyboard matrix read
+FF8F,,FD00,FE4D,,,FF00,KYSCNX,Flag to determine if key scan should be done
+FF91,,FD02,FE4F,,,FF52,KYDATA / KC1,Keyboard matrix read
+FF92,,FD03,,,,FF53,KC2,
+FF93,,FD04,,,,FF54,KC3,
+FF94,,FD05,,,,FF55,KC4,
+FF95,,FD06,,,,FF56,KC5,
+FF96,,FD07,,,,FF57,KC6,
 FF97,,FD08,,,,FF58,KC7,"8 bits for space, del, tab, esc, paste, label, print, enter"
-FF98,,,,,,,,8 bits for storing function key recognition
-FF99,,FD0D,FE60,,,,KYMODE,Keyboard mode storage (brk/caps/num/cod/gph/ctl/sft)
+FF98,,FD09,,,,FF59,KC8,8 bits for storing function key recognition
+FF99,,FD0D,FE60,,,FF5A,KYMODE,Keyboard mode storage (brk/caps/num/cod/gph/ctl/sft)
 FFA2,,FD16,,,,FF63,KEYGPC,"8 bits for storing shift, ctrl, grph, code, num, and caps lock."
 FFA3,,,FE61,,,,KYHOW,
 FFA4,,FD18,FE62,,,,KYREPT,Wait count for repeat
