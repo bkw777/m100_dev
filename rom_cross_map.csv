@@ -1,5 +1,6 @@
 100na,100int,200na,NEC,M10na,M10int,K85,LABEL,Description
 0,,,,,,0,,
+001E,,001E,,001E,,001E,PRTSPC,"write space to console, directed by LCDLPT"
 0080,,,,,,0080,KWTABL,BASIC keywords table
 0262,,,,,,0262,KWADDRS,BASIC keyword addresses table
 031C,,,,,,031C,ERRMSGS,error messages table
@@ -10,7 +11,7 @@
 03FB,,,,,,0402,STR_Break,"'Break',00"
 045D,,,,,,0464,,generate error in E
 0511,,,,,,0518,,
-05F0,,061B,,,,05F7,UBLNAS,update line number addresses for the current BASIC program
+05F0,,061B,,05F3,,05F7,UBLNAS,update line number addresses for the current BASIC program
 05F3,,,,,,05FA,,
 0726,,,,,,072D,FOR,
 0804,,,,,,080B,,
@@ -64,8 +65,8 @@
 14E5,,15FC,,,,14F0,LCDOUT,output to LCD file
 14E7,,,,,,14F2,,
 14EA,,1601,,,,14A0,RTPOPALL,"renew power off timer, popall, ret"
-14ED,,1604,,,,14F8,POPALL,pop all & ret
-14EE,,1605,,,,14F9,POPALL2,POPALL without POP PSW
+14ED,,1604,,14F4,,14F8,POPALL,pop all & ret
+14EE,,1605,,14F5,,14F9,POPALL2,POPALL without POP PSW
 14F2,,1609,,,,14FD,CRTCTL0,DW 14F8 x 160F x x x 1503
 14F4,,160B,,,,14FF,CRTCTL1,DW 4D59 x 5C18 x x x 4D0F
 14F6,,160D,,,,1501,CRTCTL2,DW 14FA x 1611 x x x 1505
@@ -122,23 +123,24 @@
 1E22,,,,,,1DEB,SCREEN,
 1E5E,,,,1E6A,1E29,1E29,LCOPY,
 1E7B,,,,,,1E46,RUN5,
-1F3A,,2A2A,,,,1F07,FILES,
+1F3A,,2A2A,,1F48,,1F07,FILES,
+1F42,,,,1F50,,1F0F,,
 1F91,,,,,,1F63,KILL,
 1FBE,,,,1FD0,,1F8F,,"This addr only listed to call out DO NOT USE – Some old docs call this KILASC but this nops the initial PUSH H, while there is still a POP H at the end."
 1FBF,,2AB5,,1FD1,,1F90,KILASC,delete a .DO file
-1FD9,,2ACE,,,,1FAA,KILCOM,delete a .CO file
-2017,,2B0C,,,,1FE8,KILBAS,delete a .BA file
+1FD9,,2ACE,,1FEB,,1FAA,KILCOM,delete a .CO file
+2017,,2B0C,,2029,,1FE8,KILBAS,delete a .BA file
 2037,,,,,,2008,NAME,
 20A9,,,,,,207A,ROM7,
 20AF,,2BCC,,20C1,,2080,FINDFN,
-20CC,,2BE9,,,,209D,,almost the end of FINDFN
+20CC,,2BE9,,20DE,,209D,,almost the end of FINDFN
 20D5,,2BF2,,,,,,Find next Non-Empty catalog entry
 20E4,,2C01,,20F6,,20B5,SCNEMP,scan for an empty directory entry
-20EC,,2C09,,,,20BD,SCNEMP2,"scan for an empty directory entry, alt entry"
+20EC,,2C09,,20FE,,20BD,SCNEMP2,"scan for an empty directory entry, alt entry"
 20FE,,,,,,20CF,NEW,
 20FF,,,,,,20D0,NEW2,
 2134,,,,,,2104,,
-213E,,2C5A,,,,210E,UPDOFILES,update DOFILES with BC
+213E,,2C5A,,214F,,210E,UPDOFILES,update DOFILES with BC
 2146,,2C62,,2157,,2116,RESETFPS,reset file pointers
 --,,,,215A,,2119,RESETFPS2,The 100’s 2146 is really the equivalent of here
 218D,,2CC0,,,,,,Clear LSB of File Type byte for all Catalog entries
@@ -191,7 +193,7 @@
 298A,,,,,,2963,,
 2993,,,,,,296C,,
 298E,,,,,,2967,SPACE$,
-2AB5,,2459,,,,2A8E,INR_A_RET,INR A; RET; middle of INSTR
+2AB5,,2459,,2ACF,,2A8E,INR_A_RET,INR A; RET; middle of INSTR
 3450,,,,,,3429,,Reverse load single precision at M to DEBC
 3469,,41BA,,3483,,3442,D2H4Bup,"move the memory pointed to by DE to the memory pointed to by HL, lo to hi"
 3472,,,,348C,,,D2H4Bdn,"move the memory pointed to by DE to the memory pointed to by HL, hi to lo"
@@ -215,7 +217,7 @@
 4174,,,,,,4150,NEXT,
 421A,,,,,,41F6,,
 4222,,,,423F,41FE,41FE,CRLF,prt crlf
-4229,,4F45,4258,,,4205,BEEP,BEEP statement: ascii BEL → RST 4
+4229,,4F45,4258,4246,,4205,BEEP,BEEP statement: ascii BEL → RST 4
 422D,,,,424A,4209,,HOME,
 4231,,,4260,424E,420D,420D,CLS,clear screen
 4235,,,,4252,4211,,SETSYS,
@@ -238,7 +240,8 @@
 433B,,,,,,4310,,
 43A2,,,,,,4382,,
 4469,,,,,,4449,ESC+A,
-446E,,519D,,,,444E,ESC+B,
+446E,,519D,,448F,,444E,ESC+B,
+447B,,,,449C,,,,
 4512,,,,,,44DC,,
 4566,,,,,,4523,,
 4586,,,,,,4543,,
@@ -309,7 +312,7 @@
 59E5,,,,,,56F2,ROM14,
 5A58,,,,5A60,,5763,PRTSTR,Duplicate copy of PTILL0
 5A62,,,,,,576D,MOV1,DE --> HL
-5A6D,,6E11,,,,5778,CMPARE,compare the buffer pointed to by DE to the buffer pointed to by HL
+5A6D,,6E11,,5A75,,5778,CMPARE,compare the buffer pointed to by DE to the buffer pointed to by HL
 5A79,,,,5A81,579C,5784,CLRFNK,Clear  function  key  definitions
 5A7C,,,,5A84,579F,,STFNK,Set function key definitions
 5A9E,,,,5AA6,57C1,,FNKSB,Display function key table
@@ -327,10 +330,10 @@
 5E51,,,,,,5B59,EDIT,
 5F2F,,,,5F34,,5C37,WTSPC,wait space bar
 5F4B,,,,,,5C53,SPCMSG,'..Space Bar.'
-63CD,,,,,,60D5,,
+63CD,,,,63D2,,60D5,,
 65C3,,,67A8,,,,MVHLDE,Move bytes from HL to DE until null
 6B2A,,,,6B2F,,6832,EOFCE,Find end of .DO file being edited
-6B2D,,8268,,,,6835,EOFHL,search for EOF (0x1A) @ HL
+6B2D,,8268,,6B32,,6835,EOFHL,search for EOF (0x1A) @ HL
 6B61,,,,6B66,6881,,INSCHR,Insert a character into a text file
 6B6D,,82A8,,6B72,688D,6875,MAKHOL,insert B spaces at M
 6B9F,,82DA,,6BA4,68BF,68A7,MASDEL,delete B chars at M
@@ -491,7 +494,7 @@ F675,,,F456,F678,,,LCDLPT,"LCD/LPT flag.  0 = Screen, 1 = Printer"
 F678,,,,,,F67F,STRBUF,pointer to BASIC string buffer
 F67A,,EF65,F45B,,,F681,LINENO,"current executing BASIC line number, FFFF if no pgm"
 F67B,,EF66,,,,,,
-F67C,,EF67,F45D,,,F683,CURBAS,pointer to start of BASIC program
+F67C,,EF67,F45D,F67F,,F683,CURBAS,pointer to start of BASIC program
 F681,,EF6C,,,,,INPBFR,
 F684,,,,,,F68B,,
 F685,,EF70,F462,F688,,F68C,KYBUF,256 byte keyboard input buffer        NEC F5A1? INLIN
@@ -631,7 +634,8 @@ FF8A,,FCF9,FE49,,,FF4B,CMFLG,XOFF/CTRL-S Status
 FF8B,,FCFA,FE4A,,,FF4C,BAUDRT,Baud rate table entry address
 FF8D,,,,,,FF4E,,rs232 parity ctl byte
 FF8F,,FD00,FE4D,,,FF00,KYSCNX,Flag to determine if key scan should be done
-FF91,,FD02,FE4F,,,FF52,KYDATA / KC0,Keyboard matrix read
+FF90,,,,FF51,,,,
+FF91,,FD02,FE4F,FF52,,FF52,KYDATA / KC0,Keyboard matrix read
 FF92,,FD03,,,,FF53,KC1,
 FF93,,FD04,,,,FF54,KC2,
 FF94,,FD05,,,,FF55,KC3,
