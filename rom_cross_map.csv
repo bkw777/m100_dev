@@ -123,7 +123,7 @@
 1E22,,,,,,1DEB,SCREEN,
 1E5E,,,,1E6A,1E29,1E29,LCOPY,
 1E7B,,,,,,1E46,RUN5,
-1F3A,,2A2A,,1F48,,1F07,FILES,
+1F3A,,2A2C,,1F48,,1F07,FILES,
 1F42,,,,1F50,,1F0F,,
 1F91,,,,,,1F63,KILL,
 1FBE,,,,1FD0,,1F8F,,"This addr only listed to call out DO NOT USE – Some old docs call this KILASC but this nops the initial PUSH H, while there is still a POP H at the end."
@@ -408,6 +408,7 @@
 71F7,,8AB8,,,,6EA7,INT_EXIT,POPALL plus EI before RET
 71F8,,,,,,6EA8,INT_EXIT2,INT_EXIT without POP PSW
 7242,,8B03,7279*,7275,6F2E,6EF2,KYREAD,scn kbd
+726A,,,,72A1,,,,enable interrupts
 7270,,,,72A7,6F60,,KEYX,Check  keyboard  queue  for  characters  or break
 7283,,,,72BA,6F73,,CTLCHK,check for ctrl-c or ctrl-s
 729F,,,72DF*,,,6F4E,BRKCHK,Check if SHIFT-BREAK is being pressed
