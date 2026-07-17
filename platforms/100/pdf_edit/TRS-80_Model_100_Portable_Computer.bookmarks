@@ -1,0 +1,223 @@
+0 "Front Cover" 1
+0 "Terms & Conditions" 2
+0 "FCC & Copyright" 3
+0 "Contents" 4
+0 "Introduction" 6
+
+0 "PART I / GETTING STARTED WITH THE MODEL 100" 8
+  1 "1 / Description of the Model 100" 9
+  1 "2 / Getting Power to the Computer" 13
+    2 "Battery Installation" 13
+    2 "The Memory Power Switch" 14
+    2 "The Low Battery Indicator" 14
+    2 "Connecting the Model 100 to an AC Power Source" 15
+  1 "3 / Turning the Power On and Off" 16
+    2 "Power-On" 16
+    2 "Power-Off" 16
+  1 "4 / The Menu Screen" 17
+    2 "The Cursor" 17
+    2 "Adjusting the Display Screen" 18
+    2 "Selecting a Main Menu Option" 18
+  1 "5 / Setting the Time, Date, and Day" 19
+  1 "6 / Quick Instructions on Using the Applications Programs" 21
+    2 "Using the Text Preparation Program (TEXT)" 21
+      3 "Using the Function Keys in TEXT" 21
+      3 "Using the Command Keys in TEXT" 22
+      3 "Text Editing" 23
+      3 "Defining Blocks of Text" 24
+      3 "Manipulating Blocks of Text" 24
+   2 "Using the Schedule Organizer Program (SCHEDL)" 25
+     3 "Using the Function Keys in SCHEDL" 25
+     3 "Using the Command Keys in SCHEDL" 26
+   2 "Using The Address Organizer Program (ADDRSS)" 28
+     3 "ADDRSS Function Keys" 28
+     3 "ADDRSS Command Keys" 29
+   2 "Using the Telecommunications Program (TELCOM)" 30
+     3 "Using the Function Keys in TELCOM" 31
+     3 "Using the Command Keys in TELCOM" 32
+     3 "Entry Mode" 33
+     3 "Terminal Mode" 34
+     3 "Communications Parameters" 36
+     3 "Table 6-7 Model 100 Communications Parameters" 43
+
+0 "PART II / THE MENU OPTIONS" 38
+  1 "7 / Menu Overview" 39
+  1 "8 / Text Preparation (TEXT)" 42
+  1 "9 / Schedule Organizer (SCHEDL)" 60
+  1 "10 / The Addresses Organizer (ADDRSS)" 67
+  1 "11 / Computer-to-Computer Communication (TELCOM)" 73
+
+0 "PART III / MODEL 100 BASIC" 95
+  1 "12 / Model 100 BASIC Overview" 96
+  1 "13 / Data Types and Data Manipulation" 100
+  1 "14 / Control Commands" 112
+  1 "15 / Input and Output" 117
+    2 "Screen I/O" 117
+    2 "Keyboard Input" 118
+    2 "Printer I/O" 118
+    2 "Sound Generator" 119
+    2 "CPU Ports" 119
+    2 "Cassette" 119
+    2 "File I/O" 120
+      3 "RAM Files (RAM:)" 120
+      3 "Cassette Files (CAS:)" 120
+      3 "RS-232C Files (COM:)" 121
+      3 "Modem Files (MDM:)" 121
+      3 "Screen Files (LCD:) and Printer Files (LPT:)" 121
+      3 "Table 15-8 File I/O Commands and Functions" 122
+
+  1 "16 / BASIC Keywords" 123
+    2 "ATN - Arctangent" 123
+    2 "BEEP - Emit a tone" 123
+    2 "CALL - Call a Machine Level Subroutine" 123
+    2 "CDBL - Convert to Double-Precision" 124
+    2 "CHR$ - Character Value" 124
+    2 "CINT - Convert to Integer" 124
+    2 "CLEAR - Clear Variables and Allocate String Space" 125
+    2 "CLOAD - Load a Program from Cassette" 125
+    2 "CLOAD? - Verify a Cassette Load" 126
+    2 "CLOADM - Load a Machine-Language Program from Cassette" 126
+    2 "CLOSE - Close Open Files" 127
+    2 "CLS - Clear Screen" 127
+    2 "COM ON/OFF/STOP - Enable/Disable Communications Interrupt" 127
+    2 "CONT - Continue Execution" 128
+    2 "COS - Cosine" 128
+    2 "CSAVE - Save a Program on Cassette" 128
+    2 "CSAVEM - Save a Machine Language Program to Cassette" 129
+    2 "CSNG - Convert to Single Precision" 129
+    2 "CSRLIN - Vertical Cursor Position" 130
+    2 "DATA - Define a Data Set" 130
+    2 "DATES$ - Current Date" 130
+    2 "DAY$ - Current Day of Week" 131
+    2 "DEFDBL - Define Double-Precision Variables" 131
+    2 "DEFINT - Define Integer Variables" 131
+    2 "DEFSNG - Define Single-Precision Variables" 132
+    2 "DEFSTR - Define String Variables" 132
+    2 "DIM - Define Array Size" 132
+    2 "EDIT - Edit a BASIC Program" 133
+    2 "END - End Execution" 134
+    2 "EOF - Test for End-of-File" 134
+    2 "ERL - Get Line Number of Error" 135
+    2 "ERR - Get Error Code Number" 135
+    2 "ERROR - Simulate an Error" 136
+    2 "EXP - Exponential (Antilog)" 136
+    2 "FILES - Display File Names" 136
+    2 "FIX - Truncate Real Numbers" 137
+    2 "FOR...NEXT - Establish Program Looping" 137
+    2 "FRE - Free Memory Space" 138
+    2 "GOSUB - Call a BASIC Subroutine" 139
+    2 "GOTO - Branch Program Execution" 139
+    2 "HIMEM - Get High Memory Address" 140
+    2 "IF... THEN...ELSE - Test Relational Expression" 140
+    2 "INKEY$ - Poll Keyboard" 141
+    2 "INP - Input from a Port" 141
+    2 "INPUT - Input Data from Keyboard" 141
+    2 "INPUT # - Input from a File" 142
+    2 "INPUT$ - Input Characters from the Keyboard" 143
+    2 "INPUT$ - Input Characters from a File" 143
+    2 "INSTR - Search a String" 143
+    2 "INT - Get Whole Number Representation" 144
+    2 "IPL - Define Warm Start Program" 144
+    2 "KEY - Define Function Keys" 145
+    2 "KEY LIST - List Function Key Definitions" 145
+    2 "KEY ON/OFF/STOP - Enable/Disable Function Key Interrupts" 145
+    2 "KILL - Delete a RAM File" 146
+    2 "LCOPY - Copy Screen to Printer" 146
+    2 "LEFT$ - Return Left Portion of a String" 147
+    2 "LEN - Get Size of a String" 147
+    2 "LET - Assignment Statement" 147
+    2 "LINE - Draw a Line on the Screen" 148
+    2 "LIST - List Program on the Screen" 148
+    2 "LLIST - List Program on the Printer" 149
+    2 "LINE INPUT - Input a String from the Keyboard" 149
+    2 "LOAD - Load a BASIC Program" 150
+    2 "LOADM - Load a Machine-Language Program" 151
+    2 "LOG - Natural Logarithm" 151
+    2 "LPOS - Printer Column Position" 152
+    2 "LPRINT - Print Data on Printer" 152
+    2 "LPRINT USING - Print Formatted Data on Printer" 153
+    2 "MAXFILES - Maximum Number of Files" 153
+    2 "MAXRAM - Amount of Memory" 153
+    2 "MDM ON/OFF/STOP - Enable/Disable Modem Interrupt" 153
+    2 "MENU - Return to Menu" 154
+    2 "MERGE - Merge Two Programs" 154
+    2 "MID$ - Get Middle Characters of String" 155
+    2 "MID$ - Replace Middle Characters of a String" 156
+    2 "MOTOR - Turn Cassette Motor On and Off" 156
+    2 "NAME...AS - Rename a RAM file" 156
+    2 "NEW - Erase the Current Program" 157
+    2 "NEXT - (See FOR...NEXT)" 157
+    2 "ON COM GOSUB - Define Communications Interrupt" 157
+    2 "ON ERROR GOTO - Define Error Interrupt" 158
+    2 "ON KEY GOSUB - Define Function Key Interrupts" 159
+    2 "ON MDM GOSUB - Define Modem Interrupt" 159
+    2 "ON TIME$ GOSUB - Define Clock Interrupt" 159
+    2 "ON...GOTO - Branch on Expression" 160
+    2 "ON...GOSUB - Branch on Expression" 160
+    2 "OPEN - Open a File for I/O" 161
+    2 "OUT - Output a Byte to a CPU Port" 162
+    2 "PEEK - Get a Value From Memory" 162
+    2 "POKE - Load a Value into Memory" 163
+    2 "POS - Get Screen Position" 163
+    2 "POWER - Automatic Power Down" 163
+    2 "POWER CONT - Prevent Automatic Power Down" 163
+    2 "POWER OFF - Turn Off Power" 164
+    2 "PRESET - Turn Off an LCD Pixel" 164
+    2 "PRINT - Print Data on the Screen" 164
+    2 "PRINT # - Print to a File" 165
+    2 "PRINT USING - Formatted Print" 166
+    2 "PRINT # USING - Formatted Print to a File" 168
+    2 "PSET - Turn On LCD Pixel" 168
+    2 "READ - Read Values From a DATA List" 169
+    2 "REM - Comment" 169
+    2 "RESTORE - Reset the DATA Statement Pointer" 170
+    2 "RESUME - Resume Execution After an Error" 170
+    2 "RIGHT$ - Return Right Portion of a String" 171
+    2 "RND - Return Pseudo-Random Number" 171
+    2 "RUN - Execute a New BASIC Program" 171
+    2 "RUN - Execute the Current BASIC Program" 172
+    2 "RUNM - Load and Execute a Machine-Language Program" 173
+    2 "SAVE - Save a BASIC Program" 173
+    2 "SAVEM - Store a Machine-Language Program" 174
+    2 "SCREEN - Locks/Unlocks LABEL Line" 175
+    2 "SGN - Algebraic Sign" 175
+    2 "SIN - Trigonometric Sine" 175
+    2 "SOUND - Output a Tone" 176
+    2 "SOUND ON/OFF - Enable/Disable Sound" 176
+    2 "SPACE$ - String of Spaces" 177
+    2 "SQR - Square Root" 177
+    2 "STOP - Stop Execution" 177
+    2 "STR$ - Convert a Number to a String" 178
+    2 "STRING$ - Define a String of Characters" 178
+    2 "TAB - Skip to Specified Position" 178
+    2 "TAN - Trigonometric Tangent" 179
+    2 "TIME$ - Current Time" 179
+    2 "TIME$ ON/OFE/STOP - Enable/Disable Time Interrupt" 179
+    2 "VAL - Convert Strings To Numbers" 180
+    2 "VARPTR - Get Address of a Variable" 181
+
+0 "PART IV / APPENDICES" 182
+  1 "Appendix A / Connecting the Model 100 to Optional Equipment" 183
+    2 "Cassette Recorder" 183
+    2 "Connecting the Model 100 to a Printer" 185
+    2 "Connecting the Model 100 to Other TRS-80 Computers" 187
+  1 "Appendix B / Notes on Power On/Off" 189 open
+    2 "Warm vs. Cold Power-On/Off" 189
+    2 "Changing the Auto-Power Off Settings" 189
+  1 "Appendix C / Sample Sessions" 190
+  1 "Appendix D / Technical Information" 198
+    2 "Specifications" 198
+      3 "RS-232 Interface" 198
+      3 "Parallel Printer Interface (Centronics)" 199
+      3 "Cassette Interface" 200
+      3 "Modem Interface" 200
+      3 "40 Pin External Bus Signal" 201
+      3 "Bar Code Reader" 202
+    2 "Video Display Worksheet" 203
+    2 "ASCII Character Code Tables" 204
+    2 "BASIC Error Codes" 210
+    2 "Derived Functions" 211
+  1 "Appendix E / Troubleshooting and Maintenance" 212
+0 "Index" 213
+0 "Service Policy" 217
+0 "Back Cover" 218
