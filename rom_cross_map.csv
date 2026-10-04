@@ -49,7 +49,7 @@
 1131,,,,,,1138,,
 113B,,,,,,1142,LLIST,
 1140,,,,,,1147,LIST,
-11A2,,11CC,,11A5,,11A9,PTILL0,Print NUL terminated  string  to current display device
+11A2,,11CC,,11A5,11A9,11A9,PTILL0,Print NUL terminated  string  to current display device
 11AA,,,,,,11B1,,
 128B,,,,,,1294,POKE,
 12CB,,12F7,174D,12D0,12D4,12D4,CHGET,wait for chr
@@ -132,27 +132,27 @@
 2017,,2B0C,,2029,,1FE8,KILBAS,delete a .BA file
 2037,,,,,,2008,NAME,
 20A9,,,,,,207A,ROM7,
-20AF,,2BCC,,20C1,,2080,FINDFN,
+20AF,,2BCC,,20C1,2080,2080,FINDFN,
 20CC,,2BE9,,20DE,,209D,,almost the end of FINDFN
 20D5,,2BF2,,,,,,Find next Non-Empty catalog entry
-20E4,,2C01,,20F6,,20B5,SCNEMP,scan for an empty directory entry
+20E4,,2C01,,20F6,20B5,20B5,SCNEMP,scan for an empty directory entry
 20EC,,2C09,,20FE,,20BD,SCNEMP2,"scan for an empty directory entry, alt entry"
 20FE,,,,,,20CF,NEW,
 20FF,,,,,,20D0,NEW2,
 2134,,,,,,2104,,
 213E,,2C5A,,214F,,210E,UPDOFILES,update DOFILES with BC
-2146,,2C62,,2157,,2116,RESETFPS,reset file pointers
---,,,,215A,,2119,RESETFPS2,The 100’s 2146 is really the equivalent of here
+2146,,2C62,,2157,2116,2116,RESETFPS,reset file pointers
+--,,,,215A,2119,2119,RESETFPS2,The 100’s 2146 is really the equivalent of here
 218D,,2CC0,,,,,,Clear LSB of File Type byte for all Catalog entries
 2190,,2CC3,,,,2168,,Find next catalog entry
-219A,,2CCD,,21B3,,2172,AFTEREOF,"advance HL past end of file, auto type"
-219D,,2CD0,,21B6,,2175,AFTEREOF2,"advance HL past end of file, type A"
+219A,,2CCD,,21B3,2172,2172,AFTEREOF,"advance HL past end of file, auto type"
+219D,,2CD0,,21B6,2175,2175,AFTEREOF2,"advance HL past end of file, type A"
 21A4,,2CD7,,,,217C,AFTERCO,advance HL past end of CO file
 21AE,,2CE1,,,,2186,AFTERDO,advance HL past end of DO file
 21C2,,2CF5,,,,219A,AFTERBA,advance HL past end of BA file (updates line addrs first)
 21FA,,,,2213,,,LENSTR,"Count number of characters in NUL terminated string, max 255"
 220F,,,,2228,21E7,,MAKTXT,Create a text (.DO) file
-2239,,2DAC,,2252,,2211,MKDIRENT,insert entry into directory
+2239,,2DAC,,2252,2211,2211,MKDIRENT,insert entry into directory
 2280,,,,,,2258,CSAVE,
 2377,,,,,,234F,CLOAD,
 2387,,,,,,235F,,
@@ -195,7 +195,7 @@
 298E,,,,,,2967,SPACE$,
 2AB5,,2459,,2ACF,,2A8E,INR_A_RET,INR A; RET; middle of INSTR
 3450,,,,,,3429,,Reverse load single precision at M to DEBC
-3469,,41BA,,3483,,3442,D2H4Bup,"move the memory pointed to by DE to the memory pointed to by HL, lo to hi"
+3469,,41BA,,3483,3442,3442,D2H4Bup,"move the memory pointed to by DE to the memory pointed to by HL, lo to hi"
 3472,,,,348C,,,D2H4Bdn,"move the memory pointed to by DE to the memory pointed to by HL, hi to lo"
 34C2,,,,34DC,,,SCOMP,signed int compare
 35BA,,,,,,3593,DSKI$,
@@ -271,8 +271,8 @@
 4BAB,,,,,,,CHRLCD,print A to LCD
 4BB8,,,,,,,NLLCD,send crlf to lcd if not CSRY 0
 4BEA,,,,,,,INKEY$,Function
-4C0B,,5ACA,,4C1A,,4BC1,CKFN,evaluate & reformat filename
-4C0F,,5ACE,,4C1E,,4BC5,CKFN2,evaluate arguments to RUN/OPEN/SAVE commands
+4C0B,,5ACA,,4C1A,4BD9,4BC1,CKFN,evaluate & reformat filename
+4C0F,,5ACE,,4C1E,4BDD,4BC5,CKFN2,evaluate arguments to RUN/OPEN/SAVE commands
 4C21,,,,,,4BD7,,
 4CBF,,,,,,4C75,,
 4CCB,,,,,,4C81,OPEN,
@@ -296,7 +296,9 @@
 5071,,,,,,5020,DSKO$,
 507F,,,,,,502E,USING,
 50F1,,,,,,50A0,DEVICES,
-5146,,,,,,50F1,TELCOM,
+5146,,,,514E,5109,50F1,TELCOM,
+5152,,,,515A,5117,50FF,TELCOMERR,TELCOM ON ERROR Handler
+515B,,,,5163,5120,5108,TELCOMREENT,Re-entry point for TELCOM commands
 52BB,,,,52C3,n/a,,DISC,disconnect phone line
 52D0,,,,52D8,n/a,,CONN,connect phone line
 532D,,,,5332,n/a,,DIAL,dial phone number
@@ -339,6 +341,7 @@
 6B9F,,82DA,,6BA4,68BF,68A7,MASDEL,delete B chars at M
 6BDB,,,,6BE0,,68E3,LDIRBC,"Move the memory pointed to by HL to the memory pointed to by DE for BC, ascending"
 6BE6,,,,6BEB,,,LDDRBC,"Move the memory pointed to by HL to the memory pointed to by DE for BC, descending"
+6C49,,,,6C4E,6969,6951,BASIC,BASIC Entry Point
 6C93,,,,6C98,69B3,,,used to init function keys
 6CD6,,,,6CDB,6A06,69DE,COLDSTART,cold start reset entry
 6CE0,,,,6CE5,6A10,69E8,WARMSTART,warm start reset entry
@@ -404,6 +407,7 @@
 702A,,,,7052,6D14,,RCASDAT,"read cassette data, no checksum"
 7055,,88E4,,707D,,6CFE,KYSCAN,
 7060,,88EF,,7088,,6D09,KYDET,Key detection -- Determine which keys are pressed
+70B0,,,,70E7,6DA9,6D60,KYRDET,Key repeat detection
 71F4,,8AB5,,,,6EA4,,
 71F7,,8AB8,,,,6EA7,INT_EXIT,POPALL plus EI before RET
 71F8,,,,,,6EA8,INT_EXIT2,INT_EXIT without POP PSW
@@ -423,7 +427,7 @@
 752B,,,,,,71D9,,Set the display top line to zero for all LCD drivers
 7533,,,,,,71E1,ENLCD,Enable LCD drivers after short delay
 7657,,8F9B,,769A,,7305,PAUSE_C,Delay routine - decrement C until zero
-765C,,8FA0,,769F,,730A,INT1D,set int to 0x1D - disable background task & barcode interrupts
+765C,,8FA0,,769F,7376,730A,INT1D,set int to 0x1D - disable background task & barcode interrupts
 7662,,8FA6,,,,7310,BEEP2,
 7676,,8FC9,,,,7324,CLICK,click sound port
 767D,,,,,,732B,TESTDVIW,
@@ -479,7 +483,7 @@ F648,,,F3F4,F64B,,,REVFLG,Reverse video flag.  0 = Normal / FF = reverse
 F64E,,,F3FA,,,,PRVCOO,X coordinate of last graphic point plotted
 F64F,,,F3FB,,,,PRVCO2,Y coordinate of last graphic point plotted
 F650,,EF32,F3FC,,,F657,FNKMOD,Function key mode. BIT 7=in TEXT. BIT 6=in TELCOM
-F652,,EF34,,F655,,F659,ERRTRP,error trap
+F652,,EF34,,F655,F659,F659,ERRTRP,error trap
 F654,,EF36,,F657,,F65B,,
 F656,,EF37,,,,,,
 F658,,EF39,F403,,,,FDUPLEX,"full/half duplex, FF=full 00=half"
@@ -495,10 +499,10 @@ F675,,,F456,F678,,,LCDLPT,"LCD/LPT flag.  0 = Screen, 1 = Printer"
 F678,,,,,,F67F,STRBUF,pointer to BASIC string buffer
 F67A,,EF65,F45B,,,F681,LINENO,"current executing BASIC line number, FFFF if no pgm"
 F67B,,EF66,,,,,,
-F67C,,EF67,F45D,F67F,,F683,CURBAS,pointer to start of BASIC program
+F67C,,EF67,F45D,F67F,F683,F683,CURBAS,pointer to start of BASIC program
 F681,,EF6C,,,,,INPBFR,
 F684,,,,,,F68B,,
-F685,,EF70,F462,F688,,F68C,KYBUF,256 byte keyboard input buffer        NEC F5A1? INLIN
+F685,,EF70,F462,F688,F68C,F68C,KYBUF,256 byte keyboard input buffer        NEC F5A1? INLIN
 F767,,,,F76A,,F76E,EDITFA,addr of .DO file being edited
 F788,,,F6A4,F78B,,,CURLOC,Current horizontal location of cursor
 F789,,F074,F6A5,,,,FNKSTR,Function key definition area
@@ -522,7 +526,7 @@ F930,,F220,F83F,,,,TIMCN2,Counter (12 to 1)
 F931,,F221,F840,,,,TIMINT,Power-down countdown value
 F932,,F222,,,,,,
 F962,,F252,,F965,F969,,DIRTBL,Start of directory table
-F99A,,F295,F870,F99D,,F98B,BAFILES,Pointer to start of BA files / Unsaved BA addr
+F99A,,F295,F870,F99D,F9A1,F98B,BAFILES,Pointer to start of BA files / Unsaved BA addr
 F9A5,,,F87B,,,,SCRDIR,Start of paste buffer
 F9AF,,F2AA,,,,F9A0,EDITBA,edit attr byte
 FA8F,,F4BE,,,,FA96,,
@@ -591,11 +595,11 @@ FBA7,,,FADA,,,,ONEFLG,Error status flag (0=no error / nz=in error routine)
 FBA8,,,FADB,,,,TEMP2,Formula evaluator temporary storage
 FBAA,,,FADD,,,,OLDLIN,Line number where Break occurred
 FBAC,,,FADF,,,,OLDTXT,Next line to execute
-FBAE,,F661,FAE1,FBB4,,FBC0,DOFILES,Pointer to start of DO files / end of BA files
-FBB0,,F663,FAE3,FBB6,,FBC2,COFILES,Pointer to start of CO files
+FBAE,,F661,FAE1,FBB4,FBC0,FBC0,DOFILES,Pointer to start of DO files / end of BA files
+FBB0,,F663,FAE3,FBB6,FBC2,FBC2,COFILES,Pointer to start of CO files
 FBB2,,F665,FAE5,FBB8,,FBC4,VARTBL,Pointer to start of variable table
 FBB4,,F667,FAE7,FBBA,,FBC6,ARYTBL,Pointer to start of array table
-FBB6,,F669,FAE9,FBBC,,FBC8,FRERAM,Pointer to start of system unused memory
+FBB6,,F669,FAE9,FBBC,FBC8,FBC8,FRERAM,Pointer to start of system unused memory
 FBB8,,,FAEB,,,,DATPTR,Pointer to current data item (message line)
 FBBA,,,FAED,,,,DEFTBL,Variable type table
 FBD9,,,,,,FBEB,,
@@ -616,7 +620,7 @@ FC99,,F74C,,FC9F,,FCAB,FX1,"EXT of FILNM1 after CKFN / CKFN2 (“CO”, “DO”
 FC9C,,,,FCA2,,FCAE,FILNM2,"2nd filename, filename of last program loaded from tape, used by NAMEB"
 FCA2,,F755,,,,FCB4,FX2,"EXT of FILNM2 after formatting (“CO”, “DO”, “BA”)"
 FCA7,,F75A,,,,FCB9,,
-FCC0,,F7B0,FBC0,FCC0,,FCC0,ALTLCD,start of ALT LCD buffer 320 bytes bytes except T200 640
+FCC0,,F7B0,FBC0,FCC0,FCC0,FCC0,ALTLCD,start of ALT LCD buffer 320 bytes bytes except T200 640
 FDFF,,FA2F,FCFF,,,,endALTLCD,end of ALTLCD
 FE00,,FA30,FD00,FE00,FE00,,LCDMEM,start of LCD memory 320 bytes bytes except T200 640
 FF3F,,FCAF,FE3F,,,,endLCDMEM,end of LCD memory
@@ -651,7 +655,7 @@ FFA4,,FD18,FE62,,,,KYREPT,Wait count for repeat
 FFA5,,FD19,FE63,,,,,
 FFA7,,FD1B,FE65,,,,,
 FFA8,,FD1C,FE66,,,,,
-FFAA,,FD1E,FE68,FF6D,,FF6B,KYBCNT,chrs in kb buf
+FFAA,,FD1E,FE68,FF6D,FF6D,FF6B,KYBCNT,chrs in kb buf
 FFAB,,FD1F,FE69,FF6E,,,KYRDBF,64 byte keyboard  buffer. Odd bytes contain ASCII. FF in an even byte indicates a function key.
 FFEB,,,FEA9,,,,BRKCHR,0 until break is pressed. 03=Break
 FFEC,,,FEB1,FF8F,,,CURIMG,6 bytes that contain a bit image of the  character  underneath the current cursor location
